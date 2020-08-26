@@ -1,4 +1,5 @@
 import {Graph} from "./Graph";
+import * as Collections from 'typescript-collections';
 import {Set, DefaultDictionary} from 'typescript-collections';
 
 interface Edge<V> {
@@ -12,10 +13,18 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   private readonly sourceToTarget: DefaultDictionary<V, Set<V>>
   private readonly targetToSource: DefaultDictionary<V, Set<V>>
 
-  constructor() {
-    this.graphNodes = new Set<V>()
-    this.targetToSource = new DefaultDictionary(() => new Set<V>())
-    this.sourceToTarget = new DefaultDictionary(() => new Set<V>())
+  constructor(config?: {
+    hash: (v: V) => string,
+    areEqual: (v1: V, v2: V) => boolean
+  }) {
+    const toKeyFn = config?.hash ?? ((i: V) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i))
+    this.graphNodes = new Set<V>(toKeyFn)
+    this.targetToSource = new DefaultDictionary(() => new Set<V>(), toKeyFn)
+    this.sourceToTarget = new DefaultDictionary(() => new Set<V>(), toKeyFn)
+  }
+
+  count(): number {
+    return this.graphNodes.size()
   }
 
   connect(source: V, target: V): boolean {
@@ -61,7 +70,8 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   insert(...nodes: V[]): number {
     let count = 0
     for (let n of nodes) {
-      if (this.graphNodes.add(n)) {
+      const added = this.graphNodes.add(n)
+      if (added) {
         count++
       }
     }

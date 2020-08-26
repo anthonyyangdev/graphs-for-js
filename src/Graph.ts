@@ -15,5 +15,6 @@ export interface Graph<V, E> {
 
   edges: () => Set<E>
   nodes: () => Set<V>
-}
 
+  count: () => number
+}
