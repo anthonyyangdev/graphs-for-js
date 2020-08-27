@@ -101,17 +101,22 @@ export interface ValueGraph<V, E> extends GraphInterface<V>{
 
   /**
    * Return true if edge from source to target exists, otherwise false.
+   * If value is given, then the edge's value must also equal that value to return true.
    * @param source
    * @param target
    */
-  hasEdge: (source: V, target: V, value: E) => boolean
+  hasEdge: (source: V, target: V, value?: E) => boolean
 
   /**
-   * Remove the edge from source to target. Return true if an edge is removed, otherwise false.
+   * Remove the edge from source to target.
+   * Return true if an edge is removed, otherwise false.
+   *
+   * If value is given, then the edge's value must also equal to given value to be removed.
+   *
    * @param source
    * @param target
    */
-  disconnect: (source: V, target: V, value: E) => boolean
+  disconnect: (source: V, target: V, value?: E) => boolean
 
   /**
    * Return a set of incoming edges to the node.

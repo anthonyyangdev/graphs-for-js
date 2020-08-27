@@ -33,9 +33,9 @@ export class ValueDirectedGraph<V, E>
     } else return false
   }
 
-  disconnect (source: V, target: V, value: E): boolean {
+  disconnect (source: V, target: V, value?: E): boolean {
     const e = this.sourceToTarget.getValue(source).getValue(target)
-    if (value == null || e?.value === value) {
+    if (e != null && (value == null || e.value === value)) {
       this.sourceToTarget.getValue(source).remove(target)
       return true
     }
@@ -56,7 +56,7 @@ export class ValueDirectedGraph<V, E>
     return copy
   }
 
-  hasEdge (source: V, target: V, value: E): boolean {
+  hasEdge (source: V, target: V, value?: E): boolean {
     if (value == null) {
       return this.sourceToTarget.getValue(source).containsKey(target)
     } else {
