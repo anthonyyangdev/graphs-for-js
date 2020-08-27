@@ -27,8 +27,10 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   }
 
   connect(source: V, target: V): boolean {
-    return this.sourceToTarget.getValue(source).add(target)
-        && this.targetToSource.getValue(target).add(source);
+    if (this.graphNodes.contains(source) && this.graphNodes.contains(target))
+      return this.sourceToTarget.getValue(source).add(target)
+          && this.targetToSource.getValue(target).add(source);
+    else return false
   }
 
   contains(...nodes: V[]): boolean {
