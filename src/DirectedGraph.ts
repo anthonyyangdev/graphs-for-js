@@ -1,20 +1,15 @@
-import {Graph} from "./Graph";
+import {BasicEdge, Graph} from "./Graph";
 import * as Collections from 'typescript-collections';
 import {Set, DefaultDictionary} from 'typescript-collections';
 
-interface Edge<V> {
-  source: V
-  target: V
-}
-
 const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
 
-export class DirectedGraph<V> implements Graph<V, Edge<V>>{
+export class DirectedGraph<V> implements Graph<V, BasicEdge<V>>{
 
-  private readonly graphNodes: Set<V>
-  private readonly sourceToTarget: DefaultDictionary<V, Set<V>>
-  private readonly targetToSource: DefaultDictionary<V, Set<V>>
-  private readonly toKeyFn: (v: V) => string
+  protected readonly graphNodes: Set<V>
+  protected readonly sourceToTarget: DefaultDictionary<V, Set<V>>
+  protected readonly targetToSource: DefaultDictionary<V, Set<V>>
+  protected readonly toKeyFn: (v: V) => string
 
   constructor(toKey?: (v: V) => string) {
     this.toKeyFn = toKey ?? defaultToKey
@@ -46,8 +41,8 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
     return this.sourceToTarget.getValue(node).size() + this.targetToSource.getValue(node).size()
   }
 
-  edges(): Edge<V>[] {
-    const copy: Edge<V>[] = []
+  edges(): BasicEdge<V>[] {
+    const copy: BasicEdge<V>[] = []
     this.sourceToTarget.forEach((source, v) => {
       v.forEach(target => void copy.push({source, target}))
     })
@@ -58,16 +53,16 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
     return this.sourceToTarget.getValue(source).contains(target)
   }
 
-  incomingEdgesOf(target: V): Edge<V>[] {
-    const copy: Edge<V>[] = []
+  incomingEdgesOf(target: V): BasicEdge<V>[] {
+    const copy: BasicEdge<V>[] = []
     this.targetToSource.getValue(target).forEach(source => {
       copy.push({source, target});
     })
     return copy;
   }
 
-  outgoingEdgesOf(source: V): Edge<V>[] {
-    const copy: Edge<V>[] = []
+  outgoingEdgesOf(source: V): BasicEdge<V>[] {
+    const copy: BasicEdge<V>[] = []
     this.sourceToTarget.getValue(source).forEach(target => {
       copy.push({source, target});
     })

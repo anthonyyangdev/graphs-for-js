@@ -67,7 +67,7 @@ describe('Test suite for a directed graph', function () {
       graph.connect(i, i)
     }
     const edges = graph.edges()
-    expect(edges).to.have.length(10)
+    expect(edges.length).equals(10)
     for (let e of edges) {
       expect(e.target).equals(e.source)
     }

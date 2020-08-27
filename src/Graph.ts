@@ -1,5 +1,10 @@
 import {Set} from "typescript-collections";
 
+export interface BasicEdge<V> {
+  source: V
+  target: V
+}
+
 export interface Graph<V, E> {
   /**
    * Add nodes to the graph. Return the number of nodes added.
