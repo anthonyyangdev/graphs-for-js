@@ -1,105 +1,66 @@
-import { BasicEdge, Graph, ValueEdge } from './Graph'
-import * as Collections from 'typescript-collections'
-import { Set, DefaultDictionary, Dictionary } from 'typescript-collections'
+import { BasicEdge, BasicGraph } from './GraphInterface'
+import { Set, DefaultDictionary } from 'typescript-collections'
+import { AbstractNodeGraph } from './AbstractGraph'
 
-const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
-
-type EdgeValueWrapper<E> = { value: E | undefined }
-
-export class DirectedGraph<V, E=never> implements Graph<V, E> {
-  protected readonly graphNodes: Set<V>
-  protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, EdgeValueWrapper<E> >>
-  protected readonly targetToSource: DefaultDictionary<V, Dictionary<V, EdgeValueWrapper<E>>>
-  protected readonly toKeyFn: (v: V) => string
+export class DirectedGraph<V>
+  extends AbstractNodeGraph<V>
+  implements BasicGraph<V> {
+  protected readonly sourceToTarget: DefaultDictionary<V, Set<V>>
+  protected readonly targetToSource: DefaultDictionary<V, Set<V>>
 
   constructor (toKey?: (v: V) => string) {
-    this.toKeyFn = toKey ?? defaultToKey
-    this.graphNodes = new Set<V>(this.toKeyFn)
+    super(toKey)
     this.targetToSource = new DefaultDictionary(() => {
-      return new Dictionary<V, EdgeValueWrapper<E>>(this.toKeyFn)
+      return new Set<V>(this.toKeyFn)
     }, this.toKeyFn)
     this.sourceToTarget = new DefaultDictionary(() => {
-      return new Dictionary<V, EdgeValueWrapper<E>>(this.toKeyFn)
+      return new Set<V>(this.toKeyFn)
     }, this.toKeyFn)
   }
 
-  count (): number {
-    return this.graphNodes.size()
-  }
-
-  connect (source: V, target: V, value?: E): boolean {
+  connect (source: V, target: V): boolean {
     if (this.graphNodes.contains(source) && this.graphNodes.contains(target)) {
-      this.sourceToTarget.getValue(source).setValue(target, { value })
-      this.targetToSource.getValue(target).setValue(source, { value })
+      this.sourceToTarget.getValue(source).add(target)
+      this.targetToSource.getValue(target).add(source)
       return true
     } else return false
   }
 
-  contains (...nodes: V[]): boolean {
-    return nodes.every(n => this.graphNodes.contains(n))
-  }
-
-  cut (source: V, target: V, value?: E): boolean {
-    const e = this.sourceToTarget.getValue(source).getValue(target)
-    if (value == null || e?.value === value) {
-      this.sourceToTarget.getValue(source).remove(target)
-      return true
-    }
-    return false
+  cut (source: V, target: V): boolean {
+    return this.sourceToTarget.getValue(source).remove(target)
   }
 
   degreeOf (node: V): number {
     return this.sourceToTarget.getValue(node).size() + this.targetToSource.getValue(node).size()
   }
 
-  edges (): ValueEdge<V, E>[] {
-    const copy: ValueEdge<V, E>[] = []
+  edges (): BasicEdge<V>[] {
+    const copy: BasicEdge<V>[] = []
     this.sourceToTarget.forEach((source, targets) => {
-      targets.forEach((target, v) => {
-        copy.push({ source, target, value: v.value })
+      targets.forEach((target) => {
+        copy.push({ source, target })
       })
     })
     return copy
   }
 
-  hasEdge (source: V, target: V, value?: E): boolean {
-    if (value == null) {
-      return this.sourceToTarget.getValue(source).containsKey(target)
-    } else {
-      return value === this.sourceToTarget.getValue(source).getValue(target)?.value
-    }
+  hasEdge (source: V, target: V): boolean {
+    return this.sourceToTarget.getValue(source).contains(target)
   }
 
-  incomingEdgesOf (target: V): ValueEdge<V, E>[] {
-    const copy: ValueEdge<V, E>[] = []
-    this.targetToSource.getValue(target).forEach((source, v) => {
-      copy.push({ source, target, value: v.value })
+  incomingEdgesOf (target: V): BasicEdge<V>[] {
+    const copy: BasicEdge<V>[] = []
+    this.targetToSource.getValue(target).forEach((source) => {
+      copy.push({ source, target })
     })
     return copy
   }
 
-  outgoingEdgesOf (source: V): ValueEdge<V, E>[] {
-    const copy: ValueEdge<V, E>[] = []
-    this.sourceToTarget.getValue(source).forEach((target, v) => {
-      copy.push({ source, target, value: v.value })
+  outgoingEdgesOf (source: V): BasicEdge<V>[] {
+    const copy: BasicEdge<V>[] = []
+    this.sourceToTarget.getValue(source).forEach((target) => {
+      copy.push({ source, target })
     })
-    return copy
-  }
-
-  insert (...nodes: V[]): number {
-    let count = 0
-    for (const n of nodes) {
-      const added = this.graphNodes.add(n)
-      if (added) {
-        count++
-      }
-    }
-    return count
-  }
-
-  nodes (): Set<V> {
-    const copy = new Set<V>(this.toKeyFn)
-    this.graphNodes.forEach(n => copy.add(n))
     return copy
   }
 

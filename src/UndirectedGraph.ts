@@ -1,5 +1,5 @@
 import { DirectedGraph } from './DirectedGraph'
-import { BasicEdge, Graph } from './Graph'
+import { BasicEdge, GraphInterface } from './GraphInterface'
 import { Set, DefaultDictionary } from 'typescript-collections'
 
 class UndirectedGraph<V> extends DirectedGraph<V> {
