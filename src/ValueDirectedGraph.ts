@@ -33,7 +33,7 @@ export class ValueDirectedGraph<V, E>
     } else return false
   }
 
-  cut (source: V, target: V, value: E): boolean {
+  disconnect (source: V, target: V, value: E): boolean {
     const e = this.sourceToTarget.getValue(source).getValue(target)
     if (value == null || e?.value === value) {
       this.sourceToTarget.getValue(source).remove(target)

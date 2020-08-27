@@ -87,7 +87,7 @@ export interface NonValueGraph<V> extends GraphInterface<V> {
    * @param source
    * @param target
    */
-  cut: (source: V, target: V, value?: any) => boolean
+  disconnect: (source: V, target: V, value?: any) => boolean
 }
 
 export interface ValueGraph<V, E> extends NonValueGraph<V>{
@@ -111,7 +111,7 @@ export interface ValueGraph<V, E> extends NonValueGraph<V>{
    * @param source
    * @param target
    */
-  cut: (source: V, target: V, value: E) => boolean
+  disconnect: (source: V, target: V, value: E) => boolean
 
   /**
    * Return a set of incoming edges to the node.

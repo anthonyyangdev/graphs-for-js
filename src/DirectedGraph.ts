@@ -31,7 +31,7 @@ export class DirectedGraph<V>
     } else return false
   }
 
-  cut (source: V, target: V): boolean {
+  disconnect (source: V, target: V): boolean {
     return this.sourceToTarget.getValue(source).remove(target)
   }
 

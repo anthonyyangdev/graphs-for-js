@@ -90,7 +90,7 @@ describe('Test suite for a directed graph', function () {
       expect(graph.connect(i, i + 1)).to.be.true
     }
     expect(graph.edges().length).to.equal(9)
-    expect(graph.cut(0, 1) && graph.cut(8, 9)).to.be.true
+    expect(graph.disconnect(0, 1) && graph.disconnect(8, 9)).to.be.true
     expect(graph.edges().length).to.equal(7)
   })
 

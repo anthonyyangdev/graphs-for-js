@@ -16,8 +16,8 @@ class UndirectedGraph<V> extends DirectedGraph<V> {
     return super.connect(source, target) && super.connect(target, source)
   }
 
-  cut (source: V, target: V): boolean {
-    return super.cut(source, target) && super.cut(target, source)
+  disconnect (source: V, target: V): boolean {
+    return super.disconnect(source, target) && super.disconnect(target, source)
   }
 
   edges (): BasicEdge<V>[] {
