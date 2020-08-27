@@ -1,4 +1,4 @@
-import { GraphInterface } from './GraphInterface'
+import { BasicEdge, GraphInterface } from './GraphInterface'
 import { Set } from 'typescript-collections'
 import * as Collections from 'typescript-collections'
 
@@ -10,7 +10,7 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
 
   protected constructor (toKey?: (v: V) => string) {
     this.toKeyFn = toKey ?? defaultToKey
-    this.graphNodes = new Set<V>()
+    this.graphNodes = new Set<V>(this.toKeyFn)
   }
 
   contains (...nodes: V[]): boolean {
@@ -38,6 +38,13 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
     return copy
   }
 
-  abstract degreeOf (node: V): number
-  abstract remove (...nodes: V[]): number
+  abstract degreeOf(node: V): number
+
+  abstract remove(...nodes: V[]): number
+
+  abstract edges(): BasicEdge<V>[]
+
+  abstract incomingEdgesOf(node: V): BasicEdge<V>[]
+
+  abstract outgoingEdgesOf(node: V): BasicEdge<V>[]
 }

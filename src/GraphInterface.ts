@@ -43,30 +43,6 @@ export interface GraphInterface<V> {
    * Return the number of nodes in the graph.
    */
   count: () => number
-}
-
-export interface BasicGraph<V> extends GraphInterface<V> {
-  /**
-   * Create an edge from the source node to the target node. Return true if a new
-   * edge is created, otherwise false.
-   * @param source
-   * @param target
-   */
-  connect: (source: V, target: V) => boolean
-
-  /**
-   * Return true if edge from source to target exists, otherwise false.
-   * @param source
-   * @param target
-   */
-  hasEdge: (source: V, target: V) => boolean
-
-  /**
-   * Remove the edge from source to target. Return true if an edge is removed, otherwise false.
-   * @param source
-   * @param target
-   */
-  cut: (source: V, target: V) => boolean
 
   /**
    * Return a set of incoming edges to the node.
@@ -86,7 +62,31 @@ export interface BasicGraph<V> extends GraphInterface<V> {
   edges: () => BasicEdge<V>[]
 }
 
-export interface ValueGraph<V, E> extends GraphInterface<V>{
+export interface NonValueGraph<V> extends GraphInterface<V> {
+  /**
+   * Create an edge from the source node to the target node. Return true if a new
+   * edge is created, otherwise false.
+   * @param source
+   * @param target
+   */
+  connect: (source: V, target: V, value?: any) => boolean
+
+  /**
+   * Return true if edge from source to target exists, otherwise false.
+   * @param source
+   * @param target
+   */
+  hasEdge: (source: V, target: V, value?: any) => boolean
+
+  /**
+   * Remove the edge from source to target. Return true if an edge is removed, otherwise false.
+   * @param source
+   * @param target
+   */
+  cut: (source: V, target: V, value?: any) => boolean
+}
+
+export interface ValueGraph<V, E> extends NonValueGraph<V>{
   /**
    * Create an edge from the source node to the target node. Return true if a new
    * edge is created, otherwise false.
