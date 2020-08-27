@@ -11,6 +11,9 @@ export interface ValueEdge<V, E> extends BasicEdge<V> {
 }
 
 export interface GraphInterface<V> {
+
+  toKeyFn: (v: V) => string
+
   /**
    * Add nodes to the graph. Return the number of nodes added.
    * @param nodes
@@ -64,9 +67,6 @@ export interface GraphInterface<V> {
 
   getGraphType: () => GraphType
 
-}
-
-export interface NonValueGraph<V> extends GraphInterface<V> {
   /**
    * Create an edge from the source node to the target node. Return true if a new
    * edge is created, otherwise false.
@@ -90,7 +90,7 @@ export interface NonValueGraph<V> extends GraphInterface<V> {
   disconnect: (source: V, target: V, value?: any) => boolean
 }
 
-export interface ValueGraph<V, E> extends NonValueGraph<V>{
+export interface ValueGraph<V, E> extends GraphInterface<V>{
   /**
    * Create an edge from the source node to the target node. Return true if a new
    * edge is created, otherwise false.

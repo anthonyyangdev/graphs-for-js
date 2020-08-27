@@ -7,7 +7,8 @@ const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.u
 
 export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
   protected readonly graphNodes: Set<V>
-  protected readonly toKeyFn: (v: V) => string
+
+  readonly toKeyFn: (v: V) => string
 
   protected constructor (toKey?: (v: V) => string) {
     this.toKeyFn = toKey ?? defaultToKey
@@ -50,4 +51,10 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
   abstract outgoingEdgesOf(node: V): BasicEdge<V>[]
 
   abstract getGraphType(): GraphType
+
+  abstract connect(source: V, target: V, value?: any): boolean
+
+  abstract disconnect(source: V, target: V, value?: any): boolean
+
+  abstract hasEdge(source: V, target: V, value?: any): boolean
 }
