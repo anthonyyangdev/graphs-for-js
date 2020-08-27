@@ -27,7 +27,8 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   }
 
   connect(source: V, target: V): boolean {
-    return this.sourceToTarget.getValue(source).add(target);
+    return this.sourceToTarget.getValue(source).add(target)
+        && this.targetToSource.getValue(target).add(source);
   }
 
   contains(nodes: V): boolean {
@@ -47,9 +48,6 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
     this.sourceToTarget.forEach((source, v) => {
       v.forEach(target => void copy.push({source, target}))
     })
-    this.targetToSource.forEach((target, v) => {
-      v.forEach(source => void copy.push({target, source}))
-    })
     return copy
   }
 
@@ -60,6 +58,14 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   incomingEdgesOf(target: V): Edge<V>[] {
     const copy: Edge<V>[] = []
     this.targetToSource.getValue(target).forEach(source => {
+      copy.push({source, target});
+    })
+    return copy;
+  }
+
+  outgoingEdgesOf(source: V): Edge<V>[] {
+    const copy: Edge<V>[] = []
+    this.sourceToTarget.getValue(source).forEach(target => {
       copy.push({source, target});
     })
     return copy;
@@ -82,21 +88,19 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
     return copy
   }
 
-  outgoingEdgesOf(source: V): Edge<V>[] {
-    const copy: Edge<V>[] = []
-    this.sourceToTarget.getValue(source).forEach(target => {
-      copy.push({source, target});
-    })
-    return copy;
-  }
-
   remove(...nodes: V[]): number {
     let count = 0
     for (let n of nodes) {
       if (this.graphNodes.contains(n)) {
-        this.graphNodes.remove(n)
+        this.targetToSource.getValue(n).forEach(s => {
+          this.sourceToTarget.getValue(s).remove(n)
+        })
+        this.sourceToTarget.getValue(n).forEach(t => {
+          this.targetToSource.getValue(t).remove(n)
+        });
         this.targetToSource.remove(n)
         this.sourceToTarget.remove(n)
+        this.graphNodes.remove(n)
         count++
       }
     }

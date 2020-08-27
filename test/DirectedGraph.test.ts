@@ -33,7 +33,7 @@ describe('Test suite for a directed graph', function () {
   });
 
   it('should use the to key function to make everything have the same key', function () {
-    const graph = new DirectedGraph<string>(s => '')
+    const graph = new DirectedGraph<string>(_ => '')
     const added = graph.insert("1", "2", "graph", "3", "4", "5");
     expect(added).equals(1);
     expect(graph.nodes().size()).equals(graph.count()).equals(1);
@@ -54,8 +54,8 @@ describe('Test suite for a directed graph', function () {
     expect(graph.degreeOf(5)).equals(0)
     expect(graph.incomingEdgesOf(5).length).to.equal(0)
     expect(graph.outgoingEdgesOf(5).length).to.equal(0)
-    expect(graph.hasEdge(1, 5)).to.be.false
     expect(graph.hasEdge(5, 0)).to.be.false
+    expect(graph.hasEdge(1, 5)).to.be.false
     expect(graph.hasEdge(1, 0)).to.be.true
     expect(graph.hasEdge(5, 1)).to.be.false
   });
