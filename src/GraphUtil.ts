@@ -22,12 +22,12 @@ const hasCycleInUndirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
         visited.add(n)
         const outgoing = graph.outgoingEdgesOf(n)
         for (const edge of outgoing) {
-          if (!visited.contains(edge.target) || parent === startSymbol) {
+          if (parent === startSymbol || toKeyFn(edge.target) !== toKeyFn(parent as V)) {
             stack.push({ node: edge.target, parent: n })
-          } else {
-            return true
           }
         }
+      } else {
+        return true
       }
     }
   }
@@ -75,6 +75,6 @@ export const hasCycle = <V> (graph: GraphInterface<V>): boolean => {
       return hasCycleInDirectedGraph(graph)
     case GraphType.NonValueUndirected:
     case GraphType.ValueUndirected:
-      return hasCycleInDirectedGraph(graph)
+      return hasCycleInUndirectedGraph(graph)
   }
 }

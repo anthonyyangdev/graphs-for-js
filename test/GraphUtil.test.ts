@@ -2,6 +2,7 @@ import { it, describe } from 'mocha'
 import { expect } from 'chai'
 import { DirectedGraph } from '../src/DirectedGraph'
 import * as GraphUtil from '../src/GraphUtil'
+import { UndirectedGraph } from '../src/UndirectedGraph'
 
 describe('Check for cycles', function () {
   describe('Directed graphs', function () {
@@ -61,6 +62,27 @@ describe('Check for cycles', function () {
       graph.insert(3)
       graph.connect(3, 3)
       expect(GraphUtil.hasCycle(graph)).to.be.true
+    })
+  })
+
+  describe('Undirected cycles', function () {
+    it('should find basic cycles', function () {
+      const graph = new UndirectedGraph<number>()
+      graph.insert(1, 2, 3, 4)
+      graph.connect(1, 2)
+      graph.connect(2, 3)
+      graph.connect(3, 4)
+      graph.connect(1, 3)
+      expect(GraphUtil.hasCycle(graph)).is.true
+    })
+
+    it('should not find a cycle in a horseshoe graph', function () {
+      const graph = new UndirectedGraph<number>()
+      graph.insert(1, 2, 3, 4)
+      graph.connect(1, 2)
+      graph.connect(2, 3)
+      graph.connect(3, 4)
+      expect(GraphUtil.hasCycle(graph)).is.false
     })
   })
 })
