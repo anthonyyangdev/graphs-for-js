@@ -1,30 +1,35 @@
 import { BasicEdge, Graph, ValueEdge } from './Graph'
 import * as Collections from 'typescript-collections'
-import { Set, DefaultDictionary } from 'typescript-collections'
+import { Set, DefaultDictionary, Dictionary } from 'typescript-collections'
 
 const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
 
-export class DirectedGraph<V, E=undefined> implements Graph<V, E> {
+export class DirectedGraph<V, E=never> implements Graph<V, E> {
   protected readonly graphNodes: Set<V>
-  protected readonly sourceToTarget: DefaultDictionary<V, Set<V>>
-  protected readonly targetToSource: DefaultDictionary<V, Set<V>>
+  protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, E | undefined>>
+  protected readonly targetToSource: DefaultDictionary<V, Dictionary<V, E | undefined>>
   protected readonly toKeyFn: (v: V) => string
 
   constructor (toKey?: (v: V) => string) {
     this.toKeyFn = toKey ?? defaultToKey
     this.graphNodes = new Set<V>(this.toKeyFn)
-    this.targetToSource = new DefaultDictionary(() => new Set<V>(this.toKeyFn), this.toKeyFn)
-    this.sourceToTarget = new DefaultDictionary(() => new Set<V>(this.toKeyFn), this.toKeyFn)
+    this.targetToSource = new DefaultDictionary(() => {
+      return new Dictionary<V, E>(this.toKeyFn)
+    }, this.toKeyFn)
+    this.sourceToTarget = new DefaultDictionary(() => {
+      return new Dictionary<V, E>(this.toKeyFn)
+    }, this.toKeyFn)
   }
 
   count (): number {
     return this.graphNodes.size()
   }
 
-  connect (source: V, target: V): boolean {
+  connect (source: V, target: V, value?: E): boolean {
     if (this.graphNodes.contains(source) && this.graphNodes.contains(target)) {
-      return this.sourceToTarget.getValue(source).add(target) &&
-          this.targetToSource.getValue(target).add(source)
+      this.sourceToTarget.getValue(source).setValue(target, value)
+      this.targetToSource.getValue(target).setValue(source, value)
+      return true
     } else return false
   }
 
@@ -32,38 +37,47 @@ export class DirectedGraph<V, E=undefined> implements Graph<V, E> {
     return nodes.every(n => this.graphNodes.contains(n))
   }
 
-  cut (source: V, target: V): boolean {
-    return this.sourceToTarget.getValue(source).remove(target)
+  cut (source: V, target: V, value?: E): boolean {
+    const e = this.sourceToTarget.getValue(source).getValue(target)
+    if (value == null || e === value) {
+      this.sourceToTarget.getValue(source).remove(target)
+      return true
+    }
+    return false
   }
 
   degreeOf (node: V): number {
     return this.sourceToTarget.getValue(node).size() + this.targetToSource.getValue(node).size()
   }
 
-  edges (): BasicEdge<V>[] {
-    const copy: BasicEdge<V>[] = []
-    this.sourceToTarget.forEach((source, v) => {
-      v.forEach(target => void copy.push({ source, target }))
+  edges (): ValueEdge<V, E>[] {
+    const copy: ValueEdge<V, E>[] = []
+    this.sourceToTarget.forEach((source, targets) => {
+      targets.forEach((target, value) => void copy.push({ source, target, value }))
     })
     return copy
   }
 
-  hasEdge (source: V, target: V): boolean {
-    return this.sourceToTarget.getValue(source).contains(target)
+  hasEdge (source: V, target: V, value?: E): boolean {
+    if (value == null) {
+      return this.sourceToTarget.getValue(source).containsKey(target)
+    } else {
+      return value === this.sourceToTarget.getValue(source).getValue(target)
+    }
   }
 
   incomingEdgesOf (target: V): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
-    this.targetToSource.getValue(target).forEach(source => {
-      copy.push({ source, target })
+    this.targetToSource.getValue(target).forEach((source, value) => {
+      copy.push({ source, target, value })
     })
     return copy
   }
 
   outgoingEdgesOf (source: V): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
-    this.sourceToTarget.getValue(source).forEach(target => {
-      copy.push({ source, target })
+    this.sourceToTarget.getValue(source).forEach((target, value) => {
+      copy.push({ source, target, value })
     })
     return copy
   }
