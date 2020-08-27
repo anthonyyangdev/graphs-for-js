@@ -7,19 +7,20 @@ interface Edge<V> {
   target: V
 }
 
+const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
+
 export class DirectedGraph<V> implements Graph<V, Edge<V>>{
 
   private readonly graphNodes: Set<V>
   private readonly sourceToTarget: DefaultDictionary<V, Set<V>>
   private readonly targetToSource: DefaultDictionary<V, Set<V>>
-
-  private readonly defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
+  private readonly toKeyFn: (v: V) => string
 
   constructor(toKey?: (v: V) => string) {
-    const toKeyFn = toKey ?? this.defaultToKey
-    this.graphNodes = new Set<V>(toKeyFn)
-    this.targetToSource = new DefaultDictionary(() => new Set<V>(), toKeyFn)
-    this.sourceToTarget = new DefaultDictionary(() => new Set<V>(), toKeyFn)
+    this.toKeyFn = toKey ?? defaultToKey
+    this.graphNodes = new Set<V>(this.toKeyFn)
+    this.targetToSource = new DefaultDictionary(() => new Set<V>(this.toKeyFn), this.toKeyFn)
+    this.sourceToTarget = new DefaultDictionary(() => new Set<V>(this.toKeyFn), this.toKeyFn)
   }
 
   count(): number {
@@ -85,7 +86,7 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   }
 
   nodes(): Set<V> {
-    const copy = new Set<V>(this.defaultToKey)
+    const copy = new Set<V>(this.toKeyFn)
     this.graphNodes.forEach(n => copy.add(n))
     return copy
   }
