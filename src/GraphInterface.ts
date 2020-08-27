@@ -1,4 +1,5 @@
 import { Set } from 'typescript-collections'
+import { GraphType } from './GraphType'
 
 export interface BasicEdge<V> {
   source: V
@@ -60,6 +61,9 @@ export interface GraphInterface<V> {
    * Return the set of all edges in the graph.
    */
   edges: () => BasicEdge<V>[]
+
+  getGraphType: () => GraphType
+
 }
 
 export interface NonValueGraph<V> extends GraphInterface<V> {

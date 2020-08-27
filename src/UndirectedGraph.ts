@@ -1,10 +1,15 @@
 import { DirectedGraph } from './DirectedGraph'
 import { BasicEdge, GraphInterface } from './GraphInterface'
 import { Set, DefaultDictionary } from 'typescript-collections'
+import { GraphType } from './GraphType'
 
 class UndirectedGraph<V> extends DirectedGraph<V> {
   constructor (toKey?: (v: V) => string) {
     super(toKey)
+  }
+
+  getGraphType (): GraphType {
+    return GraphType.NonValueUndirected
   }
 
   connect (source: V, target: V): boolean {

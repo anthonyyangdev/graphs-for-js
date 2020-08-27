@@ -1,10 +1,15 @@
 import { BasicEdge, NonValueGraph } from './GraphInterface'
-import { Set, DefaultDictionary } from 'typescript-collections'
+import { DefaultDictionary, Set } from 'typescript-collections'
 import { AbstractNodeGraph } from './AbstractGraph'
+import { GraphType } from './GraphType'
 
 export class DirectedGraph<V>
   extends AbstractNodeGraph<V>
   implements NonValueGraph<V> {
+  getGraphType (): GraphType {
+    return GraphType.NonValueDirected
+  }
+
   protected readonly sourceToTarget: DefaultDictionary<V, Set<V>>
   protected readonly targetToSource: DefaultDictionary<V, Set<V>>
 

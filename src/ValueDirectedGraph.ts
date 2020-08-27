@@ -1,12 +1,17 @@
 import { ValueEdge, ValueGraph } from './GraphInterface'
 import { DefaultDictionary, Dictionary } from 'typescript-collections'
 import { AbstractNodeGraph } from './AbstractGraph'
+import { GraphType } from './GraphType'
 
 type EdgeValueWrapper<E> = { value: E }
 
 export class ValueDirectedGraph<V, E>
   extends AbstractNodeGraph<V>
   implements ValueGraph<V, E> {
+  getGraphType (): GraphType {
+    return GraphType.ValueDirected
+  }
+
   protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, EdgeValueWrapper<E>>>
   protected readonly targetToSource: DefaultDictionary<V, Dictionary<V, EdgeValueWrapper<E>>>
 

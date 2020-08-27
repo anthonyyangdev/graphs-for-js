@@ -1,6 +1,7 @@
 import { BasicEdge, GraphInterface } from './GraphInterface'
 import { Set } from 'typescript-collections'
 import * as Collections from 'typescript-collections'
+import { GraphType } from './GraphType'
 
 const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
 
@@ -47,4 +48,6 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
   abstract incomingEdgesOf(node: V): BasicEdge<V>[]
 
   abstract outgoingEdgesOf(node: V): BasicEdge<V>[]
+
+  abstract getGraphType(): GraphType
 }
