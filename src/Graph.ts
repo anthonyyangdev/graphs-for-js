@@ -1,4 +1,4 @@
-import {Set} from "typescript-collections";
+import { Set } from 'typescript-collections'
 
 export interface BasicEdge<V> {
   source: V
