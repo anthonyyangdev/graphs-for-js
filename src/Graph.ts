@@ -5,6 +5,10 @@ export interface BasicEdge<V> {
   target: V
 }
 
+export interface ValueEdge<V, E> extends BasicEdge<V> {
+  value?: E
+}
+
 export interface Graph<V, E> {
   /**
    * Add nodes to the graph. Return the number of nodes added.
@@ -30,21 +34,21 @@ export interface Graph<V, E> {
    * @param source
    * @param target
    */
-  connect: (source: V, target: V) => boolean
+  connect: (source: V, target: V, value?: E) => boolean
 
   /**
    * Return true if edge from source to target exists, otherwise false.
    * @param source
    * @param target
    */
-  hasEdge: (source: V, target: V) => boolean
+  hasEdge: (source: V, target: V, value?: E) => boolean
 
   /**
    * Remove the edge from source to target. Return true if an edge is removed, otherwise false.
    * @param source
    * @param target
    */
-  cut: (source: V, target: V) => boolean
+  cut: (source: V, target: V, value?: E) => boolean
 
   /**
    * Return degree of a node.
@@ -56,18 +60,18 @@ export interface Graph<V, E> {
    * Return a set of incoming edges to the node.
    * @param node
    */
-  incomingEdgesOf: (node: V) => E[]
+  incomingEdgesOf: (node: V) => ValueEdge<V, E>[]
 
   /**
    * Return a set of outgoing edges from the node.
    * @param node
    */
-  outgoingEdgesOf: (node: V) => E[]
+  outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
 
   /**
    * Return the set of all edges in the graph.
    */
-  edges: () => E[]
+  edges: () => ValueEdge<V, E>[]
 
   /**
    * Return the set of all nodes in the graph.

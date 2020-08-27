@@ -1,10 +1,10 @@
-import { BasicEdge, Graph } from './Graph'
+import { BasicEdge, Graph, ValueEdge } from './Graph'
 import * as Collections from 'typescript-collections'
 import { Set, DefaultDictionary } from 'typescript-collections'
 
 const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
 
-export class DirectedGraph<V> implements Graph<V, BasicEdge<V>> {
+export class DirectedGraph<V, E=undefined> implements Graph<V, E> {
   protected readonly graphNodes: Set<V>
   protected readonly sourceToTarget: DefaultDictionary<V, Set<V>>
   protected readonly targetToSource: DefaultDictionary<V, Set<V>>
@@ -52,16 +52,16 @@ export class DirectedGraph<V> implements Graph<V, BasicEdge<V>> {
     return this.sourceToTarget.getValue(source).contains(target)
   }
 
-  incomingEdgesOf (target: V): BasicEdge<V>[] {
-    const copy: BasicEdge<V>[] = []
+  incomingEdgesOf (target: V): ValueEdge<V, E>[] {
+    const copy: ValueEdge<V, E>[] = []
     this.targetToSource.getValue(target).forEach(source => {
       copy.push({ source, target })
     })
     return copy
   }
 
-  outgoingEdgesOf (source: V): BasicEdge<V>[] {
-    const copy: BasicEdge<V>[] = []
+  outgoingEdgesOf (source: V): ValueEdge<V, E>[] {
+    const copy: ValueEdge<V, E>[] = []
     this.sourceToTarget.getValue(source).forEach(target => {
       copy.push({ source, target })
     })
