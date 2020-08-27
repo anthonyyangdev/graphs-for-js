@@ -4,20 +4,22 @@ import { Set, DefaultDictionary, Dictionary } from 'typescript-collections'
 
 const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
 
+type EdgeValueWrapper<E> = { value: E | undefined }
+
 export class DirectedGraph<V, E=never> implements Graph<V, E> {
   protected readonly graphNodes: Set<V>
-  protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, E | undefined>>
-  protected readonly targetToSource: DefaultDictionary<V, Dictionary<V, E | undefined>>
+  protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, EdgeValueWrapper<E> >>
+  protected readonly targetToSource: DefaultDictionary<V, Dictionary<V, EdgeValueWrapper<E>>>
   protected readonly toKeyFn: (v: V) => string
 
   constructor (toKey?: (v: V) => string) {
     this.toKeyFn = toKey ?? defaultToKey
     this.graphNodes = new Set<V>(this.toKeyFn)
     this.targetToSource = new DefaultDictionary(() => {
-      return new Dictionary<V, E>(this.toKeyFn)
+      return new Dictionary<V, EdgeValueWrapper<E>>(this.toKeyFn)
     }, this.toKeyFn)
     this.sourceToTarget = new DefaultDictionary(() => {
-      return new Dictionary<V, E>(this.toKeyFn)
+      return new Dictionary<V, EdgeValueWrapper<E>>(this.toKeyFn)
     }, this.toKeyFn)
   }
 
@@ -27,8 +29,8 @@ export class DirectedGraph<V, E=never> implements Graph<V, E> {
 
   connect (source: V, target: V, value?: E): boolean {
     if (this.graphNodes.contains(source) && this.graphNodes.contains(target)) {
-      this.sourceToTarget.getValue(source).setValue(target, value)
-      this.targetToSource.getValue(target).setValue(source, value)
+      this.sourceToTarget.getValue(source).setValue(target, { value })
+      this.targetToSource.getValue(target).setValue(source, { value })
       return true
     } else return false
   }
@@ -39,7 +41,7 @@ export class DirectedGraph<V, E=never> implements Graph<V, E> {
 
   cut (source: V, target: V, value?: E): boolean {
     const e = this.sourceToTarget.getValue(source).getValue(target)
-    if (value == null || e === value) {
+    if (value == null || e?.value === value) {
       this.sourceToTarget.getValue(source).remove(target)
       return true
     }
@@ -53,7 +55,9 @@ export class DirectedGraph<V, E=never> implements Graph<V, E> {
   edges (): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
     this.sourceToTarget.forEach((source, targets) => {
-      targets.forEach((target, value) => void copy.push({ source, target, value }))
+      targets.forEach((target, v) => {
+        copy.push({ source, target, value: v.value })
+      })
     })
     return copy
   }
@@ -62,22 +66,22 @@ export class DirectedGraph<V, E=never> implements Graph<V, E> {
     if (value == null) {
       return this.sourceToTarget.getValue(source).containsKey(target)
     } else {
-      return value === this.sourceToTarget.getValue(source).getValue(target)
+      return value === this.sourceToTarget.getValue(source).getValue(target)?.value
     }
   }
 
   incomingEdgesOf (target: V): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
-    this.targetToSource.getValue(target).forEach((source, value) => {
-      copy.push({ source, target, value })
+    this.targetToSource.getValue(target).forEach((source, v) => {
+      copy.push({ source, target, value: v.value })
     })
     return copy
   }
 
   outgoingEdgesOf (source: V): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
-    this.sourceToTarget.getValue(source).forEach((target, value) => {
-      copy.push({ source, target, value })
+    this.sourceToTarget.getValue(source).forEach((target, v) => {
+      copy.push({ source, target, value: v.value })
     })
     return copy
   }
