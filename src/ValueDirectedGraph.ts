@@ -37,6 +37,7 @@ export class ValueDirectedGraph<V, E>
     const e = this.sourceToTarget.getValue(source).getValue(target)
     if (e != null && (value == null || e.value === value)) {
       this.sourceToTarget.getValue(source).remove(target)
+      this.targetToSource.getValue(target).remove(source)
       return true
     }
     return false

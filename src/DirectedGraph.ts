@@ -30,7 +30,8 @@ export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInter
   }
 
   disconnect (source: V, target: V): boolean {
-    return this.sourceToTarget.getValue(source).remove(target)
+    return this.sourceToTarget.getValue(source).remove(target) &&
+    this.targetToSource.getValue(target).remove(source)
   }
 
   degreeOf (node: V): number {
