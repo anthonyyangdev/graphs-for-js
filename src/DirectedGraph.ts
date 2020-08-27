@@ -31,8 +31,8 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
         && this.targetToSource.getValue(target).add(source);
   }
 
-  contains(nodes: V): boolean {
-    return this.graphNodes.contains(nodes)
+  contains(...nodes: V[]): boolean {
+    return nodes.every(n => this.graphNodes.contains(n))
   }
 
   cut(source: V, target: V): boolean {

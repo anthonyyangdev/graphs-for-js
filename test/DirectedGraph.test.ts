@@ -2,7 +2,6 @@ import {expect} from 'chai';
 import {it, describe} from 'mocha';
 import {DirectedGraph} from "../src/DirectedGraph";
 
-
 describe('Test suite for a directed graph', function () {
 
   it('increases its count() value only when a unique value is added', function () {
@@ -11,8 +10,10 @@ describe('Test suite for a directed graph', function () {
 
     const added = graph.insert(1,2,3)
     expect(graph.count()).equals(added).equals(3)
+    expect(graph.contains(1,2,3)).to.be.true
 
     expect(graph.insert(1,2,4)).equals(1)
+    expect(graph.contains(1,2,3,4)).to.be.true
     expect(graph.count()).equals(4)
   });
 
@@ -20,8 +21,7 @@ describe('Test suite for a directed graph', function () {
     const graph = new DirectedGraph<Record<string, number>>()
     const added = graph.insert({hi: 2, world: 5}, {what: 4, is: 2, up: 2})
     expect(graph.count()).equals(added).equals(2)
-    expect(graph.contains({hi: 2, world: 5})).to.be.true
-    expect(graph.contains({what: 4, is: 2, up: 2})).to.be.true
+    expect(graph.contains({hi: 2, world: 5}, {what: 4, is: 2, up: 2})).to.be.true
 
     const source = {hi: 2, world: 5}
     const target = {what: 4, is: 2, up: 2}
