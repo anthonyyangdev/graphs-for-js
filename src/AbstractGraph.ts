@@ -1,7 +1,7 @@
-import { BasicEdge, GraphInterface } from './GraphInterface'
+import { BasicEdge, GraphInterface } from './types/GraphInterface'
 import { Set } from 'typescript-collections'
 import * as Collections from 'typescript-collections'
-import { GraphType } from './GraphType'
+import { GraphType } from './types/GraphType'
 
 const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
 

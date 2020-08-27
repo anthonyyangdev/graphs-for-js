@@ -1,11 +1,9 @@
-import { BasicEdge, GraphInterface } from './GraphInterface'
+import { BasicEdge, GraphInterface } from './types/GraphInterface'
 import { DefaultDictionary, Set } from 'typescript-collections'
 import { AbstractNodeGraph } from './AbstractGraph'
-import { GraphType } from './GraphType'
+import { GraphType } from './types/GraphType'
 
-export class DirectedGraph<V>
-  extends AbstractNodeGraph<V>
-  implements GraphInterface<V> {
+export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInterface<V> {
   getGraphType (): GraphType {
     return GraphType.NonValueDirected
   }

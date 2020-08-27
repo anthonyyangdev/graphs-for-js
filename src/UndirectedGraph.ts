@@ -1,7 +1,7 @@
 import { DirectedGraph } from './DirectedGraph'
-import { BasicEdge } from './GraphInterface'
+import { BasicEdge } from './types/GraphInterface'
 import { Set, DefaultDictionary } from 'typescript-collections'
-import { GraphType } from './GraphType'
+import { GraphType } from './types/GraphType'
 
 export class UndirectedGraph<V> extends DirectedGraph<V> {
   constructor (toKey?: (v: V) => string) {
