@@ -13,11 +13,10 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   private readonly sourceToTarget: DefaultDictionary<V, Set<V>>
   private readonly targetToSource: DefaultDictionary<V, Set<V>>
 
-  constructor(config?: {
-    hash: (v: V) => string,
-    areEqual: (v1: V, v2: V) => boolean
-  }) {
-    const toKeyFn = config?.hash ?? ((i: V) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i))
+  private readonly defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
+
+  constructor(toKey?: (v: V) => string) {
+    const toKeyFn = toKey ?? this.defaultToKey
     this.graphNodes = new Set<V>(toKeyFn)
     this.targetToSource = new DefaultDictionary(() => new Set<V>(), toKeyFn)
     this.sourceToTarget = new DefaultDictionary(() => new Set<V>(), toKeyFn)
@@ -28,8 +27,7 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   }
 
   connect(source: V, target: V): boolean {
-    return this.targetToSource.getValue(target).add(source)
-      && this.sourceToTarget.getValue(source).add(target);
+    return this.sourceToTarget.getValue(source).add(target);
   }
 
   contains(nodes: V): boolean {
@@ -44,13 +42,13 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
     return this.sourceToTarget.getValue(node).size() + this.targetToSource.getValue(node).size()
   }
 
-  edges(): Set<Edge<V>> {
-    const copy = new Set<Edge<V>>()
+  edges(): Edge<V>[] {
+    const copy: Edge<V>[] = []
     this.sourceToTarget.forEach((source, v) => {
-      v.forEach(target => copy.add({source, target}))
+      v.forEach(target => void copy.push({source, target}))
     })
     this.targetToSource.forEach((target, v) => {
-      v.forEach(source => copy.add({source, target}))
+      v.forEach(source => void copy.push({target, source}))
     })
     return copy
   }
@@ -59,10 +57,10 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
     return this.sourceToTarget.getValue(source).contains(target)
   }
 
-  incomingEdgesOf(target: V): Set<Edge<V>> {
-    const copy = new Set<Edge<V>>()
+  incomingEdgesOf(target: V): Edge<V>[] {
+    const copy: Edge<V>[] = []
     this.targetToSource.getValue(target).forEach(source => {
-      copy.add({source, target});
+      copy.push({source, target});
     })
     return copy;
   }
@@ -79,15 +77,15 @@ export class DirectedGraph<V> implements Graph<V, Edge<V>>{
   }
 
   nodes(): Set<V> {
-    const copy = new Set<V>()
+    const copy = new Set<V>(this.defaultToKey)
     this.graphNodes.forEach(n => copy.add(n))
     return copy
   }
 
-  outgoingEdgesOf(source: V): Set<Edge<V>> {
-    const copy = new Set<Edge<V>>()
+  outgoingEdgesOf(source: V): Edge<V>[] {
+    const copy: Edge<V>[] = []
     this.sourceToTarget.getValue(source).forEach(target => {
-      copy.add({source, target});
+      copy.push({source, target});
     })
     return copy;
   }
