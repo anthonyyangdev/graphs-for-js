@@ -1,7 +1,7 @@
 
 export enum GraphType {
-  ValueDirected,
-  NonValueDirected,
-  ValueUndirected,
-  NonValueUndirected
+  WeightedDirected,
+  NonWeightedDirected,
+  WeightedUndirected,
+  NonWeightedUndirected
 }

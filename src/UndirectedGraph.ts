@@ -9,7 +9,7 @@ export class UndirectedGraph<V> extends DirectedGraph<V> {
   }
 
   getGraphType (): GraphType {
-    return GraphType.NonValueUndirected
+    return GraphType.NonWeightedUndirected
   }
 
   connect (source: V, target: V): boolean {

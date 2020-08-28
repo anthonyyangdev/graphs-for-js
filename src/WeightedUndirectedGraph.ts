@@ -1,15 +1,15 @@
-import { ValueDirectedGraph } from './ValueDirectedGraph'
+import { WeightedDirectedGraph } from './WeightedDirectedGraph'
 import { GraphType } from './types/GraphType'
 import { ValueEdge } from './types/GraphInterface'
 import { DefaultDictionary, Set } from 'typescript-collections'
 
-export class ValueUndirectedGraph<V, E> extends ValueDirectedGraph<V, E> {
+export class WeightedUndirectedGraph<V, E> extends WeightedDirectedGraph<V, E> {
   constructor (toKeyFn?: (v: V) => string) {
     super(toKeyFn)
   }
 
   getGraphType (): GraphType {
-    return GraphType.ValueUndirected
+    return GraphType.WeightedUndirected
   }
 
   connect (source: V, target: V, value: E): boolean {

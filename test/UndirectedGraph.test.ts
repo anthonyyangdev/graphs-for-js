@@ -8,7 +8,7 @@ describe('Undirected graph test suite', function () {
     const graph = new UndirectedGraph()
     expect(graph.edges().length).equals(0)
     expect(graph.nodes().size()).equals(0)
-    expect(graph.getGraphType()).equals(GraphType.NonValueUndirected)
+    expect(graph.getGraphType()).equals(GraphType.NonWeightedUndirected)
   })
   it('should treat edges as both forward and backward', function () {
     const graph = new UndirectedGraph()

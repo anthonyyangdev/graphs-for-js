@@ -5,11 +5,11 @@ import { GraphType } from './types/GraphType'
 
 type EdgeValueWrapper<E> = { value: E }
 
-export class ValueDirectedGraph<V, E>
+export class WeightedDirectedGraph<V, E>
   extends AbstractNodeGraph<V>
   implements ValueGraph<V, E> {
   getGraphType (): GraphType {
-    return GraphType.ValueDirected
+    return GraphType.WeightedDirected
   }
 
   protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, EdgeValueWrapper<E>>>

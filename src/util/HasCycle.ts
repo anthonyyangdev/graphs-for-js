@@ -70,11 +70,11 @@ const hasCycleInDirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
 export const hasCycle = <V> (graph: GraphInterface<V>): boolean => {
   const graphType = graph.getGraphType()
   switch (graphType) {
-    case GraphType.NonValueDirected:
-    case GraphType.ValueDirected:
+    case GraphType.NonWeightedDirected:
+    case GraphType.WeightedDirected:
       return hasCycleInDirectedGraph(graph)
-    case GraphType.NonValueUndirected:
-    case GraphType.ValueUndirected:
+    case GraphType.NonWeightedUndirected:
+    case GraphType.WeightedUndirected:
       return hasCycleInUndirectedGraph(graph)
   }
 }

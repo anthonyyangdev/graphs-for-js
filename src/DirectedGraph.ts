@@ -5,7 +5,7 @@ import { GraphType } from './types/GraphType'
 
 export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInterface<V> {
   getGraphType (): GraphType {
-    return GraphType.NonValueDirected
+    return GraphType.NonWeightedDirected
   }
 
   protected readonly sourceToTarget: DefaultDictionary<V, Set<V>>

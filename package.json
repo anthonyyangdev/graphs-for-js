@@ -11,11 +11,10 @@
   },
   "author": "",
   "license": "ISC",
-  "keywords": [],
+  "keywords": ["graph", "nodes", "edges"],
   "nyc": {
     "extension": [
-      ".ts",
-      ".tsx"
+      ".ts"
     ],
     "exclude": [
       "**/*.d.ts"
