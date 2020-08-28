@@ -134,4 +134,9 @@ export interface ValueGraph<V, E> extends GraphInterface<V>{
    * Return the set of all edges in the graph.
    */
   edges: () => ValueEdge<V, E>[]
+
+  /**
+   * Returns the value of an edge.
+   */
+  getEdgeValue: (source: V, target: V) => E | undefined
 }

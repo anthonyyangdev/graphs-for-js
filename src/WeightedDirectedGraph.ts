@@ -110,4 +110,8 @@ export class WeightedDirectedGraph<V, E>
     }
     return count
   }
+
+  getEdgeValue (source: V, target: V): E | undefined {
+    return this.sourceToTarget.getValue(source).getValue(target)?.value
+  }
 }

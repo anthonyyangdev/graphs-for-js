@@ -1,8 +1,17 @@
 import { expect } from 'chai'
 import { it, describe } from 'mocha'
 import { DirectedGraph } from '../src/DirectedGraph'
+import { GraphType } from '../src/types/GraphType'
 
 describe('Test suite for a directed graph', function () {
+  it('should instantiate', function () {
+    const graph = new DirectedGraph<number>()
+    expect(graph.count()).equals(0)
+    expect(graph.nodes().length).equals(0)
+    expect(graph.edges().length).equals(0)
+    expect(graph.getGraphType()).equals(GraphType.NonWeightedDirected)
+  })
+
   it('increases its count() value only when a unique value is added', function () {
     const graph = new DirectedGraph<number>()
     expect(graph.count()).equals(0)
