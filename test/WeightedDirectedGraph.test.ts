@@ -28,6 +28,7 @@ describe('Weighted directed graph', function () {
     expect(graph.hasEdge(1, 0, 5)).to.be.false
     expect(graph.hasEdge(1, 2)).to.be.true
     expect(graph.hasEdge(2, 1, 10)).to.be.false
+    expect(graph.edges().every(e => !e.undirected)).is.true
   })
 
   it('should replace the value in edges with connect', function () {
@@ -51,5 +52,10 @@ describe('Weighted directed graph', function () {
     graph.connect(node1, node2, 'hello world')
     expect(graph.getEdgeValue(node1, node2)).equals('hello world')
     expect(graph.getEdgeValue(node1, node1)).is.undefined
+
+    const outgoing = graph.outgoingEdgesOf(node1)
+    expect(outgoing.every(e => !e.undirected)).is.true
+    expect(outgoing.length).equals(1)
+    expect(outgoing[0].value).equals('hello world')
   })
 })

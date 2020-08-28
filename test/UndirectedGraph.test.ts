@@ -27,6 +27,7 @@ describe('Undirected graph test suite', function () {
     expect(graph.disconnect(1, 0)).is.true
     expect(graph.hasEdge(0, 1)).is.false
     expect(graph.edges().length).equals(2)
+    expect(graph.edges().every(e => e.undirected)).is.true
 
     expect(graph.disconnect(2, 1)).is.true
     expect(graph.disconnect(0, 2)).is.true

@@ -56,6 +56,7 @@ describe('Test suite for a directed graph', function () {
     expect(graph.connect(1, 0)).to.be.true
     expect(graph.connect(5, 1)).to.be.true
     expect(graph.edges().length).equals(4)
+    expect(graph.edges().every(e => !e.undirected)).is.true
 
     expect(graph.remove(5)).equals(1)
     expect(graph.contains(5)).to.be.false
