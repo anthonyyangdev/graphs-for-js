@@ -34,10 +34,8 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
     return count
   }
 
-  nodes (): Set<V> {
-    const copy = new Set<V>(this.toKeyFn)
-    this.graphNodes.forEach(n => copy.add(n))
-    return copy
+  nodes (): V[] {
+    return this.graphNodes.toArray()
   }
 
   abstract degreeOf(node: V): number

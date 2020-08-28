@@ -35,8 +35,8 @@ describe('Test suite for a directed graph', function () {
     const graph = new DirectedGraph<string>(_ => '')
     const added = graph.insert('1', '2', 'graph', '3', '4', '5')
     expect(added).equals(1)
-    expect(graph.nodes().size()).equals(graph.count()).equals(1)
-    expect(graph.nodes().contains('1')).is.true
+    expect(graph.nodes().length).equals(graph.count()).equals(1)
+    expect(graph.nodes().includes('1')).is.true
   })
 
   it('should delete all edges connected to a node if that node is deleted', function () {
@@ -79,8 +79,8 @@ describe('Test suite for a directed graph', function () {
     expect(graph.connect(20, 1)).to.be.false
     expect(graph.count()).equals(10)
     expect(graph.incomingEdgesOf(1).some(x => x.source === 20)).is.false
-    expect(graph.nodes().contains(20)).is.false
-    expect(graph.nodes().contains(100)).is.false
+    expect(graph.nodes().includes(20)).is.false
+    expect(graph.nodes().includes(100)).is.false
   })
 
   it('should cut edges', function () {

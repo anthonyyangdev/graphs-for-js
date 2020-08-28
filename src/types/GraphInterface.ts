@@ -1,4 +1,3 @@
-import { Set } from 'typescript-collections'
 import { GraphType } from './GraphType'
 
 export interface BasicEdge<V> {
@@ -42,7 +41,7 @@ export interface GraphInterface<V> {
   /**
    * Return the set of all nodes in the graph.
    */
-  nodes: () => Set<V>
+  nodes: () => V[]
 
   /**
    * Return the number of nodes in the graph.

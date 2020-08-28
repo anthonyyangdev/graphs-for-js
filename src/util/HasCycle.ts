@@ -9,7 +9,7 @@ const hasCycleInUndirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
   // If in the set, then the node has been visited
   const visited = new Set<V>(toKeyFn)
 
-  const nodes = graph.nodes().toArray()
+  const nodes = graph.nodes()
   const stack: {node: V, parent: V | symbol}[] = []
   for (const node of nodes) {
     stack.length = 0
@@ -38,7 +38,7 @@ const hasCycleInDirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
   const visited = new Set<V>(graph.toKeyFn)
   const nodesOnStack = new Set<V>(graph.toKeyFn)
   const recursionStack: V[] = []
-  const nodes = graph.nodes().toArray()
+  const nodes = graph.nodes()
 
   function findCycle (node: V): boolean {
     if (visited.contains(node)) {
