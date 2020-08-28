@@ -40,6 +40,10 @@ const hasCycleInDirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
   const recursionStack: V[] = []
   const nodes = graph.nodes()
 
+  /**
+   * Recursive function that checks if there is a cycle in the graph.
+   * @param node
+   */
   function findCycle (node: V): boolean {
     if (visited.contains(node)) {
       return false

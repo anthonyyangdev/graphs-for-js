@@ -16,9 +16,13 @@ const builder = <V, E>(fn?: (v: V) => string) => {
   }
 }
 
-export const GraphBuilder = <V, E> () => {
+export const GraphBuilder = <V=never, E=never> () => {
   return {
-    withKeyFunction: (fn: (v: V) => string) => builder<V, E>(fn),
-    withoutKeyFunction: () => builder<V, E>()
+    withKeyFunction (fn: (v: V) => string) {
+      return builder<V, E>(fn)
+    },
+    withoutKeyFunction () {
+      return builder<V, E>()
+    }
   }
 }
