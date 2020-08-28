@@ -9,6 +9,7 @@ describe('Weighted directed graph', function () {
     const graph = new WeightedDirectedGraph<number, number>()
     expect(graph.edges().length).equals(0)
     expect(graph.nodes().length).equals(0)
+    expect(graph.count()).equals(0)
     expect(graph.getGraphType()).equals(GraphType.WeightedDirected)
   })
 
@@ -20,6 +21,7 @@ describe('Weighted directed graph', function () {
 
     expect(graph.edges().length).equals(2)
     expect(graph.nodes().length).equals(3)
+    expect(graph.count()).equals(3)
 
     expect(graph.hasEdge(0, 1)).to.be.true
     expect(graph.hasEdge(0, 1, 5)).to.be.true
