@@ -18,6 +18,7 @@
         "no-unused-vars": "off",
         "no-unused-expressions": "off",
         "no-useless-constructor": "warn",
-        "no-void": "off"
+        "no-void": "off",
+        "require-jsdoc": "error"
     }
 }
