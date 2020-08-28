@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test": "mocha -r ts-node/register 'test/**/*.test.ts'",
     "coverage": "nyc mocha -r ts-node/register -r source-map-support/register --recursive test/**/*.test.ts",
     "prepare": "tsc",
     "clean": "rm -rf dist"
