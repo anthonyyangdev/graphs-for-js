@@ -4,6 +4,7 @@ import { GraphType } from './GraphType'
 export interface BasicEdge<V> {
   source: V
   target: V
+  undirected: boolean
 }
 
 export interface ValueEdge<V, E> extends BasicEdge<V> {

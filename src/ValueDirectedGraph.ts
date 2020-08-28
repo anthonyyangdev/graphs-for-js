@@ -50,8 +50,8 @@ export class ValueDirectedGraph<V, E>
   edges (): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
     this.sourceToTarget.forEach((source, targets) => {
-      targets.forEach((target, v) => {
-        copy.push({ source, target, value: v.value })
+      targets.forEach((target, { value }) => {
+        copy.push({ source, target, value, undirected: false })
       })
     })
     return copy
@@ -67,16 +67,16 @@ export class ValueDirectedGraph<V, E>
 
   incomingEdgesOf (target: V): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
-    this.targetToSource.getValue(target).forEach((source, v) => {
-      copy.push({ source, target, value: v.value })
+    this.targetToSource.getValue(target).forEach((source, { value }) => {
+      copy.push({ source, target, value, undirected: false })
     })
     return copy
   }
 
   outgoingEdgesOf (source: V): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
-    this.sourceToTarget.getValue(source).forEach((target, v) => {
-      copy.push({ source, target, value: v.value })
+    this.sourceToTarget.getValue(source).forEach((target, { value }) => {
+      copy.push({ source, target, value, undirected: false })
     })
     return copy
   }

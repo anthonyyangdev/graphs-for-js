@@ -31,7 +31,7 @@ export class UndirectedGraph<V> extends DirectedGraph<V> {
     this.sourceToTarget.forEach((source, targets) => {
       targets.forEach(target => {
         if (!addedAliasEdge.getValue(source).contains(target)) {
-          edges.push({ source, target })
+          edges.push({ source, target, undirected: true })
           addedAliasEdge.getValue(target).add(source)
         }
       })

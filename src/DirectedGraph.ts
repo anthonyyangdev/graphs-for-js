@@ -42,7 +42,7 @@ export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInter
     const copy: BasicEdge<V>[] = []
     this.sourceToTarget.forEach((source, targets) => {
       targets.forEach((target) => {
-        copy.push({ source, target })
+        copy.push({ source, target, undirected: false })
       })
     })
     return copy
@@ -55,7 +55,7 @@ export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInter
   incomingEdgesOf (target: V): BasicEdge<V>[] {
     const copy: BasicEdge<V>[] = []
     this.targetToSource.getValue(target).forEach((source) => {
-      copy.push({ source, target })
+      copy.push({ source, target, undirected: false })
     })
     return copy
   }
@@ -63,7 +63,7 @@ export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInter
   outgoingEdgesOf (source: V): BasicEdge<V>[] {
     const copy: BasicEdge<V>[] = []
     this.sourceToTarget.getValue(source).forEach((target) => {
-      copy.push({ source, target })
+      copy.push({ source, target, undirected: false })
     })
     return copy
   }
