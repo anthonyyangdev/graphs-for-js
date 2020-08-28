@@ -170,8 +170,8 @@ describe('Test GraphUtil function', function () {
         graph.connect(1, 2)
 
         const result = GraphUtil.findShortestPath(graph, 1, 1)
-        expect(result.path).deep.equals([])
-        expect(result.pathSize).equals(-1)
+        expect(result.path).deep.equals([1])
+        expect(result.pathSize).equals(0)
       })
     })
   })

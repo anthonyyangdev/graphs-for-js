@@ -1,27 +1,31 @@
 import { GraphInterface } from '../types/GraphInterface'
 import { Dictionary, Queue, Set } from 'typescript-collections'
 
-const fixed = <V> (graph: GraphInterface<V>, start: V, end: V): {
+export const findShortestPath = <V> (graph: GraphInterface<V>, start: V, end: V): {
   path: V[]
   pathSize: number
 } => {
+  const target = graph.toKeyFn(end)
+  if (graph.toKeyFn(start) === target) {
+    return { path: [start], pathSize: 0 }
+  }
+
   const parentMap = new Dictionary<V, V>(graph.toKeyFn)
   const bfsQueue = new Queue<V>()
   bfsQueue.enqueue(start)
   const visitedNodes = new Set<V>(graph.toKeyFn)
-  const target = graph.toKeyFn(end)
   let foundEnd = false
+
   while (!bfsQueue.isEmpty() && !foundEnd) {
     const node = bfsQueue.dequeue() as V
-    if (graph.toKeyFn(node) === target) {
-      foundEnd = true
-    } else if (!visitedNodes.contains(node)) {
+    if (!visitedNodes.contains(node)) {
       visitedNodes.add(node)
       const outgoingEdges = graph.outgoingEdgesOf(node)
       for (const edge of outgoingEdges) {
+        parentMap.setValue(edge.target, node)
         if (graph.toKeyFn(edge.target) === target) {
-          parentMap.setValue(edge.target, node)
           foundEnd = true
+          break
         } else {
           bfsQueue.enqueue(edge.target)
         }
@@ -41,22 +45,4 @@ const fixed = <V> (graph: GraphInterface<V>, start: V, end: V): {
   } else {
     return { path: [], pathSize: -1 }
   }
-}
-
-/**
- * Finds shortest path via BFS
- *
- * 1 -- 2 -- 3 -- 10
- * \          \
- *  \-- 4 --6--7- 5 (end)
- *
- * @param graph
- * @param start
- * @param end
- */
-export const findShortestPath = <V> (graph: GraphInterface<V>, start: V, end: V): {
-  path: V[]
-  pathSize: number
-} => {
-  return fixed(graph, start, end)
 }
