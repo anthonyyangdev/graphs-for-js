@@ -7,9 +7,6 @@ import * as GraphUtility from './src/GraphUtil'
 
 export const builder = <V, E>(fn?: (v: V) => string) => {
   return {
-    weighted: {
-      lord: () => new WeightedDirectedGraph<V, E>(fn)
-    },
     directed: {
       weighted: (): WeightedDirectedGraph<V, E> => new WeightedDirectedGraph<V, E>(fn),
       unweighted: (): DirectedGraph<V> => new DirectedGraph<V>(fn)
