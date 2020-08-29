@@ -11,7 +11,7 @@
         "properties": {
           "key": "string",
           "type": "any"
-        },
+        }
       }
     },
     "edges": {
@@ -19,7 +19,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "start": "any",
+          "source": "any",
           "target": "any",
           "value": "any"
         }

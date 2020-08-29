@@ -1,6 +1,6 @@
 import { GraphType } from './GraphType'
 
-export interface BasicEdge<V, E> {
+export interface BasicEdge<V, E=unknown> {
   source: V
   target: V
   undirected: boolean

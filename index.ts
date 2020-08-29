@@ -9,21 +9,21 @@ const builder = <V, E>(fn?: (v: V) => string) => {
   return {
     directed: {
       weighted: (): WeightedDirectedGraph<V, E> => new WeightedDirectedGraph<V, E>(fn),
-      unweighted: (): DirectedGraph<V> => new DirectedGraph<V>(fn)
+      unweighted: (): DirectedGraph<V, E> => new DirectedGraph<V, E>(fn)
     },
     undirected: {
       weighted: (): WeightedUndirectedGraph<V, E> => new WeightedUndirectedGraph<V, E>(fn),
-      unweighted: (): UndirectedGraph<V> => new UndirectedGraph<V>(fn)
+      unweighted: (): UndirectedGraph<V, E> => new UndirectedGraph<V, E>(fn)
     }
   }
 }
 
 export const GraphBuilder = <V=unknown, E=unknown>() => {
   return {
-    withKeyFunction: <V, E> (fn: (v: V) => string) => {
+    withKeyFunction: (fn: (v: V) => string) => {
       return builder<V, E>(fn)
     },
-    withoutKeyFunction: <V> () => {
+    withoutKeyFunction: () => {
       return builder<V, E>()
     }
   }
