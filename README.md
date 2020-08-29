@@ -35,7 +35,7 @@
 ## Installation
 
 ```sh
-$ npm install --save graph-lib
+$ npm install --save graphs-for-js
 ```
 
 ## GraphBuilder Usage
@@ -226,7 +226,7 @@ GraphUtil.findShortestPath(graph, 1, 2)
 
 ## Contributing
 
-Feel free to add issues or suggestions in the repository.
+Feel free to contribute by adding changes to the graph implementation or by writing implementations for graph algorithms in `GraphUtil`! You can also add suggestions or issues [here]()
 
 If you'd like to make changes to the graph implementation or for `GraphUtil`:
 
