@@ -5,6 +5,22 @@ import { GraphType } from '../../../src/types/GraphType'
 import { WeightedUndirectedGraph } from '../../../src/WeightedUndirectedGraph'
 
 describe('Parse graphs from json', function () {
+  it('should accept key function', function () {
+    const json = `
+    {
+      "undirected": false,
+      "weighted": false,
+      "nodes": [1,2,3],
+      "edges": []
+    }`
+    let graph = parse<number>(json, n => '')
+    expect(graph).is.not.undefined
+    graph = graph!
+    expect(graph.count()).equals(graph.nodes().length).equals(1)
+    expect(graph.contains(1))
+    expect(graph.edges().length).equals(0)
+  })
+
   it('should fail to parse improper json', function () {
     let json = `
     {
