@@ -3,7 +3,19 @@ import { Set } from 'typescript-collections'
 import * as Collections from 'typescript-collections'
 import { GraphType } from './types/GraphType'
 
-const defaultToKey = (i: unknown) => Number.isFinite(i) ? `${i}` : Collections.util.makeString(i)
+/**
+ * The default Key Function.
+ * @param i
+ */
+function defaultToKeyFunction (i: unknown) {
+  if (typeof i === 'symbol') {
+    return i.toString()
+  } else if (i !== null && typeof i === 'object') {
+    return Collections.util.makeString(i)
+  } else {
+    return `${i}`
+  }
+}
 
 export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
   protected readonly graphNodes: Set<V>
@@ -11,7 +23,7 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
   readonly toKeyFn: (v: V) => string
 
   protected constructor (toKey?: (v: V) => string) {
-    this.toKeyFn = toKey ?? defaultToKey
+    this.toKeyFn = toKey ?? defaultToKeyFunction
     this.graphNodes = new Set<V>(this.toKeyFn)
   }
 
@@ -26,9 +38,11 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
   insert (...nodes: V[]): number {
     let count = 0
     for (const n of nodes) {
-      const added = this.graphNodes.add(n)
-      if (added) {
-        count++
+      if (typeof n === 'undefined') {
+        // undefined as its own type cannot be added to this Set structure.
+        count += this.graphNodes.add(this.toKeyFn(n) as any) ? 1 : 0
+      } else {
+        count += this.graphNodes.add(n) ? 1 : 0
       }
     }
     return count

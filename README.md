@@ -42,7 +42,8 @@ Because JavaScript does not directly hash/map objects and their contents to uniq
 If a Key Function is not given, then the default behaviors are the following:
 - Primitive Types
     - This includes number, string, boolean, symbol, null, and undefined.
-    - These types of values are uniquely mapped.
+    - All primitives are converted to their string equivalents.
+    - **Caution**: Floats are subject to float-precision issues.
 - Objects
     - A string representation of the object is used as the key, for which the string contains properties including keys and values.
     - For example, the object `{a: 32, b: 23}` is mapped as `'{a:32,b:23}'`
