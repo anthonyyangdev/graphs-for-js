@@ -1,6 +1,6 @@
 # graph-lib [![NPM version](https://badge.fury.io/js/graph.svg)](https://npmjs.org/package/graphs) [![Build Status](https://travis-ci.org/ayang4114/graph.svg?branch=master)](https://travis-ci.org/ayang4114/graph)
 
-> Some JavaScript implementation of a graph data structure
+> Some implementation of a graph data structure for JavaScript and TypeScript
 
 - [Installation](#installation)
 - [GraphBuilder Usage](#graphbuilder-usage)
