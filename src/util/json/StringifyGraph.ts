@@ -1,15 +1,10 @@
-import fs from 'fs'
 import { GraphInterface } from '../../types/GraphInterface'
 import { GraphType } from '../../types/GraphType'
 import { GraphJson } from './GraphJson'
 
 export const stringify = <V, E> (
-  graph: GraphInterface<V, E>,
-  outputPath: string
-): Promise<void> | void => {
-  if (graph === undefined) {
-    return
-  }
+  graph: GraphInterface<V, E>
+): string => {
   const nodes = graph.nodes()
   const edges = graph.edges()
 
@@ -30,6 +25,5 @@ export const stringify = <V, E> (
     }),
     nodes: nodes
   }
-  const jsonString = JSON.stringify(json, undefined, 2)
-  return fs.writeFileSync(outputPath, jsonString)
+  return JSON.stringify(json, undefined, 2)
 }
