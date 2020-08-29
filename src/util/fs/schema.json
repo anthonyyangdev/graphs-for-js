@@ -1,0 +1,29 @@
+{
+  "title": "Graph JSON representation",
+  "type": "object",
+  "properties": {
+    "undirected": "boolean",
+    "weighted": "boolean",
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": "string",
+          "type": "any"
+        },
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": "any",
+          "target": "any",
+          "value": "any"
+        }
+      }
+    }
+  }
+}
