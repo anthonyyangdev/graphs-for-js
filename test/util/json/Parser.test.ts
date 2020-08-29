@@ -5,6 +5,43 @@ import { GraphType } from '../../../src/types/GraphType'
 import { WeightedUndirectedGraph } from '../../../src/WeightedUndirectedGraph'
 
 describe('Parse graphs from json', function () {
+  it('should fail to parse improper json', function () {
+    let json = `
+    {
+      "undirected": "hello",
+      "weighted": false,
+      "nodes": [1, 4, 5],
+      "edges": [{ "source": 1, "not_target": 4 }]
+    }`
+    expect(parse(json)).is.undefined
+
+    json = `
+    {
+      "undirected": false,
+      "weighted": "not boolean",
+      "nodes": [1, 4, 5],
+      "edges": [{ "source": 1, "not_target": 4 }]
+    }`
+    expect(parse(json)).is.undefined
+
+    json = `
+    {
+      "undirected": false,
+      "weighted": false,
+      "nodes": "not an array",
+      "edges": [{ "source": 1, "not_target": 4 }]
+    }`
+    expect(parse(json)).is.undefined
+
+    json = `
+    {
+      "undirected": false,
+      "weighted": false,
+      "nodes": [1],
+      "edges": "not an array" 
+    }`
+    expect(parse(json)).is.undefined
+  })
   it('should parse directed, unweighted graph json', function () {
     const json = `{
       "undirected": false,

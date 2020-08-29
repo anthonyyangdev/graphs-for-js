@@ -15,8 +15,8 @@ export const parse = <V, E=unknown>(
   const { nodes, edges, undirected, weighted } = json
 
   if (!(
-    // nodes instanceof Array &&
-    // edges instanceof Array &&
+    nodes instanceof Array &&
+    edges instanceof Array &&
     typeof undirected === 'boolean' &&
     typeof weighted === 'boolean')) {
     return undefined
