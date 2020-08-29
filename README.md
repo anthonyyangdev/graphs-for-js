@@ -1,6 +1,30 @@
-# graph-lib [![NPM version](https://badge.fury.io/js/graph.svg)](https://npmjs.org/package/graph-js) [![Build Status](https://travis-ci.org/ayang4114/graph.svg?branch=master)](https://travis-ci.org/ayang4114/graph)
+# graph-lib [![NPM version](https://badge.fury.io/js/graph.svg)](https://npmjs.org/package/graphs) [![Build Status](https://travis-ci.org/ayang4114/graph.svg?branch=master)](https://travis-ci.org/ayang4114/graph)
 
-> JavaScript implementation of a graph data structure
+> Some JavaScript implementation of a graph data structure
+
+- [Installation](#installation)
+- [GraphBuilder Usage](#graphbuilder-usage)
+  * [Import the GraphBuilder](#import-the-graphbuilder)
+  * [Key Function](#key-function)
+  * [JavaScript initialization](#javascript-initialization)
+  * [TypeScript initialization](#typescript-initialization)
+  * [Using the Graph](#using-the-graph)
+    + [Insert nodes](#insert-nodes)
+    + [Removing nodes](#removing-nodes)
+    + [Number of nodes](#number-of-nodes)
+    + [Forming edges](#forming-edges)
+    + [Removing edges](#removing-edges)
+    + [Get all of the nodes and edges in the graph](#get-all-of-the-nodes-and-edges-in-the-graph)
+    + [Incoming and Outgoing edges](#incoming-and-outgoing-edges)
+    + [Degree of Edge](#degree-of-edge)
+    + [Existence Methods](#existence-methods)
+- [GraphUtil Usage](#graphutil-usage)
+  * [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Installation
 
