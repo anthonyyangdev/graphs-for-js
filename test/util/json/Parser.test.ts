@@ -1,8 +1,10 @@
 import { describe, it } from 'mocha'
-import { parse } from '../../../src/util/json'
+import { GraphUtil } from '../../../index'
 import { expect } from 'chai'
 import { GraphType } from '../../../src/types/GraphType'
 import { WeightedUndirectedGraph } from '../../../src/WeightedUndirectedGraph'
+
+const { parse } = GraphUtil.json
 
 describe('Parse graphs from json', function () {
   it('should accept key function', function () {
