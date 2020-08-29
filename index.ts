@@ -18,7 +18,7 @@ const builder = <V, E>(fn?: (v: V) => string) => {
   }
 }
 
-export const GraphBuilder = <V=never, E=never> () => {
+module.exports.GraphBuilder = <V=never, E=never> () => {
   return {
     withKeyFunction (fn: (v: V) => string) {
       return builder<V, E>(fn)
@@ -29,4 +29,4 @@ export const GraphBuilder = <V=never, E=never> () => {
   }
 }
 
-export const GraphUtil = GraphUtility
+module.exports.GraphUtil = GraphUtility

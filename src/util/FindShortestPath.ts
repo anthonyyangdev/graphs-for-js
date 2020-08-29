@@ -5,6 +5,9 @@ export const findShortestPath = <V> (graph: GraphInterface<V>, start: V, end: V)
   path: V[]
   pathSize: number
 } => {
+  if (!graph.contains(start, end)) {
+    return { path: [], pathSize: -1 }
+  }
   const target = graph.toKeyFn(end)
   if (graph.toKeyFn(start) === target) {
     return { path: [start], pathSize: 0 }
