@@ -1,11 +1,11 @@
-# graph-lib [![NPM version](https://badge.fury.io/js/graph.svg)](https://npmjs.org/package/graphs-for-js) [![Build Status](https://travis-ci.org/ayang4114/graph.svg?branch=master)](https://travis-ci.org/ayang4114/graph)
+# graphs-for-js [![NPM version](https://badge.fury.io/js/graph.svg)](https://npmjs.org/package/graphs-for-js) [![Build Status](https://travis-ci.org/ayang4114/graph.svg?branch=master)](https://travis-ci.org/ayang4114/graph)
 
-> Some JavaScript implementation of a graph data structure.
+> Implementations of graph data structures for JavaScript and TypeScript
   
 > Features:
 > - Insert and remove nodes.
 > - Connect and disconnect nodes.
-> - Algorithms to support
+> - Algorithms for graph data structures.
 
 
 - [Installation](#installation)
