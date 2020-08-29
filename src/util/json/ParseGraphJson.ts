@@ -3,7 +3,7 @@ import { GraphInterface } from '../../types/GraphInterface'
 import { GraphBuilder } from '../../../index'
 import { GraphJson } from './GraphJson'
 
-export const read = <V, E>(
+export const parse = <V, E>(
   inputPath: string,
   keyFunction?: (v: V) => string
 ): GraphInterface<V, E> => {

@@ -3,7 +3,7 @@ import { GraphInterface } from '../../types/GraphInterface'
 import { GraphType } from '../../types/GraphType'
 import { GraphJson } from './GraphJson'
 
-export const write = <V, E> (
+export const stringify = <V, E> (
   graph: GraphInterface<V, E>,
   outputPath: string
 ): Promise<void> | void => {
