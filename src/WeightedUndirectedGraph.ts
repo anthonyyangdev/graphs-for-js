@@ -12,6 +12,10 @@ export class WeightedUndirectedGraph<V, E> extends WeightedDirectedGraph<V, E> {
     return GraphType.WeightedUndirected
   }
 
+  degreeOf (node: V): number {
+    return super.inDegreeOf(node)
+  }
+
   connect (source: V, target: V, value: E): boolean {
     return super.connect(source, target, value) && super.connect(target, source, value)
   }

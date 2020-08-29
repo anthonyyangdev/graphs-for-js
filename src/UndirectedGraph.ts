@@ -12,6 +12,10 @@ export class UndirectedGraph<V> extends DirectedGraph<V> {
     return GraphType.NonWeightedUndirected
   }
 
+  degreeOf (node: V): number {
+    return super.inDegreeOf(node)
+  }
+
   connect (source: V, target: V): boolean {
     return super.connect(source, target) && super.connect(target, source)
   }

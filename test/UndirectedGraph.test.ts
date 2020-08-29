@@ -21,6 +21,9 @@ describe('Undirected graph test suite', function () {
       expect(graph.hasEdge(source, target)).is.true
       expect(graph.hasEdge(target, source)).is.true
     }
+    expect(graph.degreeOf(1)).equals(2)
+    expect(graph.inDegreeOf(1)).equals(2)
+    expect(graph.outDegreeOf(1)).equals(2)
     expect(graph.count()).equals(3)
     expect(graph.edges().length).equals(3)
 

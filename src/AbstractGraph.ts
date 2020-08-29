@@ -69,4 +69,8 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
   abstract disconnect(source: V, target: V, value?: any): boolean
 
   abstract hasEdge(source: V, target: V, value?: any): boolean
+
+  abstract inDegreeOf(node: V): number
+
+  abstract outDegreeOf(node: V): number
 }

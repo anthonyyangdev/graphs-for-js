@@ -38,6 +38,14 @@ export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInter
     return this.sourceToTarget.getValue(node).size() + this.targetToSource.getValue(node).size()
   }
 
+  inDegreeOf (node: V): number {
+    return this.targetToSource.getValue(node).size()
+  }
+
+  outDegreeOf (node: V): number {
+    return this.sourceToTarget.getValue(node).size()
+  }
+
   edges (): BasicEdge<V>[] {
     const copy: BasicEdge<V>[] = []
     this.sourceToTarget.forEach((source, targets) => {

@@ -39,6 +39,18 @@ export interface GraphInterface<V> {
   degreeOf: (node: V) => number
 
   /**
+   * Return in-degree of a node.
+   * @param node
+   */
+  inDegreeOf: (node: V) => number
+
+  /**
+   * Return the out-degree of a node.
+   * @param node
+   */
+  outDegreeOf: (node: V) => number
+
+  /**
    * Return the set of all nodes in the graph.
    */
   nodes: () => V[]

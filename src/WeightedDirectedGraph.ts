@@ -47,6 +47,14 @@ export class WeightedDirectedGraph<V, E>
     return this.sourceToTarget.getValue(node).size() + this.targetToSource.getValue(node).size()
   }
 
+  inDegreeOf (node: V): number {
+    return this.targetToSource.getValue(node).size()
+  }
+
+  outDegreeOf (node: V): number {
+    return this.sourceToTarget.getValue(node).size()
+  }
+
   edges (): ValueEdge<V, E>[] {
     const copy: ValueEdge<V, E>[] = []
     this.sourceToTarget.forEach((source, targets) => {

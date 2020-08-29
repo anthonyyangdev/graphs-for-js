@@ -19,6 +19,9 @@ describe('Weighted directed graph', function () {
     expect(graph.hasEdge(0, 1, -1)).to.be.true
     expect(graph.hasEdge(1, 0, -1)).to.be.true
 
+    expect(graph.degreeOf(1)).equals(1)
+    expect(graph.inDegreeOf(1)).equals(1)
+    expect(graph.outDegreeOf(1)).equals(1)
     expect(graph.getEdgeValue(0, 1)).equals(-1)
     expect(graph.getEdgeValue(1, 0)).equals(-1)
 
