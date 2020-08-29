@@ -5,6 +5,42 @@ import { GraphType } from '../../../src/types/GraphType'
 import { WeightedUndirectedGraph } from '../../../src/WeightedUndirectedGraph'
 
 describe('Parse graphs from json', function () {
+  it('should parse directed, unweighted graph json', function () {
+    const json = `{
+      "undirected": false,
+      "weighted": false,
+      "nodes": [1, 2],
+      "edges": [{ "source": 1, "target": 2 }]
+    }`
+    let graph = parse<number>(json)
+    expect(graph).is.not.undefined
+    graph = graph!
+    expect(graph.contains(1, 2)).is.true
+    expect(graph.count()).equals(graph.nodes().length).equals(2)
+    expect(graph.hasEdge(1, 2)).is.true
+    expect(graph.hasEdge(2, 1)).is.false
+    expect(graph.edges().length).equals(1)
+  })
+  it('should parse directed, weighted graph json', function () {
+    const json = `{
+      "undirected": false,
+      "weighted": true,
+      "nodes": ["number", "word"],
+      "edges": [
+        { "source": "number", "target": "word", "value": 10 },
+        { "source": "word", "target": "number", "value": 5 }
+      ]
+    }`
+    let graph = parse<string, number>(json)
+    expect(graph).is.not.undefined
+    graph = graph!
+    expect(graph.contains('number', 'word')).is.true
+    expect(graph.count()).equals(graph.nodes().length).equals(2)
+    expect(graph.edges().length).equals(2)
+    expect(graph.hasEdge('number', 'word', 10)).is.true
+    expect(graph.hasEdge('word', 'number', 5)).is.true
+  })
+
   it('should parse undirected and weighted graph json', function () {
     const json = `{
       "undirected": true,
@@ -16,7 +52,9 @@ describe('Parse graphs from json', function () {
         "value": "hello"
       }]
     }`
-    const graph = parse<number, string>(json)
+    let graph = parse<number, string>(json)
+    expect(graph).is.not.undefined
+    graph = graph!
     expect(graph.getGraphType()).equals(GraphType.WeightedUndirected)
     expect(graph.nodes().length).equals(graph.count()).equals(2)
     expect(graph.contains(1, 2)).is.true
@@ -42,7 +80,9 @@ describe('Parse graphs from json', function () {
         "target": 4
       }]
     }`
-    const graph = parse<number>(json)
+    let graph = parse<number>(json)
+    expect(graph).is.not.undefined
+    graph = graph!
     expect(graph.getGraphType()).equals(GraphType.NonWeightedUndirected)
     expect(graph.count()).equals(graph.nodes().length).equals(4)
     expect(graph.edges().length).equals(3)

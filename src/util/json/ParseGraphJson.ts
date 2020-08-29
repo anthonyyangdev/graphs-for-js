@@ -1,13 +1,27 @@
-import { GraphInterface, ValueGraph } from '../../types/GraphInterface'
+import { GraphInterface } from '../../types/GraphInterface'
 import { GraphBuilder } from '../../../index'
 import { GraphJson } from './GraphJson'
 
 export const parse = <V, E=unknown>(
   jsonString: string,
   keyFunction?: (v: V) => string
-): GraphInterface<V, E> => {
-  const json: GraphJson = JSON.parse(jsonString)
+): GraphInterface<V, E> | undefined => {
+  let json: Partial<GraphJson>
+  try {
+    json = JSON.parse(jsonString)
+  } catch {
+    return
+  }
   const { nodes, edges, undirected, weighted } = json
+
+  if (!(
+    // nodes instanceof Array &&
+    // edges instanceof Array &&
+    typeof undirected === 'boolean' &&
+    typeof weighted === 'boolean')) {
+    return undefined
+  }
+
   const { withoutKeyFunction, withKeyFunction } = GraphBuilder<V, E>()
   const builderFunction = keyFunction != null
     ? withKeyFunction(keyFunction) : withoutKeyFunction()
@@ -19,7 +33,7 @@ export const parse = <V, E=unknown>(
   else graph = builderFunction.directed.unweighted()
 
   graph.insert(...nodes as V[])
-  edges.forEach(({ source, target, value }) => {
+  edges?.forEach(({ source, target, value }) => {
     graph.connect(source as V, target as V, value as E | undefined)
   })
   return graph
