@@ -1,11 +1,13 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { DirectedGraph } from '../../../src/DirectedGraph'
-import { stringify } from '../../../src/util/json'
+import { GraphUtil } from '../../../index'
 import { UndirectedGraph } from '../../../src/UndirectedGraph'
 import { WeightedDirectedGraph } from '../../../src/WeightedDirectedGraph'
 import { WeightedUndirectedGraph } from '../../../src/WeightedUndirectedGraph'
 import { GraphInterface } from '../../../src/types/GraphInterface'
+
+const { stringify } = GraphUtil.json
 
 describe('Test stringify', function () {
   it('should stringify empty graph', function () {
