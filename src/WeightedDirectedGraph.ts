@@ -6,7 +6,7 @@ import { GraphType } from './types/GraphType'
 type EdgeValueWrapper<E> = { value: E }
 
 export class WeightedDirectedGraph<V, E>
-  extends AbstractNodeGraph<V>
+  extends AbstractNodeGraph<V, E>
   implements ValueGraph<V, E> {
   getGraphType (): GraphType {
     return GraphType.WeightedDirected

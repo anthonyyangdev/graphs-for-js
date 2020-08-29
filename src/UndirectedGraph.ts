@@ -3,7 +3,7 @@ import { BasicEdge } from './types/GraphInterface'
 import { Set, DefaultDictionary } from 'typescript-collections'
 import { GraphType } from './types/GraphType'
 
-export class UndirectedGraph<V> extends DirectedGraph<V> {
+export class UndirectedGraph<V, E=unknown> extends DirectedGraph<V, E> {
   constructor (toKey?: (v: V) => string) {
     super(toKey)
   }
@@ -27,8 +27,8 @@ export class UndirectedGraph<V> extends DirectedGraph<V> {
   /**
    * Forward and backward edges are treated as a single edge
    */
-  edges (): BasicEdge<V>[] {
-    const edges: BasicEdge<V>[] = []
+  edges (): BasicEdge<V, E>[] {
+    const edges: BasicEdge<V, E>[] = []
     const addedAliasEdge = new DefaultDictionary<V, Set<V>>(() => {
       return new Set<V>(this.toKeyFn)
     }, this.toKeyFn)

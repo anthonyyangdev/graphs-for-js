@@ -17,7 +17,7 @@ function defaultToKeyFunction (i: unknown) {
   }
 }
 
-export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
+export abstract class AbstractNodeGraph<V, E=unknown> implements GraphInterface<V, E> {
   protected readonly graphNodes: Set<V>
 
   readonly toKeyFn: (v: V) => string
@@ -56,11 +56,11 @@ export abstract class AbstractNodeGraph<V> implements GraphInterface<V> {
 
   abstract remove(...nodes: V[]): number
 
-  abstract edges(): BasicEdge<V>[]
+  abstract edges(): BasicEdge<V, E>[]
 
-  abstract incomingEdgesOf(node: V): BasicEdge<V>[]
+  abstract incomingEdgesOf(node: V): BasicEdge<V, E>[]
 
-  abstract outgoingEdgesOf(node: V): BasicEdge<V>[]
+  abstract outgoingEdgesOf(node: V): BasicEdge<V, E>[]
 
   abstract getGraphType(): GraphType
 

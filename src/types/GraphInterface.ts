@@ -1,16 +1,17 @@
 import { GraphType } from './GraphType'
 
-export interface BasicEdge<V> {
+export interface BasicEdge<V, E> {
   source: V
   target: V
   undirected: boolean
+  value?: E
 }
 
-export interface ValueEdge<V, E> extends BasicEdge<V> {
+export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
 }
 
-export interface GraphInterface<V> {
+export interface GraphInterface<V, E=unknown> {
 
   toKeyFn: (v: V) => string
 
@@ -64,18 +65,18 @@ export interface GraphInterface<V> {
    * Return a set of incoming edges to the node.
    * @param node
    */
-  incomingEdgesOf: (node: V) => BasicEdge<V>[]
+  incomingEdgesOf: (node: V) => BasicEdge<V, E>[]
 
   /**
    * Return a set of outgoing edges from the node.
    * @param node
    */
-  outgoingEdgesOf: (node: V) => BasicEdge<V>[]
+  outgoingEdgesOf: (node: V) => BasicEdge<V, E>[]
 
   /**
    * Return the set of all edges in the graph.
    */
-  edges: () => BasicEdge<V>[]
+  edges: () => BasicEdge<V, E>[]
 
   getGraphType: () => GraphType
 
@@ -102,7 +103,7 @@ export interface GraphInterface<V> {
   disconnect: (source: V, target: V, value?: any) => boolean
 }
 
-export interface ValueGraph<V, E> extends GraphInterface<V>{
+export interface ValueGraph<V, E> extends GraphInterface<V, E>{
   /**
    * Create an edge from the source node to the target node. Return true if a new
    * edge is created, otherwise false.
