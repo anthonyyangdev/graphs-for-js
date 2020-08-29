@@ -3,6 +3,8 @@ import { UndirectedGraph } from './src/UndirectedGraph'
 import { DirectedGraph } from './src/DirectedGraph'
 import { WeightedDirectedGraph } from './src/WeightedDirectedGraph'
 
+import * as GraphUtility from './src/GraphUtil'
+
 const builder = <V, E>(fn?: (v: V) => string) => {
   return {
     directed: {
@@ -26,3 +28,5 @@ export const GraphBuilder = <V=never, E=never> () => {
     }
   }
 }
+
+export const GraphUtil = GraphUtility

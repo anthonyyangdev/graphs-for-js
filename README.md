@@ -1,4 +1,4 @@
-# graph-lib [![NPM version](https://badge.fury.io/js/graph.svg)](https://npmjs.org/package/graph) [![Build Status](https://travis-ci.org/ayang4114/graph.svg?branch=master)](https://travis-ci.org/ayang4114/graph)
+# graph-lib [![NPM version](https://badge.fury.io/js/graph.svg)](https://npmjs.org/package/graph-js) [![Build Status](https://travis-ci.org/ayang4114/graph.svg?branch=master)](https://travis-ci.org/ayang4114/graph)
 
 > JavaScript implementation of a graph data structure
 
@@ -101,7 +101,7 @@ console.log(result) // The number of nodes removed
 #### Number of nodes
 
 ```js
-graphs.count()
+graph.count()
 ```
 
 #### Forming edges
@@ -143,23 +143,23 @@ type Edge<V, E> = {
 #### Incoming and Outgoing edges
 
 ```js
-graphs.outgoingEdgesOf(2)  // Returns an array of edges whose source nodes are node 2
-graphs.incomingEdgesOf(2)  // Returns an array of edges whose target nodes are node 2
+graph.outgoingEdgesOf(2)  // Returns an array of edges whose source nodes are node 2
+graph.incomingEdgesOf(2)  // Returns an array of edges whose target nodes are node 2
 ```
 
 #### Degree of Edge
 
 ```js
-graphs.degreeOf(2) // Degree of node 2
-graphs.inDegreeOf(2) // In-Degree of node 2
-graphs.outDegreeOf(2) // Out-Degree of node 2
+graph.degreeOf(2) // Degree of node 2
+graph.inDegreeOf(2) // In-Degree of node 2
+graph.outDegreeOf(2) // Out-Degree of node 2
 ```
 
 #### Existence Methods
 
 ```js
-graphs.contains(1)   // Contains node 1
-graphs.contains(1, 2, 3)  // Contains all three nodes
+graph.contains(1)   // Contains node 1
+graph.contains(1, 2, 3)  // Contains all three nodes
 
 
 
@@ -175,7 +175,7 @@ undirectedGraph.hasEdge(x, y) === undirectedGraph.hasEdge(y, x)  // true
 
 Some helper functions are included in the `GraphUtil` import.
 
-### Example
+### Examples
 
 ```js
 const {GraphBuilder, GraphUtil} = require('graph-lib')
@@ -198,7 +198,7 @@ GraphUtil.findShortestPath(graph, 1, 2)
 
 Feel free to add issues or suggestions in the repository.
 
-If you'd like to make a change to the code:
+If you'd like to make changes to the graph implementation or for `GraphUtil`:
 
 1) Fork this repository
 
