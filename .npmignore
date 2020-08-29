@@ -121,3 +121,5 @@ test/
 .idea/
 index.ts
 src/
+.eslintrc.json
+tsconfig.json
