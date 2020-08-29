@@ -3,7 +3,8 @@ import { DefaultDictionary, Set } from 'typescript-collections'
 import { AbstractNodeGraph } from './AbstractGraph'
 import { GraphType } from './types/GraphType'
 
-export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInterface<V> {
+export class DirectedGraph<V, E=unknown>
+  extends AbstractNodeGraph<V, E> implements GraphInterface<V, E> {
   getGraphType (): GraphType {
     return GraphType.NonWeightedDirected
   }
@@ -46,8 +47,8 @@ export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInter
     return this.sourceToTarget.getValue(node).size()
   }
 
-  edges (): BasicEdge<V>[] {
-    const copy: BasicEdge<V>[] = []
+  edges (): BasicEdge<V, E>[] {
+    const copy: BasicEdge<V, E>[] = []
     this.sourceToTarget.forEach((source, targets) => {
       targets.forEach((target) => {
         copy.push({ source, target, undirected: false })
@@ -60,16 +61,16 @@ export class DirectedGraph<V> extends AbstractNodeGraph<V> implements GraphInter
     return this.sourceToTarget.getValue(source).contains(target)
   }
 
-  incomingEdgesOf (target: V): BasicEdge<V>[] {
-    const copy: BasicEdge<V>[] = []
+  incomingEdgesOf (target: V): BasicEdge<V, E>[] {
+    const copy: BasicEdge<V, E>[] = []
     this.targetToSource.getValue(target).forEach((source) => {
       copy.push({ source, target, undirected: false })
     })
     return copy
   }
 
-  outgoingEdgesOf (source: V): BasicEdge<V>[] {
-    const copy: BasicEdge<V>[] = []
+  outgoingEdgesOf (source: V): BasicEdge<V, E>[] {
+    const copy: BasicEdge<V, E>[] = []
     this.sourceToTarget.getValue(source).forEach((target) => {
       copy.push({ source, target, undirected: false })
     })

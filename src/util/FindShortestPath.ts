@@ -1,7 +1,7 @@
 import { GraphInterface } from '../types/GraphInterface'
 import { Dictionary, Queue, Set } from 'typescript-collections'
 
-export const findShortestPath = <V> (graph: GraphInterface<V>, start: V, end: V): {
+export const findShortestPath = <V, E> (graph: GraphInterface<V, E>, start: V, end: V): {
   path: V[]
   pathSize: number
 } => {

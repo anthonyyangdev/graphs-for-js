@@ -4,7 +4,7 @@ import { GraphType } from '../types/GraphType'
 
 const startSymbol = Symbol('start')
 
-const hasCycleInUndirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
+const hasCycleInUndirectedGraph = <V, E> (graph: GraphInterface<V, E>): boolean => {
   const toKeyFn = graph.toKeyFn
   // If in the set, then the node has been visited
   const visited = new Set<V>(toKeyFn)
