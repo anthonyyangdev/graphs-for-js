@@ -1,32 +1,35 @@
 import { WeightedUndirectedGraph } from './src/WeightedUndirectedGraph'
 import { UndirectedGraph } from './src/UndirectedGraph'
-import { DirectedGraph } from './src/DirectedGraph'
 import { WeightedDirectedGraph } from './src/WeightedDirectedGraph'
+import { DirectedGraph } from './src/DirectedGraph'
 
 import * as GraphUtility from './src/GraphUtil'
 
-const builder = <V, E>(fn?: (v: V) => string) => {
+export const builder = <V, E>(fn?: (v: V) => string) => {
   return {
+    weighted: {
+      lord: () => new WeightedDirectedGraph<V, E>(fn)
+    },
     directed: {
-      weighted: () => new WeightedDirectedGraph<V, E>(fn),
-      unweighted: () => new DirectedGraph<V>(fn)
+      weighted: (): WeightedDirectedGraph<V, E> => new WeightedDirectedGraph<V, E>(fn),
+      unweighted: (): DirectedGraph<V> => new DirectedGraph<V>(fn)
     },
     undirected: {
-      weighted: () => new WeightedUndirectedGraph<V, E>(fn),
-      unweighted: () => new UndirectedGraph<V>(fn)
+      weighted: (): WeightedUndirectedGraph<V, E> => new WeightedUndirectedGraph<V, E>(fn),
+      unweighted: (): UndirectedGraph<V> => new UndirectedGraph<V>(fn)
     }
   }
 }
 
-module.exports.GraphBuilder = <V=never, E=never> () => {
+export const GraphBuilder = <V=unknown, E=unknown>() => {
   return {
-    withKeyFunction (fn: (v: V) => string) {
+    withKeyFunction: <V, E> (fn: (v: V) => string) => {
       return builder<V, E>(fn)
     },
-    withoutKeyFunction () {
+    withoutKeyFunction: <V> () => {
       return builder<V, E>()
     }
   }
 }
 
-module.exports.GraphUtil = GraphUtility
+export const GraphUtil = GraphUtility
