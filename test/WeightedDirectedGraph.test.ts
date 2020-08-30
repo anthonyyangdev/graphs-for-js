@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { WeightedDirectedGraph } from '../src/mutable/WeightedDirectedGraph'
 import { GraphType } from '../src/types/GraphType'
+import { WeightedDirectedGraph } from '../src/mutable/DirectedGraphs'
 
 describe('Weighted directed graph', function () {
   it('should instantiate', function () {

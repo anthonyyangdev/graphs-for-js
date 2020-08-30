@@ -1,11 +1,9 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { DirectedGraph } from '../../../src/mutable/DirectedGraph'
 import { GraphUtil } from '../../../index'
-import { UndirectedGraph } from '../../../src/mutable/UndirectedGraph'
-import { WeightedDirectedGraph } from '../../../src/mutable/WeightedDirectedGraph'
-import { WeightedUndirectedGraph } from '../../../src/mutable/WeightedUndirectedGraph'
 import { IGeneralNodeGraph } from '../../../src/types/GraphInterface'
+import { UndirectedGraph, WeightedUndirectedGraph } from '../../../src/mutable/UndirectedGraphs'
+import { DirectedGraph, WeightedDirectedGraph } from '../../../src/mutable/DirectedGraphs'
 
 const { stringify } = GraphUtil.json
 

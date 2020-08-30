@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha'
-import { DirectedGraph } from '../../src/mutable/DirectedGraph'
 import { expect } from 'chai'
 import * as GraphUtil from '../../src/GraphUtil'
-import { UndirectedGraph } from '../../src/mutable/UndirectedGraph'
+import { DirectedGraph } from '../../src/mutable/DirectedGraphs'
+import { UndirectedGraph } from '../../src/mutable/UndirectedGraphs'
 
 describe('Check for cycles', function () {
   describe('Directed graphs', function () {
