@@ -1,6 +1,17 @@
 import { GraphInterface } from '../types/GraphInterface'
 import { Dictionary, Queue, Set } from 'typescript-collections'
 
+/**
+ * Finds the shortest path from the given start node to the given end node.
+ *
+ * Returns an array representing the path found, where the first element is the
+ * start node, the last element is the end node, and all elements in between are the
+ * nodes in the path from the start to the end in order.
+ *
+ * Also returns the length of the path, i.e. the number of edges from start to end.
+ *
+ * Returns [] and -1 if no path is found.
+ */
 export const findShortestPath = <V, E> (graph: GraphInterface<V, E>, start: V, end: V): {
   path: V[]
   pathSize: number

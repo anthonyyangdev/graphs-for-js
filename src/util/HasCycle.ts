@@ -71,6 +71,14 @@ const hasCycleInDirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
   return false
 }
 
+/**
+ * Returns true if the given graph has a cycle and false otherwise,
+ * under the following definition of a cycle:
+ *
+ * There is a non-zero length path that starts and ends at a node `n`,
+ * and all edges in this path is unique.
+ *
+ */
 export const hasCycle = <V> (graph: GraphInterface<V>): boolean => {
   const graphType = graph.getGraphType()
   switch (graphType) {

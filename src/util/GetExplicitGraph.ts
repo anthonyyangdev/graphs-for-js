@@ -19,6 +19,17 @@ type CastedType<V, E> = {
   graph: UndirectedGraph<V, E>
 }
 
+/**
+ * Returns an object where the `type` property identifies the type of graph.
+ *
+ * The `graph` property is the same given graph, but casted to the type identified by
+ * the `type` property.
+ *
+ * This function can be used to safely cast a GraphInterface graph and when you are
+ * unsure what implementation is used.
+ *
+ * @param g The graph whose type and implementation is to be checked
+ */
 export const castExplicitly = <V, E> (g: GraphInterface<V, E>): CastedType<V, E> => {
   switch (g.getGraphType()) {
     case GraphType.WeightedDirected:

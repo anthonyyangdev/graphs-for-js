@@ -3,6 +3,9 @@ import { DefaultDictionary, Set } from 'typescript-collections'
 import { AbstractNodeGraph } from './AbstractGraph'
 import { GraphType } from './types/GraphType'
 
+/**
+ * An implementation of a directed graph without weights in its edges.
+ */
 export class DirectedGraph<V, E=unknown>
   extends AbstractNodeGraph<V, E> implements GraphInterface<V, E> {
   getGraphType (): GraphType {

@@ -3,6 +3,9 @@ import { GraphType } from './types/GraphType'
 import { ValueEdge } from './types/GraphInterface'
 import { DefaultDictionary, Set } from 'typescript-collections'
 
+/**
+ * An implementation of an undirected graph that has weights in its edges.
+ */
 export class WeightedUndirectedGraph<V, E> extends WeightedDirectedGraph<V, E> {
   constructor (toKeyFn?: (v: V) => string) {
     super(toKeyFn)

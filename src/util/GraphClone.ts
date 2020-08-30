@@ -6,6 +6,12 @@ import { DirectedGraph } from '../DirectedGraph'
 import { WeightedUndirectedGraph } from '../WeightedUndirectedGraph'
 import { UndirectedGraph } from '../UndirectedGraph'
 
+/**
+ * Creates a clone of the given graph. The clone is a new graph object instance that
+ * has the same, graph type implementation, nodes, and edges as the given graph.
+ *
+ * @param g
+ */
 export const clone = <V, E> (g: GraphInterface<V, E>) => {
   /**
    * 1) Get the graph type using casting
@@ -13,8 +19,8 @@ export const clone = <V, E> (g: GraphInterface<V, E>) => {
    * 3) Load all nodes and connect all edges, with the correct values.
    */
   let clonedGraph: GraphInterface<V, E>
-  const casted = castExplicitly(g)
-  switch (casted.type) {
+  const { type } = castExplicitly(g)
+  switch (type) {
     case GraphType.WeightedDirected:
       clonedGraph = new WeightedDirectedGraph<V, E>(g.toKeyFn); break
     case GraphType.NonWeightedDirected:

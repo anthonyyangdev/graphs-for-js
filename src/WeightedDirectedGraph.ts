@@ -5,6 +5,9 @@ import { GraphType } from './types/GraphType'
 
 type EdgeValueWrapper<E> = { value: E }
 
+/**
+ * An implementation of a directed graph that has weights in its edges.
+ */
 export class WeightedDirectedGraph<V, E>
   extends AbstractNodeGraph<V, E>
   implements ValueGraph<V, E> {

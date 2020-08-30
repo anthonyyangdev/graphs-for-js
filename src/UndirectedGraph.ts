@@ -3,6 +3,9 @@ import { BasicEdge } from './types/GraphInterface'
 import { Set, DefaultDictionary } from 'typescript-collections'
 import { GraphType } from './types/GraphType'
 
+/**
+ * An implementation of an undirected graph without weights in its edges.
+ */
 export class UndirectedGraph<V, E=unknown> extends DirectedGraph<V, E> {
   constructor (toKey?: (v: V) => string) {
     super(toKey)
