@@ -19,11 +19,19 @@
   "license": "ISC",
   "keywords": [
     "nodes",
-    "graph",
-    "vertex",
-    "edge",
+    "graph", "graphs",
+    "vertex", "vertices",
+    "edge", "edges",
     "algorithm",
-    "data structure"
+    "data structure",
+    "weights",
+    "cycle",
+    "path finding",
+    "shortest path",
+    "directed",
+    "undirected",
+    "javascript",
+    "typescript"
   ],
   "nyc": {
     "extension": [
