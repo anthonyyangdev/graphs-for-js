@@ -2,6 +2,8 @@ import { IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
 import { DirectedGraph, WeightedDirectedGraph } from '../mutable/DirectedGraphs'
 import { UndirectedGraph, WeightedUndirectedGraph } from '../mutable/UndirectedGraphs'
+import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from '../readonly/ImmutableUndirectedGraphs'
+import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from '../readonly/ImmutableDirectedGraphs'
 
 type CastedType<V, E> = {
   type: GraphType.WeightedDirected,
@@ -15,6 +17,18 @@ type CastedType<V, E> = {
 } | {
   type: GraphType.NonWeightedUndirected,
   graph: UndirectedGraph<V, E>
+} | {
+  type: GraphType.ReadonlyWeightedUndirected
+  graph: ReadonlyWeightedUndirectedGraph<V, E>
+} | {
+  type: GraphType.ReadonlyWeightedDirected
+  graph: ReadonlyWeightedDirectedGraph<V, E>
+} | {
+  type: GraphType.ReadonlyNonWeightedDirected
+  graph: ReadonlyDirectedGraph<V, E>
+} | {
+  type: GraphType.ReadonlyNonWeightedUndirected
+  graph: ReadonlyUndirectedGraph<V, E>
 }
 
 /**
@@ -29,28 +43,39 @@ type CastedType<V, E> = {
  * @param g The graph whose type and implementation is to be checked
  */
 export const castExplicitly = <V, E> (g: IReadonlyGeneralNodeGraph<V, E>): CastedType<V, E> => {
-  switch (g.getGraphType()) {
+  const type = g.getGraphType()
+  switch (type) {
+    case GraphType.ReadonlyWeightedDirected:
+      return {
+        type, graph: g as unknown as ReadonlyWeightedDirectedGraph<V, E>
+      }
+    case GraphType.ReadonlyNonWeightedDirected:
+      return {
+        type, graph: g as unknown as ReadonlyWeightedDirectedGraph<V, E>
+      }
+    case GraphType.ReadonlyWeightedUndirected:
+      return {
+        type, graph: g as unknown as ReadonlyWeightedUndirectedGraph<V, E>
+      }
+    case GraphType.ReadonlyNonWeightedUndirected:
+      return {
+        type, graph: g as unknown as ReadonlyUndirectedGraph<V, E>
+      }
     case GraphType.WeightedDirected:
       return {
-        type: GraphType.WeightedDirected,
-        graph: g as WeightedDirectedGraph<V, E>
+        type, graph: g as WeightedDirectedGraph<V, E>
       }
     case GraphType.NonWeightedDirected:
       return {
-        type: GraphType.NonWeightedDirected,
-        graph: g as unknown as DirectedGraph<V, E>
+        type, graph: g as unknown as DirectedGraph<V, E>
       }
     case GraphType.WeightedUndirected:
       return {
-        type: GraphType.WeightedUndirected,
-        graph: g as WeightedUndirectedGraph<V, E>
+        type, graph: g as WeightedUndirectedGraph<V, E>
       }
     case GraphType.NonWeightedUndirected:
       return {
-        type: GraphType.NonWeightedUndirected,
-        graph: g as unknown as UndirectedGraph<V, E>
+        type, graph: g as unknown as UndirectedGraph<V, E>
       }
-    default:
-      throw new Error('No case found')
   }
 }

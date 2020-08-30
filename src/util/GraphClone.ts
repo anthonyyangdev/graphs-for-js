@@ -20,14 +20,17 @@ export const clone = <V, E> (g: IReadonlyGeneralNodeGraph<V, E>) => {
   const { type } = castExplicitly(g)
   switch (type) {
     case GraphType.WeightedDirected:
+    case GraphType.ReadonlyWeightedDirected:
       clonedGraph = new WeightedDirectedGraph<V, E>(g.toKeyFn); break
     case GraphType.NonWeightedDirected:
+    case GraphType.ReadonlyNonWeightedDirected:
       clonedGraph = new DirectedGraph<V, E>(g.toKeyFn); break
     case GraphType.WeightedUndirected:
+    case GraphType.ReadonlyWeightedUndirected:
       clonedGraph = new WeightedUndirectedGraph<V, E>(g.toKeyFn); break
     case GraphType.NonWeightedUndirected:
+    case GraphType.ReadonlyNonWeightedUndirected:
       clonedGraph = new UndirectedGraph<V, E>(g.toKeyFn); break
-    default: throw new Error('This case for clone has not been implemented')
   }
   const nodes = g.nodes()
   const edges = g.edges()
