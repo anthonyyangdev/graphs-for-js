@@ -33,10 +33,14 @@ export class WeightedDirectedGraph<V, E>
 
   connect (source: V, target: V, value: E): boolean {
     if (this.graphNodes.contains(source) && this.graphNodes.contains(target)) {
-      this.sourceToTarget.getValue(source).setValue(target, { value })
-      this.targetToSource.getValue(target).setValue(source, { value })
-      return true
-    } else return false
+      const currentValue = this.sourceToTarget.getValue(source).getValue(target)
+      if (currentValue === undefined || currentValue.value !== value) {
+        this.sourceToTarget.getValue(source).setValue(target, { value })
+        this.targetToSource.getValue(target).setValue(source, { value })
+        return true
+      }
+    }
+    return false
   }
 
   disconnect (source: V, target: V, value?: E): boolean {

@@ -35,9 +35,28 @@ describe('Weighted directed graph', function () {
     graph.insert(0, 1)
     graph.connect(0, 1, 10)
     expect(graph.hasEdge(0, 1, 10)).to.be.true
+
     expect(graph.connect(0, 1, 15)).to.be.true
     expect(graph.hasEdge(0, 1, 10)).to.be.false
     expect(graph.hasEdge(0, 1, 15)).to.be.true
+  })
+
+  it('should return false for no modification', function () {
+    const graph = new WeightedDirectedGraph<number, number>()
+    graph.insert(0, 1)
+    expect(graph.connect(0, 2, 0.5)).is.false
+    expect(graph.connect(0, 1, 1)).is.true
+    expect(graph.connect(0, 1, 1)).is.false
+  })
+
+  it('should return false when disconnecting nonexistent node pairs', function () {
+    const graph = new WeightedDirectedGraph<number, number>()
+    graph.insert(0, 1)
+    graph.connect(0, 1, 0.5)
+    expect(graph.disconnect(0, 2)).is.false
+    expect(graph.contains(0)).is.true
+    expect(graph.disconnect(0, 1, 0.75)).is.false
+    expect(graph.disconnect(0, 1)).is.true
   })
 
   it('should get the value of an edge', function () {
