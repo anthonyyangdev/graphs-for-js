@@ -1,6 +1,6 @@
 import { IReadonlyGeneralNodeGraph, IReadonlyWeightedGraph, ValueEdge } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
-import { AbstractReadonlyDirectedGraph, NoEdgeWeight } from './AbstractReadonlyDirectedGraph'
+import { AbstractReadonlyDirectedGraph } from './AbstractReadonlyDirectedGraph'
 
 export class ReadonlyDirectedGraph<V, E=unknown>
   extends AbstractReadonlyDirectedGraph<V, E>

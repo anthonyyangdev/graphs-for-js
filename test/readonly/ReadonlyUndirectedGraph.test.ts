@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from '../../src/readonly/ImmutableDirectedGraphs'
 import { GraphType } from '../../src/types/GraphType'
 import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from '../../src/readonly/ImmutableUndirectedGraphs'
 

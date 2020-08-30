@@ -1,7 +1,5 @@
-import { BasicEdge, IReadonlyGeneralNodeGraph, IReadonlyWeightedGraph, ValueEdge } from '../types/GraphInterface'
+import { IReadonlyGeneralNodeGraph, IReadonlyWeightedGraph, ValueEdge } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
-import { AbstractReadonlyDirectedGraph, NoEdgeWeight } from './AbstractReadonlyDirectedGraph'
-import { DefaultDictionary, Set } from 'typescript-collections'
 import { AbstractReadonlyUndirectedGraph } from './AbstractReadonlyUndirectedGraph'
 
 export class ReadonlyUndirectedGraph<V, E=unknown>
