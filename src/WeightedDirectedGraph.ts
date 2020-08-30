@@ -7,6 +7,9 @@ type EdgeValueWrapper<E> = { value: E }
 
 /**
  * An implementation of a directed graph that has weights in its edges.
+ *
+ * @implements ValueGraph<V, E>
+ *
  */
 export class WeightedDirectedGraph<V, E>
   extends AbstractNodeGraph<V, E>
