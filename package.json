@@ -11,7 +11,9 @@
     "prepare": "tsc",
     "clean": "rm -rf ./dist"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/"},
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "author": {
     "name": "Anthony Yang",
     "email": "ayang4114@gmail.com"
@@ -20,10 +22,21 @@
   "keywords": [
     "nodes",
     "graph",
+    "graphs",
     "vertex",
+    "vertices",
     "edge",
+    "edges",
     "algorithm",
-    "data structure"
+    "data structure",
+    "weights",
+    "cycle",
+    "path finding",
+    "shortest path",
+    "directed",
+    "undirected",
+    "javascript",
+    "typescript"
   ],
   "nyc": {
     "extension": [

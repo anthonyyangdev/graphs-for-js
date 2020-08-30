@@ -3,6 +3,7 @@ import * as FindShortestPath from './util/FindShortestPath'
 import * as j from './util/json'
 import * as caster from './util/GetExplicitGraph'
 import * as cloner from './util/GraphClone'
+import * as functionalFn from './util/functional'
 
 export const hasCycle = HasCycle.hasCycle
 
@@ -16,3 +17,7 @@ export const json = {
 export const castGraph = caster.castExplicitly
 
 export const clone = cloner.clone
+
+export const functional = {
+  ...functionalFn
+}

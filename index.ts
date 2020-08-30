@@ -1,4 +1,3 @@
-
 import * as GraphUtility from './src/GraphUtil'
 import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from './src/readonly/ImmutableDirectedGraphs'
 import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from './src/readonly/ImmutableUndirectedGraphs'
@@ -59,3 +58,5 @@ export const GraphBuilder = <V, E=unknown>() => {
  * such as cloning and parsing a graph from JSON.
  */
 export const GraphUtil = GraphUtility
+
+export { GraphType } from './src/types/GraphType'
