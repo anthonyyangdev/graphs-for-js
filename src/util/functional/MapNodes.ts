@@ -1,10 +1,10 @@
-import { IGeneralNodeGraph, IReadonlyWeightedGraph } from '../../types/GraphInterface'
+import { IGeneralNodeGraph, IReadonlyGeneralNodeGraph, IReadonlyWeightedGraph } from '../../types/GraphInterface'
 import { GraphType } from '../../types/GraphType'
-import { WeightedDirectedGraph } from '../../mutable/DirectedGraphs'
-import { WeightedUndirectedGraph } from '../../mutable/UndirectedGraphs'
+import { DirectedGraph, WeightedDirectedGraph } from '../../mutable/DirectedGraphs'
+import { UndirectedGraph, WeightedUndirectedGraph } from '../../mutable/UndirectedGraphs'
 
 export const mapNodes = <V, E, N> (
-  g: IReadonlyWeightedGraph<V, E>,
+  g: IReadonlyGeneralNodeGraph<V, E>,
   callback: (v: V) => N,
   newKeyFunction?: (n: N) => string
 ) => {
@@ -15,15 +15,19 @@ export const mapNodes = <V, E, N> (
   switch (g.getGraphType()) {
     case GraphType.WeightedDirected:
     case GraphType.ReadonlyWeightedDirected:
+      clone = new WeightedDirectedGraph<N, E>(newKeyFunction)
+      break
     case GraphType.NonWeightedDirected:
     case GraphType.ReadonlyNonWeightedDirected:
-      clone = new WeightedDirectedGraph<N, E>(newKeyFunction)
+      clone = new DirectedGraph<N, E>(newKeyFunction)
       break
     case GraphType.WeightedUndirected:
     case GraphType.ReadonlyWeightedUndirected:
+      clone = new WeightedUndirectedGraph<N, E>(newKeyFunction)
+      break
     case GraphType.NonWeightedUndirected:
     case GraphType.ReadonlyNonWeightedUndirected:
-      clone = new WeightedUndirectedGraph<N, E>(newKeyFunction)
+      clone = new UndirectedGraph<N, E>(newKeyFunction)
       break
   }
   clone.insert(...nodes.map(n => callback(n)))
