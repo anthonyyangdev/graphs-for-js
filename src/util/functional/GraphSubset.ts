@@ -4,6 +4,17 @@ import { DirectedGraph, WeightedDirectedGraph } from '../../mutable/DirectedGrap
 import { UndirectedGraph, WeightedUndirectedGraph } from '../../mutable/UndirectedGraphs'
 import { Set } from 'typescript-collections'
 
+/**
+ * Creates a new graph that is a subset of the given graph.
+ *
+ * The new graph contains all of the given nodes from the previous graph if they exist.
+ *
+ * For every edge in the given graph, if the source and target nodes of that edge is
+ * contained in the new graph, then that edge and its weight is added to the new graph.
+ *
+ * @param g
+ * @param nodes
+ */
 export const subsetNode = <V, E> (
   g: IReadonlyGeneralNodeGraph<V, E>,
   nodes: V[]

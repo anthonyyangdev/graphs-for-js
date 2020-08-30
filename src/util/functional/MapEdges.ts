@@ -3,6 +3,13 @@ import { GraphType } from '../../types/GraphType'
 import { WeightedDirectedGraph } from '../../mutable/DirectedGraphs'
 import { WeightedUndirectedGraph } from '../../mutable/UndirectedGraphs'
 
+/**
+ * Creates a new graph that maps the edge values in a given graph to new values determined
+ * by the given callback function.
+ *
+ * @param g
+ * @param callback
+ */
 export const mapEdges = <V, E, R> (g: IReadonlyWeightedGraph<V, E>, callback: (e: E) => R) => {
   const edges = g.edges()
   const nodes = g.nodes()

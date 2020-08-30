@@ -11,7 +11,9 @@
     "prepare": "tsc",
     "clean": "rm -rf ./dist"
   },
-  "publishConfig": { "registry": "https://registry.npmjs.org/"},
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "author": {
     "name": "Anthony Yang",
     "email": "ayang4114@gmail.com"
@@ -19,9 +21,12 @@
   "license": "ISC",
   "keywords": [
     "nodes",
-    "graph", "graphs",
-    "vertex", "vertices",
-    "edge", "edges",
+    "graph",
+    "graphs",
+    "vertex",
+    "vertices",
+    "edge",
+    "edges",
     "algorithm",
     "data structure",
     "weights",

@@ -23,6 +23,14 @@ export class WeightedUndirectedGraph<V, E>
     super(fn)
   }
 
+  connect (source: V, target: V, value: E): boolean {
+    return super.connect(source, target, value)
+  }
+
+  disconnect (source: V, target: V, value?: E): boolean {
+    return super.disconnect(source, target, value)
+  }
+
   getEdgeValue (source: V, target: V): E | undefined {
     const value = this.sourceToTarget.getValue(source).getValue(target)
     if (value === NoEdgeWeight) return undefined
