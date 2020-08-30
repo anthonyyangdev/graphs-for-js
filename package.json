@@ -11,7 +11,7 @@
     "prepare": "tsc",
     "clean": "rm -rf ./dist"
   },
-  "publishConfig": { "registry": "https://registry.npmjs.org/"},
+  "publishConfig": { "registry": "https://npm.pkg.github.com/"},
   "author": {
     "name": "Anthony Yang",
     "email": "ayang4114@gmail.com"
