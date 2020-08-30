@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { AbstractMutableDirectedGraph } from '../src/mutable/AbstractMutableDirectedGraph'
-import { DirectedGraph } from '../src/mutable/DirectedGraph'
+import { DirectedGraph } from '../src/mutable/DirectedGraphs'
 
 /**
  * Creates a directed graph.
