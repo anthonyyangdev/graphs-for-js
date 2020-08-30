@@ -1,13 +1,13 @@
-import { BasicEdge, GraphInterface } from './types/GraphInterface'
+import { BasicEdge, IGeneralNodeGraph } from './types/GraphInterface'
 import { DefaultDictionary, Set } from 'typescript-collections'
-import { AbstractNodeGraph } from './AbstractGraph'
+import { AbstractNodeGraph } from './AbstractNodeGraph'
 import { GraphType } from './types/GraphType'
 
 /**
  * An implementation of a directed graph without weights in its edges.
  */
 export class DirectedGraph<V, E=unknown>
-  extends AbstractNodeGraph<V, E> implements GraphInterface<V, E> {
+  extends AbstractNodeGraph<V, E> implements IGeneralNodeGraph<V, E> {
   getGraphType (): GraphType {
     return GraphType.NonWeightedDirected
   }

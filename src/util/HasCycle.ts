@@ -1,10 +1,10 @@
-import { GraphInterface } from '../types/GraphInterface'
+import { IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { Set } from 'typescript-collections'
 import { GraphType } from '../types/GraphType'
 
 const startSymbol = Symbol('start')
 
-const hasCycleInUndirectedGraph = <V, E> (graph: GraphInterface<V, E>): boolean => {
+const hasCycleInUndirectedGraph = <V, E> (graph: IReadonlyGeneralNodeGraph<V, E>): boolean => {
   const toKeyFn = graph.toKeyFn
   // If in the set, then the node has been visited
   const visited = new Set<V>(toKeyFn)
@@ -34,7 +34,7 @@ const hasCycleInUndirectedGraph = <V, E> (graph: GraphInterface<V, E>): boolean 
   return false
 }
 
-const hasCycleInDirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
+const hasCycleInDirectedGraph = <V> (graph: IReadonlyGeneralNodeGraph<V>): boolean => {
   const visited = new Set<V>(graph.toKeyFn)
   const nodesOnStack = new Set<V>(graph.toKeyFn)
   const recursionStack: V[] = []
@@ -79,7 +79,7 @@ const hasCycleInDirectedGraph = <V> (graph: GraphInterface<V>): boolean => {
  * and all edges in this path is unique.
  *
  */
-export const hasCycle = <V> (graph: GraphInterface<V>): boolean => {
+export const hasCycle = <V> (graph: IReadonlyGeneralNodeGraph<V>): boolean => {
   const graphType = graph.getGraphType()
   switch (graphType) {
     case GraphType.NonWeightedDirected:

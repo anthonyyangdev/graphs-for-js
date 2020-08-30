@@ -11,7 +11,7 @@ export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
 }
 
-export interface ReadonlyGraphInterface<V, E=unknown> {
+export interface IReadonlyGeneralNodeGraph<V, E=unknown> {
 
   /**
    * The given Key Function used by the graph to determine the identity and uniqueness
@@ -97,10 +97,44 @@ export interface ReadonlyGraphInterface<V, E=unknown> {
    * @param target
    */
   hasEdge: (source: V, target: V, value?: any) => boolean
+
 }
 
-export interface GraphInterface<V, E=unknown> extends ReadonlyGraphInterface<V, E> {
+interface IReadonlyWeightedGraph<V, E> extends IReadonlyGeneralNodeGraph<V, E> {
 
+  /**
+   * Return true if edge from source to target exists, otherwise false.
+   * If value is given, then the value of the edge in the graph must also equal
+   * that value to return true.
+   * @param source
+   * @param target
+   */
+  hasEdge: (source: V, target: V, value?: E) => boolean
+
+  /**
+   * Return an array of all incoming edges into the given node.
+   * @param node
+   */
+  incomingEdgesOf: (node: V) => ValueEdge<V, E>[]
+
+  /**
+   * Return an array of all outgoing edges from the given node.
+   * @param node
+   */
+  outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
+
+  /**
+   * Return an array of all edges in the graph.
+   */
+  edges: () => ValueEdge<V, E>[]
+
+  /**
+   * Returns the value of an edge, if it exists.
+   */
+  getEdgeValue: (source: V, target: V) => E | undefined
+}
+
+export interface IMutableGraph<V, E=unknown> {
   /**
    * Add nodes to the graph.
    * Return the number of nodes added.
@@ -132,57 +166,28 @@ export interface GraphInterface<V, E=unknown> extends ReadonlyGraphInterface<V, 
   disconnect: (source: V, target: V, value?: any) => boolean
 }
 
-export interface ValueGraph<V, E> extends GraphInterface<V, E>{
+export interface IGeneralNodeGraph<V, E=unknown>
+  extends IReadonlyGeneralNodeGraph<V, E>, IMutableGraph<V, E> {}
+
+export interface IWeightedGraph<V, E>
+  extends IReadonlyWeightedGraph<V, E>, IMutableGraph<V, E> {
 
   /**
-   * Create an edge from the source node to the target node with a given weight value.
-   * Return true if the edges in the graph changes, i.e. a new edge is created
-   * or an edge has its value changed. Return false otherwise.
+   * Create an edge from the source node to the target node.
+   * Return true if a new edge is created, otherwise false.
    * @param source
    * @param target
    */
   connect: (source: V, target: V, value: E) => boolean
 
   /**
-   * Return true if edge from source to target exists, otherwise false.
-   * If value is given, then the value of the edge in the graph must also equal
-   * that value to return true.
-   * @param source
-   * @param target
-   */
-  hasEdge: (source: V, target: V, value?: E) => boolean
-
-  /**
    * Remove the edge from source to target.
    * Return true if an edge is removed, otherwise false.
    *
-   * If a value is given, then the value of the edge in the graph must also equal
-   * the given value to be removed.
-   *
+   * If a value is given, then the edge is removed if and only if the value of the
+   * edge in the graph is equal to the given value.
    * @param source
    * @param target
    */
   disconnect: (source: V, target: V, value?: E) => boolean
-
-  /**
-   * Return an array of all incoming edges into the given node.
-   * @param node
-   */
-  incomingEdgesOf: (node: V) => ValueEdge<V, E>[]
-
-  /**
-   * Return an array of all outgoing edges from the given node.
-   * @param node
-   */
-  outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
-
-  /**
-   * Return an array of all edges in the graph.
-   */
-  edges: () => ValueEdge<V, E>[]
-
-  /**
-   * Returns the value of an edge, if it exists.
-   */
-  getEdgeValue: (source: V, target: V) => E | undefined
 }

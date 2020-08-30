@@ -1,4 +1,4 @@
-import { GraphInterface } from '../types/GraphInterface'
+import { IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { Dictionary, Queue, Set } from 'typescript-collections'
 
 /**
@@ -12,7 +12,7 @@ import { Dictionary, Queue, Set } from 'typescript-collections'
  *
  * Returns [] and -1 if no path is found.
  */
-export const findShortestPath = <V, E> (graph: GraphInterface<V, E>, start: V, end: V): {
+export const findShortestPath = <V, E> (graph: IReadonlyGeneralNodeGraph<V, E>, start: V, end: V): {
   path: V[]
   pathSize: number
 } => {

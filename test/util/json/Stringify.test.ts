@@ -5,13 +5,13 @@ import { GraphUtil } from '../../../index'
 import { UndirectedGraph } from '../../../src/UndirectedGraph'
 import { WeightedDirectedGraph } from '../../../src/WeightedDirectedGraph'
 import { WeightedUndirectedGraph } from '../../../src/WeightedUndirectedGraph'
-import { GraphInterface } from '../../../src/types/GraphInterface'
+import { IGeneralNodeGraph } from '../../../src/types/GraphInterface'
 
 const { stringify } = GraphUtil.json
 
 describe('Test stringify', function () {
   it('should stringify empty graph', function () {
-    let graph: GraphInterface<number> = new DirectedGraph<number>()
+    let graph: IGeneralNodeGraph<number> = new DirectedGraph<number>()
     let json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true

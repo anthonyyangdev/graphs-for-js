@@ -1,4 +1,4 @@
-import { GraphInterface } from '../types/GraphInterface'
+import { IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
 import { WeightedDirectedGraph } from '../WeightedDirectedGraph'
 import { DirectedGraph } from '../DirectedGraph'
@@ -30,7 +30,7 @@ type CastedType<V, E> = {
  *
  * @param g The graph whose type and implementation is to be checked
  */
-export const castExplicitly = <V, E> (g: GraphInterface<V, E>): CastedType<V, E> => {
+export const castExplicitly = <V, E> (g: IReadonlyGeneralNodeGraph<V, E>): CastedType<V, E> => {
   switch (g.getGraphType()) {
     case GraphType.WeightedDirected:
       return {

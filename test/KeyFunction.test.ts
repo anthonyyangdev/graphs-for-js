@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { AbstractNodeGraph } from '../src/AbstractGraph'
+import { AbstractNodeGraph } from '../src/AbstractNodeGraph'
 import { DirectedGraph } from '../src/DirectedGraph'
 
 /**

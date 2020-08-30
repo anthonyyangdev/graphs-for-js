@@ -1,4 +1,4 @@
-import { GraphInterface } from '../types/GraphInterface'
+import { IGeneralNodeGraph, IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { castExplicitly } from './GetExplicitGraph'
 import { GraphType } from '../types/GraphType'
 import { WeightedDirectedGraph } from '../WeightedDirectedGraph'
@@ -12,13 +12,13 @@ import { UndirectedGraph } from '../UndirectedGraph'
  *
  * @param g
  */
-export const clone = <V, E> (g: GraphInterface<V, E>) => {
+export const clone = <V, E> (g: IReadonlyGeneralNodeGraph<V, E>) => {
   /**
    * 1) Get the graph type using casting
    * 2) Instantiate the correct graph
    * 3) Load all nodes and connect all edges, with the correct values.
    */
-  let clonedGraph: GraphInterface<V, E>
+  let clonedGraph: IGeneralNodeGraph<V, E>
   const { type } = castExplicitly(g)
   switch (type) {
     case GraphType.WeightedDirected:
