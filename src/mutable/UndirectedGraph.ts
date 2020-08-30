@@ -1,7 +1,7 @@
 import { DirectedGraph } from './DirectedGraph'
-import { BasicEdge } from './types/GraphInterface'
+import { BasicEdge } from '../types/GraphInterface'
 import { Set, DefaultDictionary } from 'typescript-collections'
-import { GraphType } from './types/GraphType'
+import { GraphType } from '../types/GraphType'
 
 /**
  * An implementation of an undirected graph without weights in its edges.

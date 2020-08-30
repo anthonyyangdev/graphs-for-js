@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { GraphUtil } from '../../../index'
 import { expect } from 'chai'
 import { GraphType } from '../../../src/types/GraphType'
-import { WeightedUndirectedGraph } from '../../../src/WeightedUndirectedGraph'
+import { WeightedUndirectedGraph } from '../../../src/mutable/WeightedUndirectedGraph'
 
 const { parse } = GraphUtil.json
 

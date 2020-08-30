@@ -1,12 +1,12 @@
 
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { DirectedGraph } from '../../src/DirectedGraph'
+import { DirectedGraph } from '../../src/mutable/DirectedGraph'
 import { GraphUtil } from '../../index'
-import { WeightedUndirectedGraph } from '../../src/WeightedUndirectedGraph'
-import { UndirectedGraph } from '../../src/UndirectedGraph'
+import { WeightedUndirectedGraph } from '../../src/mutable/WeightedUndirectedGraph'
+import { UndirectedGraph } from '../../src/mutable/UndirectedGraph'
 import { GraphType } from '../../src/types/GraphType'
-import { WeightedDirectedGraph } from '../../src/WeightedDirectedGraph'
+import { WeightedDirectedGraph } from '../../src/mutable/WeightedDirectedGraph'
 
 describe('Clones a graph as a completely new object', function () {
   it('should clone a directed graph', function () {

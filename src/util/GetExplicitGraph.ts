@@ -1,9 +1,9 @@
 import { IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
-import { WeightedDirectedGraph } from '../WeightedDirectedGraph'
-import { DirectedGraph } from '../DirectedGraph'
-import { WeightedUndirectedGraph } from '../WeightedUndirectedGraph'
-import { UndirectedGraph } from '../UndirectedGraph'
+import { WeightedDirectedGraph } from '../mutable/WeightedDirectedGraph'
+import { DirectedGraph } from '../mutable/DirectedGraph'
+import { WeightedUndirectedGraph } from '../mutable/WeightedUndirectedGraph'
+import { UndirectedGraph } from '../mutable/UndirectedGraph'
 
 type CastedType<V, E> = {
   type: GraphType.WeightedDirected,

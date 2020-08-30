@@ -1,6 +1,6 @@
 import { WeightedDirectedGraph } from './WeightedDirectedGraph'
-import { GraphType } from './types/GraphType'
-import { ValueEdge } from './types/GraphInterface'
+import { GraphType } from '../types/GraphType'
+import { ValueEdge } from '../types/GraphInterface'
 import { DefaultDictionary, Set } from 'typescript-collections'
 
 /**

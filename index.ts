@@ -1,7 +1,7 @@
-import { WeightedUndirectedGraph } from './src/WeightedUndirectedGraph'
-import { UndirectedGraph } from './src/UndirectedGraph'
-import { WeightedDirectedGraph } from './src/WeightedDirectedGraph'
-import { DirectedGraph } from './src/DirectedGraph'
+import { WeightedUndirectedGraph } from './src/mutable/WeightedUndirectedGraph'
+import { UndirectedGraph } from './src/mutable/UndirectedGraph'
+import { WeightedDirectedGraph } from './src/mutable/WeightedDirectedGraph'
+import { DirectedGraph } from './src/mutable/DirectedGraph'
 
 import * as GraphUtility from './src/GraphUtil'
 

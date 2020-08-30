@@ -1,7 +1,7 @@
-import { ValueEdge, IWeightedGraph } from './types/GraphInterface'
+import { ValueEdge, IWeightedGraph } from '../types/GraphInterface'
 import { DefaultDictionary, Dictionary } from 'typescript-collections'
 import { AbstractNodeGraph } from './AbstractNodeGraph'
-import { GraphType } from './types/GraphType'
+import { GraphType } from '../types/GraphType'
 
 type EdgeValueWrapper<E> = { value: E }
 
