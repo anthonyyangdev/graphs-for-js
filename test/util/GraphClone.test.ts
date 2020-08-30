@@ -4,6 +4,9 @@ import { expect } from 'chai'
 import { DirectedGraph } from '../../src/DirectedGraph'
 import { GraphUtil } from '../../index'
 import { WeightedUndirectedGraph } from '../../src/WeightedUndirectedGraph'
+import { UndirectedGraph } from '../../src/UndirectedGraph'
+import { GraphType } from '../../src/types/GraphType'
+import { WeightedDirectedGraph } from '../../src/WeightedDirectedGraph'
 
 describe('Clones a graph as a completely new object', function () {
   it('should clone a directed graph', function () {
@@ -42,5 +45,27 @@ describe('Clones a graph as a completely new object', function () {
     expect(clone.hasEdge(3, 2, 'second')).is.true
     expect(clone.nodes()).deep.equals(graph.nodes())
     expect(clone.edges()).deep.equals(graph.edges())
+  })
+
+  it('should clone undirected graphs', function () {
+    const graph = new UndirectedGraph<number>()
+    graph.insert(0, 1, 2)
+    graph.connect(0, 1)
+    graph.connect(1, 2)
+    const cloned = GraphUtil.clone(graph)
+    expect(cloned.getGraphType()).equals(GraphType.NonWeightedUndirected)
+    expect(cloned.nodes()).deep.equals(graph.nodes())
+    expect(cloned.edges()).deep.equals(graph.edges())
+  })
+
+  it('should clone directed graphs with weights', function () {
+    const graph = new WeightedDirectedGraph<number, number>()
+    graph.insert(0, 1, 2)
+    graph.connect(0, 1, 0.3)
+    graph.connect(1, 2, 0.6)
+    const cloned = GraphUtil.clone(graph)
+    expect(cloned.getGraphType()).equals(GraphType.WeightedDirected)
+    expect(cloned.nodes()).deep.equals(graph.nodes())
+    expect(cloned.edges()).deep.equals(graph.edges())
   })
 })

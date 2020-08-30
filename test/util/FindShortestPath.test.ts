@@ -6,6 +6,15 @@ import { UndirectedGraph } from '../../src/UndirectedGraph'
 
 describe('Test find path algorithm', function () {
   describe('Directed graph', function () {
+    it('should return no path result if nodes do not exist', function () {
+      const graph = new DirectedGraph<number>()
+      graph.insert(0, 1, 2)
+      graph.connect(0, 1); graph.connect(1, 2)
+      const result = GraphUtil.findShortestPath(graph, -1, 3)
+      expect(result.pathSize).equals(-1)
+      expect(result.path).deep.equals([])
+    })
+
     it('should find path for straight line', function () {
       const graph = new DirectedGraph<number>()
       const nodes = [0, 1, 2, 3]

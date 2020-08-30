@@ -75,5 +75,39 @@ describe('Weighted directed graph', function () {
     expect(outgoing.every(e => !e.undirected)).is.true
     expect(outgoing.length).equals(1)
     expect(outgoing[0].value).equals('hello world')
+
+    const incoming = graph.incomingEdgesOf(node1)
+    expect(incoming.length).equals(0)
+
+    expect(graph.incomingEdgesOf(node2).every(e => !e.undirected)).is.true
+    expect(graph.incomingEdgesOf(node2).length).equals(1)
+    expect(graph.incomingEdgesOf(node2)[0]).deep.equals(outgoing[0])
+  })
+
+  it('should remove values', function () {
+    const graph = new WeightedDirectedGraph<number, number>()
+    graph.insert(0, 1, 2)
+    expect(graph.remove(1, 1, 1, 1, 1, 1)).equals(1)
+    expect(graph.remove(3, 4, 5, 6)).equals(0)
+    expect(graph.remove(0, 2)).equals(2)
+
+    expect(graph.count()).equals(0).equals(graph.nodes().length)
+  })
+
+  it('should return the correct degree values', function () {
+    const graph = new WeightedDirectedGraph<number, number>()
+    graph.insert(0, 1, 2, 3)
+    graph.connect(0, 1, 0.5)
+    graph.connect(0, 2, 0.5)
+    graph.connect(3, 0, 0.75)
+
+    expect(graph.degreeOf(0)).equals(3)
+    expect(graph.outDegreeOf(0)).equals(2)
+    expect(graph.inDegreeOf(0)).equals(1)
+
+    graph.remove(0)
+    expect(graph.degreeOf(1)).equals(0)
+    expect(graph.degreeOf(2)).equals(0)
+    expect(graph.degreeOf(3)).equals(0)
   })
 })
