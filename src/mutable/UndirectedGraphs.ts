@@ -17,7 +17,7 @@ export class UndirectedGraph<V, E=unknown>
 }
 
 export class WeightedUndirectedGraph<V, E>
-  extends AbstractMutableDirectedGraph<V, E>
+  extends AbstractMutableUndirectedGraph<V, E>
   implements IWeightedGraph<V, E> {
   constructor (fn?: (v: V) => string) {
     super(fn)

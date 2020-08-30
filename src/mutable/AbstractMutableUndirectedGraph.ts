@@ -11,6 +11,11 @@ export abstract class AbstractMutableUndirectedGraph<V, E=unknown>
     super(toKey)
   }
 
+  degreeOf (node: V): number {
+    const edges = this.sourceToTarget.getValue(node)
+    return edges.size() + (edges.containsKey(node) ? 1 : 0)
+  }
+
   connect (source: V, target: V, value?: any): boolean {
     const firstDel = super.connect(source, target, value)
     const secondDel = super.connect(target, source, value)
