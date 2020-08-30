@@ -11,7 +11,7 @@ export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
 }
 
-export interface GraphInterface<V, E=unknown> {
+export interface ReadonlyGraphInterface<V, E=unknown> {
 
   /**
    * The given Key Function used by the graph to determine the identity and uniqueness
@@ -32,20 +32,6 @@ export interface GraphInterface<V, E=unknown> {
    * @param v
    */
   toKeyFn: (v: V) => string
-
-  /**
-   * Add nodes to the graph.
-   * Return the number of nodes added.
-   * @param nodes
-   */
-  insert: (...nodes: V[]) => number
-
-  /**
-   * Remove nodes from the graph.
-   * Return the number of nodes removed.
-   * @param nodes
-   */
-  remove: (...nodes: V[]) => number
 
   /**
    * Returns true if all of the given nodes are in the graph.
@@ -105,20 +91,37 @@ export interface GraphInterface<V, E=unknown> {
   getGraphType: () => GraphType
 
   /**
-   * Create an edge from the source node to the target node. Return true if a new
-   * edge is created, otherwise false.
-   * @param source
-   * @param target
-   */
-  connect: (source: V, target: V, value?: any) => boolean
-
-  /**
    * Return true if an edge from source to the target exists in the graph,
    * otherwise false.
    * @param source
    * @param target
    */
   hasEdge: (source: V, target: V, value?: any) => boolean
+}
+
+export interface GraphInterface<V, E=unknown> extends ReadonlyGraphInterface<V, E> {
+
+  /**
+   * Add nodes to the graph.
+   * Return the number of nodes added.
+   * @param nodes
+   */
+  insert: (...nodes: V[]) => number
+
+  /**
+   * Remove nodes from the graph.
+   * Return the number of nodes removed.
+   * @param nodes
+   */
+  remove: (...nodes: V[]) => number
+
+  /**
+   * Create an edge from the source node to the target node. Return true if a new
+   * edge is created, otherwise false.
+   * @param source
+   * @param target
+   */
+  connect: (source: V, target: V, value?: any) => boolean
 
   /**
    * Remove the edge from source to target.
