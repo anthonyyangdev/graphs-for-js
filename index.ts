@@ -1,11 +1,9 @@
-import { WeightedUndirectedGraph } from './src/mutable/WeightedUndirectedGraph'
-import { UndirectedGraph } from './src/mutable/UndirectedGraph'
-import { WeightedDirectedGraph } from './src/mutable/WeightedDirectedGraph'
-import { DirectedGraph } from './src/mutable/DirectedGraph'
 
 import * as GraphUtility from './src/GraphUtil'
 import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from './src/readonly/ImmutableDirectedGraphs'
 import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from './src/readonly/ImmutableUndirectedGraphs'
+import { DirectedGraph, WeightedDirectedGraph } from './src/mutable/DirectedGraphs'
+import { UndirectedGraph, WeightedUndirectedGraph } from './src/mutable/UndirectedGraphs'
 
 const builder = <V, E>(fn?: (v: V) => string) => {
   return {

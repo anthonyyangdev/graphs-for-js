@@ -1,12 +1,10 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { IGeneralNodeGraph } from '../../src/types/GraphInterface'
-import { WeightedDirectedGraph } from '../../src/mutable/WeightedDirectedGraph'
 import { GraphUtil } from '../../index'
 import { GraphType } from '../../src/types/GraphType'
-import { DirectedGraph } from '../../src/mutable/DirectedGraph'
-import { UndirectedGraph } from '../../src/mutable/UndirectedGraph'
-import { WeightedUndirectedGraph } from '../../src/mutable/WeightedUndirectedGraph'
+import { DirectedGraph, WeightedDirectedGraph } from '../../src/mutable/DirectedGraphs'
+import { UndirectedGraph, WeightedUndirectedGraph } from '../../src/mutable/UndirectedGraphs'
 
 describe('Test graph cast so that GraphInterface values can be safely casted' +
   ' explicitly using discriminated unions', function () {

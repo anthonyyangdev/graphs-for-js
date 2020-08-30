@@ -44,7 +44,7 @@ export class ReadonlyWeightedDirectedGraph<V, E>
   }
 
   incomingEdgesOf (target: V): ValueEdge<V, E>[] {
-    return super.edges().map((e) => {
+    return super.incomingEdgesOf(target).map((e) => {
       return { ...e, value: e.value as E }
     })
   }

@@ -1,12 +1,12 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { AbstractNodeGraph } from '../src/mutable/AbstractNodeGraph'
-import { DirectedGraph } from '../src/mutable/DirectedGraph'
+import { AbstractMutableDirectedGraph } from '../src/mutable/AbstractMutableDirectedGraph'
+import { DirectedGraph } from '../src/mutable/DirectedGraphs'
 
 /**
  * Creates a directed graph.
  */
-function makeGraph<V> (): AbstractNodeGraph<V> {
+function makeGraph<V> (): AbstractMutableDirectedGraph<V> {
   return new DirectedGraph<V>()
 }
 
