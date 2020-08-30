@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { it, describe } from 'mocha'
-import { DirectedGraph } from '../src/DirectedGraph'
+import { DirectedGraph } from '../src/mutable/DirectedGraph'
 import { GraphType } from '../src/types/GraphType'
 
 describe('Test suite for a directed graph', function () {

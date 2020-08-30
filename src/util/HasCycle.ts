@@ -84,9 +84,13 @@ export const hasCycle = <V> (graph: IReadonlyGeneralNodeGraph<V>): boolean => {
   switch (graphType) {
     case GraphType.NonWeightedDirected:
     case GraphType.WeightedDirected:
+    case GraphType.ReadonlyWeightedDirected:
+    case GraphType.ReadonlyNonWeightedDirected:
       return hasCycleInDirectedGraph(graph)
     case GraphType.NonWeightedUndirected:
     case GraphType.WeightedUndirected:
+    case GraphType.ReadonlyNonWeightedUndirected:
+    case GraphType.ReadonlyWeightedUndirected:
       return hasCycleInUndirectedGraph(graph)
   }
 }

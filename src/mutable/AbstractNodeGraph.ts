@@ -1,21 +1,7 @@
-import { BasicEdge, IGeneralNodeGraph } from './types/GraphInterface'
+import { BasicEdge, IGeneralNodeGraph } from '../types/GraphInterface'
 import { Set } from 'typescript-collections'
-import * as Collections from 'typescript-collections'
-import { GraphType } from './types/GraphType'
-
-/**
- * The default Key Function.
- * @param i
- */
-function defaultToKeyFunction (i: unknown) {
-  if (typeof i === 'symbol') {
-    return i.toString()
-  } else if (i !== null && typeof i === 'object') {
-    return Collections.util.makeString(i)
-  } else {
-    return `${i}`
-  }
-}
+import { GraphType } from '../types/GraphType'
+import { defaultToKeyFunction } from '../DefaultKeyFunction'
 
 export abstract class AbstractNodeGraph<V, E=unknown> implements IGeneralNodeGraph<V, E> {
   protected readonly graphNodes: Set<V>

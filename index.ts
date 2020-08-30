@@ -1,12 +1,34 @@
-import { WeightedUndirectedGraph } from './src/WeightedUndirectedGraph'
-import { UndirectedGraph } from './src/UndirectedGraph'
-import { WeightedDirectedGraph } from './src/WeightedDirectedGraph'
-import { DirectedGraph } from './src/DirectedGraph'
+import { WeightedUndirectedGraph } from './src/mutable/WeightedUndirectedGraph'
+import { UndirectedGraph } from './src/mutable/UndirectedGraph'
+import { WeightedDirectedGraph } from './src/mutable/WeightedDirectedGraph'
+import { DirectedGraph } from './src/mutable/DirectedGraph'
 
 import * as GraphUtility from './src/GraphUtil'
+import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from './src/readonly/ImmutableDirectedGraphs'
+import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from './src/readonly/ImmutableUndirectedGraphs'
 
 const builder = <V, E>(fn?: (v: V) => string) => {
   return {
+    readonly: (nodes: V[]) => {
+      return {
+        directed: {
+          weighted: (edges: [V, V, E][]): ReadonlyWeightedDirectedGraph<V, E> => {
+            return new ReadonlyWeightedDirectedGraph<V, E>(nodes, edges, fn)
+          },
+          unweighted: (edges: [V, V][]): ReadonlyDirectedGraph<V, E> => {
+            return new ReadonlyDirectedGraph<V, E>(nodes, edges, fn)
+          }
+        },
+        undirected: {
+          weighted: (edges: [V, V, E][]): ReadonlyWeightedUndirectedGraph<V, E> => {
+            return new ReadonlyWeightedUndirectedGraph<V, E>(nodes, edges, fn)
+          },
+          unweighted: (edges: [V, V][]): ReadonlyUndirectedGraph<V, E> => {
+            return new ReadonlyUndirectedGraph<V, E>(nodes, edges, fn)
+          }
+        }
+      }
+    },
     directed: {
       weighted: (): WeightedDirectedGraph<V, E> => new WeightedDirectedGraph<V, E>(fn),
       unweighted: (): DirectedGraph<V, E> => new DirectedGraph<V, E>(fn)

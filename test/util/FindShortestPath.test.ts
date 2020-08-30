@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha'
-import { DirectedGraph } from '../../src/DirectedGraph'
+import { DirectedGraph } from '../../src/mutable/DirectedGraph'
 import * as GraphUtil from '../../src/GraphUtil'
 import { expect } from 'chai'
-import { UndirectedGraph } from '../../src/UndirectedGraph'
+import { UndirectedGraph } from '../../src/mutable/UndirectedGraph'
 
 describe('Test find path algorithm', function () {
   describe('Directed graph', function () {

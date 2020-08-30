@@ -1,10 +1,10 @@
 import { IGeneralNodeGraph, IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { castExplicitly } from './GetExplicitGraph'
 import { GraphType } from '../types/GraphType'
-import { WeightedDirectedGraph } from '../WeightedDirectedGraph'
-import { DirectedGraph } from '../DirectedGraph'
-import { WeightedUndirectedGraph } from '../WeightedUndirectedGraph'
-import { UndirectedGraph } from '../UndirectedGraph'
+import { WeightedDirectedGraph } from '../mutable/WeightedDirectedGraph'
+import { DirectedGraph } from '../mutable/DirectedGraph'
+import { WeightedUndirectedGraph } from '../mutable/WeightedUndirectedGraph'
+import { UndirectedGraph } from '../mutable/UndirectedGraph'
 
 /**
  * Creates a clone of the given graph. The clone is a new graph object instance that

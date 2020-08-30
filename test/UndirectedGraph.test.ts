@@ -1,6 +1,6 @@
 import { it, describe } from 'mocha'
 import { expect } from 'chai'
-import { UndirectedGraph } from '../src/UndirectedGraph'
+import { UndirectedGraph } from '../src/mutable/UndirectedGraph'
 import { GraphType } from '../src/types/GraphType'
 
 describe('Undirected graph test suite', function () {

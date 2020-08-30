@@ -100,7 +100,7 @@ export interface IReadonlyGeneralNodeGraph<V, E=unknown> {
 
 }
 
-interface IReadonlyWeightedGraph<V, E> extends IReadonlyGeneralNodeGraph<V, E> {
+export interface IReadonlyWeightedGraph<V, E> extends IReadonlyGeneralNodeGraph<V, E> {
 
   /**
    * Return true if edge from source to target exists, otherwise false.
