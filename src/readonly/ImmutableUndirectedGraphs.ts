@@ -12,7 +12,8 @@ export class ReadonlyUndirectedGraph<V, E=unknown>
     edges: [V, V][],
     keyFn?: (v: V) => string
   ) {
-    super(nodes, edges.map(x => [...x, undefined]), keyFn)
+    const inverted: [V, V, undefined][] = edges.map(x => [x[1], x[0], undefined])
+    super(nodes, inverted.concat(edges.map(x => [...x, undefined])), keyFn)
   }
 
   getGraphType (): GraphType {
@@ -24,7 +25,7 @@ export class ReadonlyWeightedUndirectedGraph<V, E>
   extends AbstractReadonlyUndirectedGraph<V, E>
   implements IReadonlyWeightedGraph<V, E> {
   getGraphType (): GraphType {
-    return GraphType.ReadonlyWeightedDirected
+    return GraphType.ReadonlyWeightedUndirected
   }
 
   constructor (
@@ -32,7 +33,8 @@ export class ReadonlyWeightedUndirectedGraph<V, E>
     edges: [V, V, E][],
     keyFn?: (v: V) => string
   ) {
-    super(nodes, edges, keyFn)
+    const inverted: [V, V, E][] = edges.map(x => [x[1], x[0], x[2]])
+    super(nodes, inverted.concat(edges), keyFn)
   }
 
   hasEdge (source: V, target: V, value?: E): boolean {
@@ -46,7 +48,7 @@ export class ReadonlyWeightedUndirectedGraph<V, E>
   }
 
   incomingEdgesOf (target: V): ValueEdge<V, E>[] {
-    return super.edges().map((e) => {
+    return super.incomingEdgesOf(target).map((e) => {
       return { ...e, value: e.value as E }
     })
   }
