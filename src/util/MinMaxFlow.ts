@@ -3,6 +3,7 @@ import { mapEdges } from './functional'
 import { ReadonlyWeightedDirectedGraph } from '../readonly/ImmutableDirectedGraphs'
 import { WeightedDirectedGraph } from '../mutable/DirectedGraphs'
 import { Dictionary, Queue, Set } from 'typescript-collections'
+import TODO from '../../test/common/TODO'
 
 /*
 inputs
@@ -153,11 +154,24 @@ const edmondsKarp = <V>(
   return maxFlow
 }
 
-const findMaxFlow = <V> (g: IReadonlyWeightedGraph<number, number | bigint>) => {
-  const v = g.getEdgeValue(1, 2)
-  if (v === undefined) {
-  } else if (typeof v === 'bigint') {
-    const sum = v / v
-  } else {
-  }
+type FlowResultType<V> = {
+  flowType: 'min' | 'max'
+  flow: number,
+  flowGraph: IReadonlyWeightedGraph<V, number>
+}
+
+export const findMaxFlow = <V> (
+  g: IReadonlyWeightedGraph<V, number>,
+  source: V,
+  sink: V
+): FlowResultType<V> | undefined => {
+  return TODO('Not implemented')
+}
+
+export const findMinFlow = <V> (
+  g: IReadonlyWeightedGraph<V, number>,
+  source: V,
+  sink: V
+): FlowResultType<V> | undefined => {
+  return TODO('Not implemented')
 }
