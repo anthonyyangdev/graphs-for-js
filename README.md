@@ -57,11 +57,11 @@ The library supports 4 types of graphs:
 
 ```js
 // With require()
-const {GraphBuilder} = require('graph-lib')
+const {GraphBuilder} = require('graphs-for-js')
 
 
 // With import syntax
-import {GraphBuilder} from 'graph-lib'
+import {GraphBuilder} from 'graphs-for-js'
 
 ```
 
@@ -208,7 +208,7 @@ Some helper functions are included in the `GraphUtil` import.
 ### Examples
 
 ```js
-const {GraphBuilder, GraphUtil} = require('graph-lib')
+const {GraphBuilder, GraphUtil} = require('graphs-for-js')
 
 const graph = GraphBuilder().withoutKeyFunction().directed.unweighted()
 GraphUtil.hasCycle(graph) // Returns true if there exists a cycle in `graph`. Otherwise false
