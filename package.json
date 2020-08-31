@@ -1,6 +1,6 @@
 {
   "name": "graphs-for-js",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Some JavaScript and TypeScript implementation of a graph data structure.\nFeatures:\n\t- Insert and remove nodes. \n\t- Connect and disconnect nodes. \n\t- Algorithms for graph structures.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
