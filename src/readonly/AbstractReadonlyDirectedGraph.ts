@@ -5,6 +5,9 @@ import { GraphType } from '../types/GraphType'
 
 export const NoEdgeWeight = Symbol('There is no symbol associated with the edge.')
 
+/**
+ * @deprecated Use ReadonlyUndirectedGraph
+ */
 export abstract class AbstractReadonlyDirectedGraph<V, E=unknown>
 implements IReadonlyGeneralNodeGraph<V, E> {
   readonly toKeyFn: (v: V) => string

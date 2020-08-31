@@ -1,17 +1,17 @@
 import { GraphType } from './GraphType'
 
-interface BasicEdge<V, E=unknown> {
+export interface BasicEdge<V, E=unknown> {
   source: V
   target: V
   undirected: boolean
   value?: E
 }
 
-interface ValueEdge<V, E> extends BasicEdge<V, E> {
+export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
 }
 
-interface ReadonlyGraph<V, E> {
+export interface ReadonlyGraph<V, E> {
   readonly toKeyFn: (v: V) => string
 
   /**
@@ -44,14 +44,14 @@ interface ReadonlyGraph<V, E> {
   readonly nodes: () => V[]
 
   /**
-   * Return an array of all edges in the graph.
-   */
-  readonly edges: () => BasicEdge<V, E>[]
-
-  /**
    * Return the number of nodes in the graph.
    */
   readonly count: () => number
+
+  /**
+   * Return an array of all edges in the graph.
+   */
+  readonly edges: () => BasicEdge<V, E>[]
 
   /**
    * Return an array of all incoming edges into the given node.
@@ -80,7 +80,7 @@ interface ReadonlyGraph<V, E> {
   readonly hasEdge: (source: V, target: V, value?: any) => boolean
 }
 
-interface MutableGraph<V, E> extends ReadonlyGraph<V, E> {
+export interface MutableGraph<V, E> extends ReadonlyGraph<V, E> {
   /**
    * Add nodes to the graph.
    * Return the number of nodes added.
@@ -112,17 +112,41 @@ interface MutableGraph<V, E> extends ReadonlyGraph<V, E> {
   readonly disconnect: (source: V, target: V, value?: E) => boolean
 }
 
-interface WeightedReadonlyGraph<V, E> extends ReadonlyGraph<V, E> {
+export interface IReadonlyWeightedGraph<V, E> extends ReadonlyGraph<V, E> {
   readonly weightOf: (source: V, target: V) => E | undefined
 
   readonly hasEdge: (source: V, target: V, value?: E) => boolean
+
+  /**
+   * Return an array of all edges in the graph.
+   */
+  readonly edges: () => ValueEdge<V, E>[]
+
+  /**
+   * Return an array of all incoming edges into the given node.
+   * @param node
+   */
+  readonly incomingEdgesOf: (node: V) => ValueEdge<V, E>[]
+
+  /**
+   * Return an array of all outgoing edges from the given node.
+   * @param node
+   */
+  readonly outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
 }
 
-interface WeightedMutableGraph<V, E>
-  extends MutableGraph<V, E>, WeightedReadonlyGraph<V, E> {
+export interface IMutableWeightedGraph<V, E>
+  extends MutableGraph<V, E>, IReadonlyWeightedGraph<V, E> {
   readonly connect: (source: V, target: V, value: E) => boolean
 
   readonly disconnect: (source: V, target: V, value?: E) => boolean
 
   readonly hasEdge: (source: V, target: V, value?: E) => boolean
+
+  readonly edges: () => ValueEdge<V, E>[]
+
+  readonly incomingEdgesOf: (node: V) => ValueEdge<V, E>[]
+
+  readonly outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
+
 }

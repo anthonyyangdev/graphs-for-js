@@ -3,6 +3,9 @@ import { DefaultDictionary, Set } from 'typescript-collections'
 import { GraphType } from '../types/GraphType'
 import { AbstractReadonlyDirectedGraph, NoEdgeWeight } from './AbstractReadonlyDirectedGraph'
 
+/**
+ * @deprecated Use ReadonlyUndirectedGraph
+ */
 export abstract class AbstractReadonlyUndirectedGraph<V, E=unknown>
   extends AbstractReadonlyDirectedGraph<V, E> {
   protected constructor (
