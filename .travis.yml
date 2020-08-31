@@ -1,0 +1,7 @@
+language: nodejs
+
+before_script:
+  - npm run prepare
+
+script:
+  - npm test
