@@ -1,5 +1,8 @@
 import { IReadonlyWeightedGraph } from '../types/GraphInterface'
-import { clone } from './GraphClone'
+import { mapEdges } from './functional'
+import { ReadonlyWeightedDirectedGraph } from '../readonly/ImmutableDirectedGraphs'
+import { WeightedDirectedGraph } from '../mutable/DirectedGraphs'
+import { Dictionary, Queue, Set } from 'typescript-collections'
 
 /*
 inputs
@@ -28,27 +31,126 @@ Edmonds-Karp:
             v = u
     return f
  */
-const bfs = (c: any, e: any, s: any, t: any, f: any): [number, number[]] => {
-  console.log(c, e, s, t, f)
-  return [2, [3]]
+type MinMaxFlowType = {
+  capacity: number,
+  flow: number
+}
+
+const bfs = <V> (
+  g: WeightedDirectedGraph<V, MinMaxFlowType>,
+  source: V,
+  sink: V
+) => {
+  if (!g.contains(source, sink)) {
+    return { path: [], bottleNeck: 0 }
+  }
+  const target = g.toKeyFn(sink)
+  if (g.toKeyFn(source) === target) {
+    return { path: [], bottleNeck: 0 }
+  }
+
+  const parentMap = new Dictionary<V, {
+    parent: V,
+    flow: number,
+    reverse: boolean
+  }>(g.toKeyFn)
+  const bfsQueue = new Queue<V>()
+  bfsQueue.enqueue(source)
+  const visitedNodes = new Set<V>(g.toKeyFn)
+  let foundEnd = false
+
+  /**
+   * Checks if the next node is the target, otherwise adds it to the queue.
+   * @param flow
+   * @param currentNode
+   * @param nextNode
+   * @param reverse
+   */
+  function foundTarget (
+    flow: number,
+    currentNode: V,
+    nextNode: V,
+    reverse: boolean
+  ) {
+    if (flow <= 0) {
+      parentMap.setValue(nextNode, { parent: currentNode, flow, reverse })
+      if (g.toKeyFn(nextNode) === target) return true
+      else bfsQueue.enqueue(nextNode)
+    }
+    return false
+  }
+
+  while (!bfsQueue.isEmpty() && !foundEnd) {
+    const node = bfsQueue.dequeue() as V
+    if (!visitedNodes.contains(node)) {
+      visitedNodes.add(node)
+      const outgoingEdges = g.outgoingEdgesOf(node)
+      const incomingEdges = g.incomingEdgesOf(node)
+      for (const { value: { capacity, flow }, target } of outgoingEdges) {
+        foundEnd = foundTarget(capacity - flow, node, target, false)
+        if (foundEnd) break
+      }
+      for (const { value: { flow }, source } of incomingEdges) {
+        foundEnd = foundTarget(flow, node, source, true)
+        if (foundEnd) break
+      }
+    }
+  }
+  if (foundEnd) {
+    let node = sink
+    let bottleneckCapacity = Number.MAX_SAFE_INTEGER
+    const startKey = g.toKeyFn(source)
+    const edges: {source: V, target: V, reverse: boolean}[] = []
+    while (g.toKeyFn(node) !== startKey) {
+      const { parent, flow, reverse } = parentMap.getValue(node)!
+      if (reverse) {
+        edges.push({ source: node, target: node, reverse })
+      } else {
+        edges.push({ source: parent, target: node, reverse })
+      }
+      bottleneckCapacity = Math.min(bottleneckCapacity, flow)
+      node = parent
+    }
+    return {
+      path: edges.map(({ source, target, reverse }) => {
+        const { flow, capacity } = g.getEdgeValue(source, target) as MinMaxFlowType
+        return {
+          source,
+          target,
+          capacity,
+          flow: flow + (reverse ? -bottleneckCapacity : bottleneckCapacity)
+        }
+      }),
+      bottleNeck: bottleneckCapacity
+    }
+  } else {
+    return {
+      path: [],
+      bottleNeck: 0
+    }
+  }
 }
 
 const edmondsKarp = <V>(
   capacityMatrix: number[][],
-  g: IReadonlyWeightedGraph<number, number | bigint>,
-  s: V, t: V) => {
-  let flow = 0
-  const F = clone(g)
-  while (true) {
-    const [m, P] = bfs(capacityMatrix, g, s, t, F)
-    if (m === 0) break
-    flow += m
-    const v = t
-    while (v !== s) {
-      const u = P[v as unknown as number]
-      F[]
+  g: WeightedDirectedGraph<V, number> | ReadonlyWeightedDirectedGraph<V, number>,
+  source: V, sink: V) => {
+  let maxFlow = 0
+  const F = mapEdges<V, number, MinMaxFlowType>(g, e => {
+    return {
+      capacity: e,
+      flow: 0
     }
+  }) as WeightedDirectedGraph<V, MinMaxFlowType>
+  while (true) {
+    const { path, bottleNeck } = bfs(F, source, sink)
+    if (path.length === 0) break
+    for (const { source, target, flow, capacity } of path) {
+      F.connect(source, target, { flow, capacity })
+    }
+    maxFlow += bottleNeck
   }
+  return maxFlow
 }
 
 const findMaxFlow = <V> (g: IReadonlyWeightedGraph<number, number | bigint>) => {
