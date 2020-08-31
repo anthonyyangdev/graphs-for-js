@@ -1,4 +1,9 @@
 language: nodejs
+node_js:
+  - 12
+
+before_install:
+  - npm i -g npm
 
 before_script:
   - npm run prepare
