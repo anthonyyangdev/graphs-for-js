@@ -5,6 +5,7 @@ import * as caster from './util/GetExplicitGraph'
 import * as cloner from './util/GraphClone'
 import * as functionalFn from './util/functional'
 import * as tpSort from './util/TopologicalSort'
+import * as toMatrix from './util/ToAdjacenyMatrix'
 
 export const hasCycle = HasCycle.hasCycle
 
@@ -24,3 +25,5 @@ export const functional = {
 }
 
 export const topologicalSort = tpSort.topologicalSort
+
+export const toAdjacencyMatrix = toMatrix.toAdjacencyMatrix
