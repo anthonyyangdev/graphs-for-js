@@ -1,36 +1,10 @@
-import { mapEdges } from './functional'
 import { Dictionary, Queue, Set } from 'typescript-collections'
 import { ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
 import { MutableWeightedGraph } from '../system/MutableGraphs'
 import { IReadonlyWeightedGraph } from '../types/GraphSystem'
+import { mapEdges } from './functional'
+import { findShortestPath } from './FindShortestPath'
 
-/*
-inputs
-    C[n x n] : Capacity Matrix
-    E[n x n] : Adjacency Matrix
-    s : source
-    t : sink
-output
-    f : maximum flow
-Edmonds-Karp:
-    f = 0             // Flow is initially 0
-    F = [n x n]       // residual capacity array, capacity remaining
-    while true:
-        m, P = Breadth-First-Search(C, E, s, t, F)
-            // Search for the next augmenting path
-            // m is the residual capacity
-            // P is the parent matrix
-        if m = 0:
-            break
-        f = f + m
-        v = t
-        while v != s:
-            u = P[v]
-            F[u, v] = F[u, v] - m       //This is reducing the residual capacity of the augmenting path
-            F[v, u] = F[v, u] + m        //This is increasing the residual capacity of the reverse edges
-            v = u
-    return f
- */
 type MinMaxFlowType = {
   capacity: number,
   flow: number
@@ -170,7 +144,10 @@ export const findMaxFlow = <V> (
 ): FlowResultType<V> | undefined => {
   if (
     !g.contains(source, sink) ||
-    g.edges().some(e => !Number.isInteger(e.value))) { // Because of fpa
+    g.edges().some(e => !Number.isInteger(e.value)) ||
+    findShortestPath(g, source, sink).pathSize === -1) { // Because of fpa
     return undefined
-  } else return edmondsKarp(g, source, sink)
+  } else {
+    return edmondsKarp(g, source, sink)
+  }
 }
