@@ -166,11 +166,3 @@ export const findMaxFlow = <V> (
 ): FlowResultType<V> | undefined => {
   return TODO('Not implemented')
 }
-
-export const findMinFlow = <V> (
-  g: ReadonlyWeightedGraph<V, number>,
-  source: V,
-  sink: V
-): FlowResultType<V> | undefined => {
-  return TODO('Not implemented')
-}

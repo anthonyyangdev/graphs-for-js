@@ -1,8 +1,9 @@
-import { describe, it } from 'mocha'
+import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
 import { GraphBuilder, GraphUtil } from '../../index'
 import range from '../common/range'
 import { ReadonlyWeightedGraph } from '../../src/system/ReadonlyGraphs'
+import { MutableWeightedGraph } from '../../src/system/MutableGraphs'
 
 const repOkFlowGraph = <V> (
   g: ReadonlyWeightedGraph<V, number>,
@@ -27,18 +28,25 @@ const repOkFlowGraph = <V> (
 
 describe('Test suite for min max flow', function () {
   describe('Max flow', function () {
+    describe('Undirected', function () {
+      let graph: MutableWeightedGraph<number, number>
+      beforeEach(() => {
+        graph = GraphBuilder<number, number>().withoutKeyFunction().undirected.weighted()
+      })
+    })
+
     describe('Directed', function () {
       it('should satisfy empty', function () {
         const graph = GraphBuilder<string, number>()
           .withoutKeyFunction().directed.weighted()
-        const result = GraphUtil.flow.max(graph, 'A', 'G')
+        const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).to.be.undefined
       })
       it('should satisfy unreachable', function () {
         const graph = GraphBuilder<string, number>()
           .withoutKeyFunction().directed.weighted()
         graph.insert('A', 'G')
-        const result = GraphUtil.flow.max(graph, 'A', 'G')
+        const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).to.be.undefined
       })
       it('should satisfy example [src: https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm]', function () {
@@ -57,7 +65,7 @@ describe('Test suite for min max flow', function () {
         graph.connect('C', 'D', 1)
         graph.connect('C', 'E', 2)
 
-        let result = GraphUtil.flow.max(graph, 'A', 'G')
+        let result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).is.not.undefined
         result = result!
         expect(result.flowType).equals('max')
@@ -78,7 +86,7 @@ describe('Test suite for min max flow', function () {
         graph.connect('B', 't', 8)
         graph.connect('C', 't', 5)
 
-        let result = GraphUtil.flow.max(graph, 's', 't')
+        let result = GraphUtil.findMaxFlow(graph, 's', 't')
         expect(result).is.not.undefined
         result = result!
         expect(result.flowType).equals('max')
