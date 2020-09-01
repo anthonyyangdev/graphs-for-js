@@ -1,11 +1,19 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { GraphType } from '../../src/types/GraphType'
-import { WeightedDirectedGraph } from '../../src/mutable/DirectedGraphs'
+import { GraphBuilder } from '../../index'
+
+const createGraph = <V, E> (fn?: (v: V) => string) => {
+  if (fn != null) {
+    return GraphBuilder<V, E>().withKeyFunction(fn).directed.weighted()
+  } else {
+    return GraphBuilder<V, E>().withoutKeyFunction().directed.weighted()
+  }
+}
 
 describe('Weighted directed graph', function () {
   it('should instantiate', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = createGraph<number, number>()
     expect(graph.edges().length).equals(0)
     expect(graph.nodes().length).equals(0)
     expect(graph.count()).equals(0)
@@ -13,7 +21,7 @@ describe('Weighted directed graph', function () {
   })
 
   it('should include values in edges', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = createGraph<number, number>()
     graph.insert(0, 1, 2)
     expect(graph.connect(0, 1, 5)).to.be.true
     expect(graph.connect(1, 2, 10)).to.be.true
@@ -31,7 +39,7 @@ describe('Weighted directed graph', function () {
   })
 
   it('should replace the value in edges with connect', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = createGraph<number, number>()
     graph.insert(0, 1)
     graph.connect(0, 1, 10)
     expect(graph.hasEdge(0, 1, 10)).to.be.true
@@ -42,7 +50,7 @@ describe('Weighted directed graph', function () {
   })
 
   it('should return false for no modification', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = createGraph<number, number>()
     graph.insert(0, 1)
     expect(graph.connect(0, 2, 0.5)).is.false
     expect(graph.connect(0, 1, 1)).is.true
@@ -50,7 +58,7 @@ describe('Weighted directed graph', function () {
   })
 
   it('should return false when disconnecting nonexistent node pairs', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = createGraph<number, number>()
     graph.insert(0, 1)
     graph.connect(0, 1, 0.5)
     expect(graph.disconnect(0, 2)).is.false
@@ -60,7 +68,7 @@ describe('Weighted directed graph', function () {
   })
 
   it('should get the value of an edge', function () {
-    const graph = new WeightedDirectedGraph<{
+    const graph = createGraph<{
       value: number,
       id: string
     }, string>(i => i.id)
@@ -85,7 +93,7 @@ describe('Weighted directed graph', function () {
   })
 
   it('should remove values', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = createGraph<number, number>()
     graph.insert(0, 1, 2)
     expect(graph.remove(1, 1, 1, 1, 1, 1)).equals(1)
     expect(graph.remove(3, 4, 5, 6)).equals(0)
@@ -95,7 +103,7 @@ describe('Weighted directed graph', function () {
   })
 
   it('should return the correct degree values', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = createGraph<number, number>()
     graph.insert(0, 1, 2, 3)
     graph.connect(0, 1, 0.5)
     graph.connect(0, 2, 0.5)

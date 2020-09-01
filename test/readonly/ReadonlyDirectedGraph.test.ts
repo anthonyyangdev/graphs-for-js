@@ -1,12 +1,28 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from '../../src/readonly/ImmutableDirectedGraphs'
 import { GraphType } from '../../src/types/GraphType'
+import { GraphBuilder } from '../../index'
+
+const createUnweightedGraph = <V> (nodes: V[], edges: [V, V][], fn?: (v: V) => string) => {
+  if (fn != null) {
+    return GraphBuilder<V>().withKeyFunction(fn).readonly(nodes).directed.unweighted(edges)
+  } else {
+    return GraphBuilder<V>().withoutKeyFunction().readonly(nodes).directed.unweighted(edges)
+  }
+}
+
+const createWeightedGraph = <V, E> (nodes: V[], edges: [V, V, E][], fn?: (v: V) => string) => {
+  if (fn != null) {
+    return GraphBuilder<V>().withKeyFunction(fn).readonly(nodes).directed.weighted(edges)
+  } else {
+    return GraphBuilder<V>().withoutKeyFunction().readonly(nodes).directed.weighted(edges)
+  }
+}
 
 describe('Directed Graphs', function () {
   describe('Unweighted Graphs', function () {
     it('should initiate empty', function () {
-      const graph = new ReadonlyDirectedGraph<number>([], [])
+      const graph = createUnweightedGraph<number>([], [])
       expect(graph.getGraphType()).equals(GraphType.ReadonlyNonWeightedDirected)
 
       expect(graph.hasEdge(0, 1)).is.false
@@ -22,7 +38,7 @@ describe('Directed Graphs', function () {
     })
 
     it('should load given nodes and edges', function () {
-      const graph = new ReadonlyDirectedGraph<number>([1, 2, 3], [[1, 2], [2, 3], [3, 1]])
+      const graph = createUnweightedGraph<number>([1, 2, 3], [[1, 2], [2, 3], [3, 1]])
       expect(graph.count()).equals(graph.nodes().length).equals(3)
       expect(graph.contains(1, 2, 3)).is.true
       expect(graph.edges().length).equals(3)
@@ -38,7 +54,7 @@ describe('Directed Graphs', function () {
     })
 
     it('should return the correct number of degrees', function () {
-      const graph = new ReadonlyDirectedGraph<number>([1, 2, 3], [[1, 1], [2, 3]])
+      const graph = createUnweightedGraph<number>([1, 2, 3], [[1, 1], [2, 3]])
       expect(graph.degreeOf(1)).equals(2)
       expect(graph.outDegreeOf(1)).equals(1)
       expect(graph.inDegreeOf(1)).equals(1)
@@ -53,8 +69,7 @@ describe('Directed Graphs', function () {
     })
 
     it('should load only one node because of key function', function () {
-      const graph = new ReadonlyDirectedGraph<number>(
-        [1, 2, 3, 4], [[2, 3], [4, 1]], n => '')
+      const graph = createUnweightedGraph<number>([1, 2, 3, 4], [[2, 3], [4, 1]], n => '')
       expect(graph.count()).equals(graph.nodes().length).equals(1)
       expect(graph.contains(1)).is.true
       expect(graph.contains(2, 3, 4)).is.true
@@ -64,7 +79,7 @@ describe('Directed Graphs', function () {
   })
   describe('Weighted graphs', function () {
     it('should instantiate empty', function () {
-      const graph = new ReadonlyWeightedDirectedGraph<number, number>([], [])
+      const graph = createWeightedGraph<number, number>([], [])
       expect(graph.getGraphType()).equals(GraphType.ReadonlyWeightedDirected)
       expect(graph.hasEdge(0, 1)).is.false
       expect(graph.getEdgeValue(0, 0)).is.undefined
@@ -80,9 +95,8 @@ describe('Directed Graphs', function () {
     })
 
     it('should get edges arrays with values', function () {
-      const graph = new ReadonlyWeightedDirectedGraph<number, number>(
-        [0, 1, 2, 3],
-        [
+      const graph = createWeightedGraph<number, number>(
+        [0, 1, 2, 3], [
           [0, 1, 3], [0, 2, 0.5], [0, 3, 5]
         ])
       expect(graph.incomingEdgesOf(1).every(x => x.value != null)).is.true
