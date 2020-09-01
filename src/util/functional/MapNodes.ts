@@ -1,6 +1,7 @@
 import { GraphType } from '../../types/GraphType'
 import { MutableGraph, ReadonlyGraph } from '../../types/GraphSystem'
 import { GraphBuilder } from '../../../index'
+import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**
  * Creates a new graph that maps the node values of the given graph to new values
@@ -23,29 +24,7 @@ export const mapNodes = <V, E, N> (
 ) => {
   const edges = g.edges()
   const nodes = g.nodes()
-
-  let clone: MutableGraph<N, E>
-  const builder = newKeyFunction != null
-    ? GraphBuilder<N, E>().withKeyFunction(newKeyFunction)
-    : GraphBuilder<N, E>().withoutKeyFunction()
-  switch (g.getGraphType()) {
-    case GraphType.WeightedDirected:
-    case GraphType.ReadonlyWeightedDirected:
-      clone = builder.directed.weighted()
-      break
-    case GraphType.NonWeightedDirected:
-    case GraphType.ReadonlyNonWeightedDirected:
-      clone = builder.directed.unweighted()
-      break
-    case GraphType.WeightedUndirected:
-    case GraphType.ReadonlyWeightedUndirected:
-      clone = builder.undirected.weighted()
-      break
-    case GraphType.NonWeightedUndirected:
-    case GraphType.ReadonlyNonWeightedUndirected:
-      clone = builder.undirected.unweighted()
-      break
-  }
+  const clone: MutableGraph<N, E> = createEmptyGraphInstance(g, newKeyFunction)
   clone.insert(...nodes.map(n => callback(n)))
   edges.forEach(({ source, value, target }) => {
     clone.connect(callback(source), callback(target), value)

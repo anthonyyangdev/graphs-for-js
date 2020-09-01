@@ -3,6 +3,21 @@ import { expect } from 'chai'
 import { GraphBuilder, GraphUtil } from '../../../index'
 
 describe('Graph Subset Test Suite', function () {
+  it('should create a subset using a conditional statement', function () {
+    const g = GraphBuilder<number, number>().withoutKeyFunction().undirected.weighted()
+    g.insert(1, 2, 3, 4, 5, 6)
+    // Even is connected to an odd
+    g.connect(1, 2, 0.6)
+    g.connect(3, 4, 1)
+    g.connect(5, 6, 1)
+
+    // Takes only the even nodes
+    const subset = GraphUtil.functional.subset(g, v => v % 2 === 0)
+    expect(subset.count()).equals(3)
+    expect(subset.nodes().every(n => n % 2 === 0)).is.true
+    expect(subset.edges().length).equals(0)
+    expect(subset.contains(2, 4, 6)).is.true
+  })
   it('should create a subset of a given graph', function () {
     const g = GraphBuilder<number, number>().withoutKeyFunction().directed.weighted()
     g.insert(1, 2, 3, 4)

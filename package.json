@@ -49,7 +49,7 @@
     "reporter": [
       "html"
     ],
-    "all": true
+    "all": false
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
