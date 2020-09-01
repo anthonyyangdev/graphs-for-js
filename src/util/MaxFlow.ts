@@ -166,9 +166,12 @@ export const findMaxFlow = <V> (
   sink: V
 ): FlowResultType<V> | undefined => {
   if (
+    // There cannot be a flow if both of the two nodes do not exist
     !g.contains(source, sink) ||
+    // Because of fpa
     g.edges().some(e => !Number.isInteger(e.value)) ||
-    findShortestPath(g, source, sink).pathSize === -1) { // Because of fpa
+    // There cannot be a flow if there is no path to it
+    findShortestPath(g, source, sink).pathSize === -1) {
     return undefined
   } else {
     return edmondsKarp(g, source, sink)

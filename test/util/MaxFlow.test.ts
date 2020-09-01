@@ -57,6 +57,40 @@ describe('Test suite for min max flow', function () {
         expect(flow).equals(14)
         repOkFlowGraph(flowGraph, 1, 5, flow)
       })
+
+      it('should handle circular loop', function () {
+        graph.insert(1, 2, 3, 4)
+        graph.connect(1, 2, 5)
+        graph.connect(2, 3, 5)
+        graph.connect(3, 4, 100)
+        graph.connect(4, 1, 100)
+        const result = GraphUtil.findMaxFlow(graph, 1, 4)
+        expect(result).is.not.undefined
+        const { flowGraph, flow } = result!
+        expect(flow).equals(105)
+        repOkFlowGraph(flowGraph, 1, 4, flow)
+      })
+
+      it('should handle undirected version of [https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm]', function () {
+        graph.insert(...range.number(1, 7))
+        graph.connect(1, 4, 3)
+        graph.connect(4, 6, 6)
+        graph.connect(6, 7, 9)
+        graph.connect(1, 2, 3)
+        graph.connect(4, 5, 2)
+        graph.connect(5, 2, 1)
+        graph.connect(5, 7, 1)
+        graph.connect(3, 1, 3)
+        graph.connect(2, 3, 4)
+        graph.connect(3, 4, 1)
+        graph.connect(3, 5, 2)
+
+        const result = GraphUtil.findMaxFlow(graph, 1, 7)
+        expect(result).is.not.undefined
+        const { flowGraph, flow } = result!
+        expect(flow).equals(7)
+        repOkFlowGraph(flowGraph, 1, 7, flow)
+      })
     })
 
     describe('Directed', function () {

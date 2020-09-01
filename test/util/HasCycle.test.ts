@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import * as GraphUtil from '../../src/GraphUtil'
-import { GraphBuilder } from '../../index'
+import { GraphBuilder, GraphUtil } from '../../index'
 
 describe('Check for cycles', function () {
   describe('Directed graphs', function () {

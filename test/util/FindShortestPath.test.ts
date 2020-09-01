@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
-import * as GraphUtil from '../../src/GraphUtil'
 import { expect } from 'chai'
-import { GraphBuilder } from '../../index'
+import { GraphBuilder, GraphUtil } from '../../index'
+import range from '../common/range'
 
 describe('Test find path algorithm', function () {
   describe('Directed graph', function () {
@@ -96,6 +96,26 @@ describe('Test find path algorithm', function () {
       const result = GraphUtil.findShortestPath(graph, 1, 1)
       expect(result.path).deep.equals([1])
       expect(result.pathSize).equals(0)
+    })
+
+    it('should find a path from 1 to 7', function () {
+      const graph = GraphBuilder<number>().withoutKeyFunction().undirected.unweighted()
+      graph.insert(...range.number(1, 7))
+      graph.connect(1, 4, 3)
+      graph.connect(4, 6, 6)
+      graph.connect(6, 7, 9)
+      graph.connect(1, 2, 3)
+      graph.connect(4, 5, 2)
+      graph.connect(5, 2, 1)
+      graph.connect(5, 7, 1)
+      graph.connect(3, 1, 3)
+      graph.connect(2, 3, 4)
+      graph.connect(3, 4, 1)
+      graph.connect(3, 5, 2)
+
+      const result = GraphUtil.findShortestPath(graph, 1, 7)
+      const { pathSize } = result!
+      expect(pathSize).equals(3)
     })
   })
 })

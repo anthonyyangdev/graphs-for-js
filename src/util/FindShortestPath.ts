@@ -32,10 +32,10 @@ export const findShortestPath = <V, E> (graph: ReadonlyGraph<V, E>, start: V, en
 
   while (!bfsQueue.isEmpty() && !foundEnd) {
     const node = bfsQueue.dequeue() as V
-    if (!visitedNodes.contains(node)) {
-      visitedNodes.add(node)
-      const outgoingEdges = graph.outgoingEdgesOf(node)
-      for (const edge of outgoingEdges) {
+    visitedNodes.add(node)
+    const outgoingEdges = graph.outgoingEdgesOf(node)
+    for (const edge of outgoingEdges) {
+      if (!visitedNodes.contains(edge.target)) {
         parentMap.setValue(edge.target, node)
         if (graph.toKeyFn(edge.target) === target) {
           foundEnd = true
