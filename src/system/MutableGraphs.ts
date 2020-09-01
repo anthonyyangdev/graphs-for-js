@@ -134,4 +134,8 @@ export class MutableWeightedGraph<V, E>
   disconnect (source: V, target: V, value?: E): boolean {
     return super.disconnect(source, target, value)
   }
+
+  getEdgeValue (source: V, target: V): E | undefined {
+    return this.weightOf(source, target)
+  }
 }

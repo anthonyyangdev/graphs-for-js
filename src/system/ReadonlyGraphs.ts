@@ -66,4 +66,8 @@ export class ReadonlyWeightedGraph<V, E>
   hasEdge (source: V, target: V, value?: E): boolean {
     return super.hasEdge(source, target, value)
   }
+
+  getEdgeValue (source: V, target: V): E | undefined {
+    return this.weightOf(source, target)
+  }
 }

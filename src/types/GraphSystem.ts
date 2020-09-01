@@ -115,6 +115,8 @@ export interface MutableGraph<V, E> extends ReadonlyGraph<V, E> {
 export interface IReadonlyWeightedGraph<V, E> extends ReadonlyGraph<V, E> {
   readonly weightOf: (source: V, target: V) => E | undefined
 
+  readonly getEdgeValue: (source: V, target: V) => E | undefined
+
   readonly hasEdge: (source: V, target: V, value?: E) => boolean
 
   /**
