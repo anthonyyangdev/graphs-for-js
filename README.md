@@ -7,7 +7,6 @@
 > - Connect and disconnect nodes.
 > - Algorithms for graph data structures.
 
-
 - [Installation](#installation)
 - [GraphBuilder Usage](#graphbuilder-usage)
   * [Import the GraphBuilder](#import-the-graphbuilder)
