@@ -12,6 +12,11 @@ export interface ValueEdge<V, E> extends BasicEdge<V, E> {
 }
 
 export interface ReadonlyGraph<V, E> {
+
+  readonly isUnweighted: boolean
+
+  readonly isUndirected: boolean
+
   readonly toKeyFn: (v: V) => string
 
   /**
