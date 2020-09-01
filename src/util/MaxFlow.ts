@@ -1,9 +1,9 @@
 import { Dictionary, Queue, Set } from 'typescript-collections'
 import { ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
-import { MutableWeightedGraph } from '../system/MutableGraphs'
-import { IReadonlyWeightedGraph } from '../types/GraphSystem'
+import { IMutableWeightedGraph, IReadonlyWeightedGraph } from '../types/GraphSystem'
 import { mapEdges } from './functional'
 import { findShortestPath } from './FindShortestPath'
+import { GraphBuilder } from '../../index'
 
 type MinMaxFlowType = {
   capacity: number,
@@ -11,7 +11,7 @@ type MinMaxFlowType = {
 }
 
 const bfs = <V> (
-  g: MutableWeightedGraph<V, MinMaxFlowType>,
+  g: IMutableWeightedGraph<V, MinMaxFlowType>,
   source: V,
   sink: V
 ): {path: {source: V, target: V, capacity: number, flow: number}[], bottleNeck: number } | undefined => {
@@ -96,16 +96,39 @@ const bfs = <V> (
   }
 }
 
+const convertGraph = <V> (
+  g: ReadonlyWeightedGraph<V, number>
+): IMutableWeightedGraph<V, MinMaxFlowType> => {
+  if (g.isUndirected) {
+    const edges = g.edges()
+    const nodes = g.nodes()
+    const directedGraph = GraphBuilder<V, MinMaxFlowType>()
+      .withKeyFunction(g.toKeyFn).directed.weighted()
+    directedGraph.insert(...nodes)
+    edges.forEach(({ source, target, value }) => {
+      directedGraph.connect(source, target, {
+        capacity: value, flow: 0
+      })
+      directedGraph.connect(target, source, {
+        capacity: value, flow: 0
+      })
+    })
+    return directedGraph
+  } else {
+    return mapEdges<V, number, MinMaxFlowType>(g, e => {
+      return {
+        capacity: e,
+        flow: 0
+      }
+    })
+  }
+}
+
 const edmondsKarp = <V>(
   g: ReadonlyWeightedGraph<V, number>,
   source: V, sink: V): FlowResultType<V> | undefined => {
   let maxFlow = 0
-  const F = mapEdges<V, number, MinMaxFlowType>(g, e => {
-    return {
-      capacity: e,
-      flow: 0
-    }
-  }) as MutableWeightedGraph<V, MinMaxFlowType>
+  const F = convertGraph(g)
   while (true) {
     const bfsResult = bfs(F, source, sink)
     if (bfsResult == null) return undefined
