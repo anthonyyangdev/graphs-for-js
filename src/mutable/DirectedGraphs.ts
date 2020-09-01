@@ -3,6 +3,9 @@ import { IGeneralNodeGraph, IWeightedGraph, ValueEdge } from '../types/GraphInte
 import { GraphType } from '../types/GraphType'
 import { NoEdgeWeight } from '../readonly/AbstractReadonlyDirectedGraph'
 
+/**
+ * @deprecated
+ */
 export class DirectedGraph<V, E=unknown>
   extends AbstractMutableDirectedGraph<V, E>
   implements IGeneralNodeGraph<V, E> {
@@ -15,6 +18,9 @@ export class DirectedGraph<V, E=unknown>
   }
 }
 
+/**
+ * @deprecated
+ */
 export class WeightedDirectedGraph<V, E>
   extends AbstractMutableDirectedGraph<V, E>
   implements IWeightedGraph<V, E> {

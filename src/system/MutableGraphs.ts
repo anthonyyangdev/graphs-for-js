@@ -11,13 +11,13 @@ import { BasicEdge } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
 
 export class MutableUnweightedGraph<V, E=null>
-implements MutableGraph<V, E> {
+implements MutableGraph<V, E>, ReadonlyGraph<V, E> {
   readonly toKeyFn: (v: V) => string
   protected readonly allNodes: Set<V>
   protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, E | null>>
   protected readonly targetToSource: DefaultDictionary<V, Dictionary<V, E | null>>
-  protected readonly isUndirected: boolean
-  protected readonly isUnweighted: boolean
+  public readonly isUndirected: boolean
+  public readonly isUnweighted: boolean
 
   constructor (
     isUndirected: boolean,

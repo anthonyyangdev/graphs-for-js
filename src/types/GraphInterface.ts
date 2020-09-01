@@ -11,6 +11,9 @@ export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
 }
 
+/**
+ * @deprecated
+ */
 export interface IReadonlyGeneralNodeGraph<V, E=unknown> {
 
   /**
@@ -100,6 +103,9 @@ export interface IReadonlyGeneralNodeGraph<V, E=unknown> {
 
 }
 
+/**
+ * @deprecated
+ */
 export interface IReadonlyWeightedGraph<V, E> extends IReadonlyGeneralNodeGraph<V, E> {
 
   /**
@@ -134,6 +140,9 @@ export interface IReadonlyWeightedGraph<V, E> extends IReadonlyGeneralNodeGraph<
   getEdgeValue: (source: V, target: V) => E | undefined
 }
 
+/**
+ * @deprecated
+ */
 export interface IMutableGraph<V, E=unknown> {
   /**
    * Add nodes to the graph.
@@ -166,9 +175,15 @@ export interface IMutableGraph<V, E=unknown> {
   disconnect: (source: V, target: V, value?: any) => boolean
 }
 
+/**
+ * @deprecated
+ */
 export interface IGeneralNodeGraph<V, E=unknown>
   extends IReadonlyGeneralNodeGraph<V, E>, IMutableGraph<V, E> {}
 
+/**
+ * @deprecated
+ */
 export interface IWeightedGraph<V, E>
   extends IReadonlyWeightedGraph<V, E>, IMutableGraph<V, E> {
 

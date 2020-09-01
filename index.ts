@@ -1,9 +1,6 @@
 import * as GraphUtility from './src/GraphUtil'
-import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from './src/readonly/ImmutableUndirectedGraphs'
-import { DirectedGraph, WeightedDirectedGraph } from './src/mutable/DirectedGraphs'
-import { UndirectedGraph, WeightedUndirectedGraph } from './src/mutable/UndirectedGraphs'
 import { ReadonlyWeightedGraph, ReadonlyUnweightedGraph } from './src/system/ReadonlyGraphS'
-import {} from './src/system/MutableGraphs'
+import { MutableUnweightedGraph, MutableWeightedGraph } from './src/system/MutableGraphs'
 
 const builder = <V, E>(fn?: (v: V) => string) => {
   return {
@@ -28,12 +25,12 @@ const builder = <V, E>(fn?: (v: V) => string) => {
       }
     },
     directed: {
-      weighted: (): WeightedDirectedGraph<V, E> => new WeightedDirectedGraph<V, E>(fn),
-      unweighted: (): DirectedGraph<V, E> => new DirectedGraph<V, E>(fn)
+      weighted: (): MutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(false, fn),
+      unweighted: (): MutableUnweightedGraph<V, E> => new MutableUnweightedGraph<V, E>(false, true, fn)
     },
     undirected: {
-      weighted: (): WeightedUndirectedGraph<V, E> => new WeightedUndirectedGraph<V, E>(fn),
-      unweighted: (): UndirectedGraph<V, E> => new UndirectedGraph<V, E>(fn)
+      weighted: (): MutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(true, fn),
+      unweighted: (): MutableUnweightedGraph<V, E> => new MutableUnweightedGraph<V, E>(true, true, fn)
     }
   }
 }

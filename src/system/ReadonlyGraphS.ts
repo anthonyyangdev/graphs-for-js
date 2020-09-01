@@ -10,8 +10,8 @@ export class ReadonlyUnweightedGraph<V, E=null> implements ReadonlyGraph<V, E> {
   protected readonly allNodes: Set<V>
   protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, E | null>>
   protected readonly targetToSource: DefaultDictionary<V, Dictionary<V, E | null>>
-  protected readonly isUndirected: boolean
-  protected readonly isUnweighted: boolean
+  public readonly isUndirected: boolean
+  public readonly isUnweighted: boolean
 
   constructor (
     nodes: V[],

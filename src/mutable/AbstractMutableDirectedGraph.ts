@@ -2,6 +2,9 @@ import { IGeneralNodeGraph } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
 import { AbstractReadonlyDirectedGraph, NoEdgeWeight } from '../readonly/AbstractReadonlyDirectedGraph'
 
+/**
+ * @deprecated
+ */
 export abstract class AbstractMutableDirectedGraph<V, E=unknown>
   extends AbstractReadonlyDirectedGraph<V, E>
   implements IGeneralNodeGraph<V, E> {

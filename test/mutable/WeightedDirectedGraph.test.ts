@@ -76,8 +76,8 @@ describe('Weighted directed graph', function () {
     const node2 = { value: 5, id: '1' }
     graph.insert(node1, node2)
     graph.connect(node1, node2, 'hello world')
-    expect(graph.getEdgeValue(node1, node2)).equals('hello world')
-    expect(graph.getEdgeValue(node1, node1)).is.undefined
+    expect(graph.weightOf(node1, node2)).equals('hello world')
+    expect(graph.weightOf(node1, node1)).is.undefined
 
     const outgoing = graph.outgoingEdgesOf(node1)
     expect(outgoing.every(e => !e.undirected)).is.true

@@ -4,6 +4,9 @@ import { GraphType } from '../types/GraphType'
 import { NoEdgeWeight } from '../readonly/AbstractReadonlyDirectedGraph'
 import { AbstractMutableUndirectedGraph } from './AbstractMutableUndirectedGraph'
 
+/**
+ * @deprecated
+ */
 export class UndirectedGraph<V, E=unknown>
   extends AbstractMutableUndirectedGraph<V, E>
   implements IGeneralNodeGraph<V, E> {
@@ -16,6 +19,9 @@ export class UndirectedGraph<V, E=unknown>
   }
 }
 
+/**
+ * @deprecated
+ */
 export class WeightedUndirectedGraph<V, E>
   extends AbstractMutableUndirectedGraph<V, E>
   implements IWeightedGraph<V, E> {
