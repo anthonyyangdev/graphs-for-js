@@ -1,9 +1,8 @@
-import { IReadonlyWeightedGraph } from '../types/GraphInterface'
 import { mapEdges } from './functional'
-import { ReadonlyWeightedDirectedGraph } from '../readonly/ImmutableDirectedGraphs'
-import { WeightedDirectedGraph } from '../mutable/DirectedGraphs'
 import { Dictionary, Queue, Set } from 'typescript-collections'
 import TODO from '../../test/common/TODO'
+import { ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
+import { MutableWeightedGraph } from '../system/MutableGraphs'
 
 /*
 inputs
@@ -38,7 +37,7 @@ type MinMaxFlowType = {
 }
 
 const bfs = <V> (
-  g: WeightedDirectedGraph<V, MinMaxFlowType>,
+  g: MutableWeightedGraph<V, MinMaxFlowType>,
   source: V,
   sink: V
 ) => {
@@ -114,7 +113,7 @@ const bfs = <V> (
     }
     return {
       path: edges.map(({ source, target, reverse }) => {
-        const { flow, capacity } = g.getEdgeValue(source, target) as MinMaxFlowType
+        const { flow, capacity } = g.weightOf(source, target) as MinMaxFlowType
         return {
           source,
           target,
@@ -134,7 +133,7 @@ const bfs = <V> (
 
 const edmondsKarp = <V>(
   capacityMatrix: number[][],
-  g: WeightedDirectedGraph<V, number> | ReadonlyWeightedDirectedGraph<V, number>,
+  g: ReadonlyWeightedGraph<V, number>,
   source: V, sink: V) => {
   let maxFlow = 0
   const F = mapEdges<V, number, MinMaxFlowType>(g, e => {
@@ -142,7 +141,7 @@ const edmondsKarp = <V>(
       capacity: e,
       flow: 0
     }
-  }) as WeightedDirectedGraph<V, MinMaxFlowType>
+  }) as MutableWeightedGraph<V, MinMaxFlowType>
   while (true) {
     const { path, bottleNeck } = bfs(F, source, sink)
     if (path.length === 0) break
@@ -157,11 +156,11 @@ const edmondsKarp = <V>(
 type FlowResultType<V> = {
   flowType: 'min' | 'max'
   flow: number,
-  flowGraph: IReadonlyWeightedGraph<V, number>
+  flowGraph: ReadonlyWeightedGraph<V, number>
 }
 
 export const findMaxFlow = <V> (
-  g: IReadonlyWeightedGraph<V, number>,
+  g: ReadonlyWeightedGraph<V, number>,
   source: V,
   sink: V
 ): FlowResultType<V> | undefined => {
@@ -169,7 +168,7 @@ export const findMaxFlow = <V> (
 }
 
 export const findMinFlow = <V> (
-  g: IReadonlyWeightedGraph<V, number>,
+  g: ReadonlyWeightedGraph<V, number>,
   source: V,
   sink: V
 ): FlowResultType<V> | undefined => {

@@ -2,10 +2,10 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { GraphBuilder, GraphUtil } from '../../index'
 import range from '../common/range'
-import { IReadonlyWeightedGraph } from '../../src/types/GraphInterface'
+import { ReadonlyWeightedGraph } from '../../src/system/ReadonlyGraphs'
 
 const repOkFlowGraph = <V> (
-  g: IReadonlyWeightedGraph<V, number>,
+  g: ReadonlyWeightedGraph<V, number>,
   source: V,
   sink: V,
   flow: number
