@@ -1,11 +1,11 @@
-import { IGeneralNodeGraph } from '../../types/GraphInterface'
 import { GraphBuilder } from '../../../index'
 import { GraphJson } from './GraphJson'
+import { MutableGraph } from '../../types/GraphSystem'
 
 export const parse = <V, E=unknown>(
   jsonString: string,
   keyFunction?: (v: V) => string
-): IGeneralNodeGraph<V, E> | undefined => {
+): MutableGraph<V, E> | undefined => {
   let json: Partial<GraphJson>
   try {
     json = JSON.parse(jsonString)
@@ -26,7 +26,7 @@ export const parse = <V, E=unknown>(
   const builderFunction = keyFunction != null
     ? withKeyFunction(keyFunction) : withoutKeyFunction()
 
-  let graph: IGeneralNodeGraph<V, E>
+  let graph: MutableGraph<V, E>
   if (undirected && weighted) graph = builderFunction.undirected.weighted()
   else if (undirected) graph = builderFunction.undirected.unweighted()
   else if (!undirected && weighted) graph = builderFunction.directed.weighted()

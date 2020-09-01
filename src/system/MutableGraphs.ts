@@ -137,8 +137,10 @@ implements MutableGraph<V, E>, ReadonlyGraph<V, E> {
     if (!this.contains(source, target)) { return false }
     if (this.isUnweighted) { value = null }
     const prev = this.sourceToTarget.getValue(source).setValue(target, value)
+    this.targetToSource.getValue(target).setValue(source, value)
     if (this.isUndirected) {
-      this.targetToSource.getValue(target).setValue(source, value)
+      this.sourceToTarget.getValue(target).setValue(source, value)
+      this.targetToSource.getValue(source).setValue(target, value)
     }
     return prev == null || prev !== value
   }
@@ -148,7 +150,11 @@ implements MutableGraph<V, E>, ReadonlyGraph<V, E> {
     const c = this.sourceToTarget.getValue(source).getValue(target)
     if (this.isUnweighted || value == null || value === c) {
       this.sourceToTarget.getValue(source).remove(target)
-      if (this.isUndirected) { this.targetToSource.getValue(target).remove(source) }
+      this.targetToSource.getValue(target).remove(source)
+      if (this.isUndirected) {
+        this.targetToSource.getValue(source).remove(target)
+        this.sourceToTarget.getValue(target).remove(source)
+      }
       return true
     }
     return false
@@ -156,13 +162,33 @@ implements MutableGraph<V, E>, ReadonlyGraph<V, E> {
 
   insert (...nodes: V[]): number {
     let count = 0
-    for (const n of nodes) { count += this.allNodes.add(n) ? 1 : 0 }
+    for (const n of nodes) {
+      if (typeof n === 'undefined') {
+        // undefined as its own type cannot be added to this Set structure.
+        count += this.allNodes.add(this.toKeyFn(n) as any) ? 1 : 0
+      } else {
+        count += this.allNodes.add(n) ? 1 : 0
+      }
+    }
     return count
   }
 
   remove (...nodes: V[]): number {
     let count = 0
-    for (const n of nodes) { count += this.allNodes.remove(n) ? 1 : 0 }
+    for (const n of nodes) {
+      if (this.allNodes.contains(n)) {
+        this.targetToSource.getValue(n).forEach(s => {
+          this.sourceToTarget.getValue(s).remove(n)
+        })
+        this.sourceToTarget.getValue(n).forEach(t => {
+          this.targetToSource.getValue(t).remove(n)
+        })
+        this.targetToSource.remove(n)
+        this.sourceToTarget.remove(n)
+        this.allNodes.remove(n)
+        count++
+      }
+    }
     return count
   }
 }
