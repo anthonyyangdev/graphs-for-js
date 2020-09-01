@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
-import * as GraphUtil from '../../src/GraphUtil'
 import { expect } from 'chai'
-import { GraphBuilder } from '../../index'
+import { GraphBuilder, GraphUtil } from '../../index'
 
 describe('Test find path algorithm', function () {
   describe('Directed graph', function () {
