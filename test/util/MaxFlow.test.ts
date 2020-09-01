@@ -2,11 +2,11 @@ import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
 import { GraphBuilder, GraphUtil } from '../../index'
 import range from '../common/range'
-import { ReadonlyWeightedGraph } from '../../src/system/ReadonlyGraphs'
 import { MutableWeightedGraph } from '../../src/system/MutableGraphs'
+import { IReadonlyWeightedGraph } from '../../src/types/GraphSystem'
 
 const repOkFlowGraph = <V> (
-  g: ReadonlyWeightedGraph<V, number>,
+  g: IReadonlyWeightedGraph<V, number>,
   source: V,
   sink: V,
   flow: number
@@ -49,6 +49,16 @@ describe('Test suite for min max flow', function () {
         const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).to.be.undefined
       })
+      it('should satisfy self node', function () {
+        const graph = GraphBuilder<string, number>()
+          .withoutKeyFunction().directed.weighted()
+        graph.insert('A')
+        let result = GraphUtil.findMaxFlow(graph, 'A', 'A')
+        expect(result).to.not.be.undefined
+        result = result!
+        expect(result.flow).equals(0)
+        repOkFlowGraph(result.flowGraph, 'A', 'A', result.flow)
+      })
       it('should satisfy example [src: https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm]', function () {
         const graph = GraphBuilder<string, number>()
           .withoutKeyFunction().directed.weighted()
@@ -68,7 +78,6 @@ describe('Test suite for min max flow', function () {
         let result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).is.not.undefined
         result = result!
-        expect(result.flowType).equals('max')
         expect(result.flow).equals(5)
         repOkFlowGraph(result.flowGraph, 'A', 'G', result.flow)
       })
@@ -89,7 +98,6 @@ describe('Test suite for min max flow', function () {
         let result = GraphUtil.findMaxFlow(graph, 's', 't')
         expect(result).is.not.undefined
         result = result!
-        expect(result.flowType).equals('max')
         expect(result.flow).equals(10)
         repOkFlowGraph(result.flowGraph, 's', 't', result.flow)
       })
