@@ -1,7 +1,6 @@
-import { IGeneralNodeGraph, IReadonlyWeightedGraph } from '../../types/GraphInterface'
 import { GraphType } from '../../types/GraphType'
-import { WeightedDirectedGraph } from '../../mutable/DirectedGraphs'
-import { WeightedUndirectedGraph } from '../../mutable/UndirectedGraphs'
+import { IMutableWeightedGraph, IReadonlyWeightedGraph } from '../../types/GraphSystem'
+import { GraphBuilder } from '../../../index'
 
 /**
  * Creates a new graph that maps the edge values in a given graph to new values determined
@@ -14,19 +13,19 @@ export const mapEdges = <V, E, R> (g: IReadonlyWeightedGraph<V, E>, callback: (e
   const edges = g.edges()
   const nodes = g.nodes()
 
-  let clone: IGeneralNodeGraph<V, R>
+  let clone: IMutableWeightedGraph<V, R>
   switch (g.getGraphType()) {
     case GraphType.WeightedDirected:
     case GraphType.ReadonlyWeightedDirected:
     case GraphType.NonWeightedDirected:
     case GraphType.ReadonlyNonWeightedDirected:
-      clone = new WeightedDirectedGraph<V, R>(g.toKeyFn)
+      clone = GraphBuilder<V, R>().withKeyFunction(g.toKeyFn).directed.weighted()
       break
     case GraphType.WeightedUndirected:
     case GraphType.ReadonlyWeightedUndirected:
     case GraphType.NonWeightedUndirected:
     case GraphType.ReadonlyNonWeightedUndirected:
-      clone = new WeightedUndirectedGraph<V, R>(g.toKeyFn)
+      clone = GraphBuilder<V, R>().withKeyFunction(g.toKeyFn).undirected.weighted()
       break
   }
   clone.insert(...nodes)

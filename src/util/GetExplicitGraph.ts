@@ -1,34 +1,32 @@
-import { IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
-import { DirectedGraph, WeightedDirectedGraph } from '../mutable/DirectedGraphs'
-import { UndirectedGraph, WeightedUndirectedGraph } from '../mutable/UndirectedGraphs'
-import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from '../readonly/ImmutableUndirectedGraphs'
-import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from '../readonly/ImmutableDirectedGraphs'
+import { ReadonlyGraph } from '../types/GraphSystem'
+import { ReadonlyUnweightedGraph, ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
+import { MutableUnweightedGraph, MutableWeightedGraph } from '../system/MutableGraphs'
 
 type CastedType<V, E> = {
   type: GraphType.WeightedDirected,
-  graph: WeightedDirectedGraph<V, E>
+  graph: MutableWeightedGraph<V, E>
 } | {
   type: GraphType.NonWeightedDirected,
-  graph: DirectedGraph<V, E>
+  graph: MutableUnweightedGraph<V, E>
 } | {
   type: GraphType.WeightedUndirected,
-  graph: WeightedUndirectedGraph<V, E>
+  graph: MutableWeightedGraph<V, E>
 } | {
   type: GraphType.NonWeightedUndirected,
-  graph: UndirectedGraph<V, E>
+  graph: MutableUnweightedGraph<V, E>
 } | {
   type: GraphType.ReadonlyWeightedUndirected
-  graph: ReadonlyWeightedUndirectedGraph<V, E>
+  graph: ReadonlyWeightedGraph<V, E>
 } | {
   type: GraphType.ReadonlyWeightedDirected
-  graph: ReadonlyWeightedDirectedGraph<V, E>
+  graph: ReadonlyWeightedGraph<V, E>
 } | {
   type: GraphType.ReadonlyNonWeightedDirected
-  graph: ReadonlyDirectedGraph<V, E>
+  graph: ReadonlyUnweightedGraph<V, E>
 } | {
   type: GraphType.ReadonlyNonWeightedUndirected
-  graph: ReadonlyUndirectedGraph<V, E>
+  graph: ReadonlyUnweightedGraph<V, E>
 }
 
 /**
@@ -42,40 +40,40 @@ type CastedType<V, E> = {
  *
  * @param g The graph whose type and implementation is to be checked
  */
-export const castExplicitly = <V, E> (g: IReadonlyGeneralNodeGraph<V, E>): CastedType<V, E> => {
+export const castExplicitly = <V, E> (g: ReadonlyGraph<V, E>): CastedType<V, E> => {
   const type = g.getGraphType()
   switch (type) {
     case GraphType.ReadonlyWeightedDirected:
       return {
-        type, graph: g as unknown as ReadonlyWeightedDirectedGraph<V, E>
+        type, graph: g as ReadonlyWeightedGraph<V, E>
       }
     case GraphType.ReadonlyNonWeightedDirected:
       return {
-        type, graph: g as unknown as ReadonlyWeightedDirectedGraph<V, E>
+        type, graph: g as ReadonlyUnweightedGraph<V, E>
       }
     case GraphType.ReadonlyWeightedUndirected:
       return {
-        type, graph: g as unknown as ReadonlyWeightedUndirectedGraph<V, E>
+        type, graph: g as ReadonlyWeightedGraph<V, E>
       }
     case GraphType.ReadonlyNonWeightedUndirected:
       return {
-        type, graph: g as unknown as ReadonlyUndirectedGraph<V, E>
+        type, graph: g as ReadonlyUnweightedGraph<V, E>
       }
     case GraphType.WeightedDirected:
       return {
-        type, graph: g as WeightedDirectedGraph<V, E>
+        type, graph: g as MutableWeightedGraph<V, E>
       }
     case GraphType.NonWeightedDirected:
       return {
-        type, graph: g as unknown as DirectedGraph<V, E>
+        type, graph: g as MutableUnweightedGraph<V, E>
       }
     case GraphType.WeightedUndirected:
       return {
-        type, graph: g as WeightedUndirectedGraph<V, E>
+        type, graph: g as MutableWeightedGraph<V, E>
       }
     case GraphType.NonWeightedUndirected:
       return {
-        type, graph: g as unknown as UndirectedGraph<V, E>
+        type, graph: g as MutableUnweightedGraph<V, E>
       }
   }
 }

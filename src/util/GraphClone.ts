@@ -1,8 +1,7 @@
-import { IGeneralNodeGraph, IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { castExplicitly } from './GetExplicitGraph'
 import { GraphType } from '../types/GraphType'
-import { DirectedGraph, WeightedDirectedGraph } from '../mutable/DirectedGraphs'
-import { UndirectedGraph, WeightedUndirectedGraph } from '../mutable/UndirectedGraphs'
+import { GraphBuilder } from '../../index'
+import { MutableGraph, ReadonlyGraph } from '../types/GraphSystem'
 
 /**
  * Creates a clone of the given graph. The clone is a new graph object instance that
@@ -10,27 +9,28 @@ import { UndirectedGraph, WeightedUndirectedGraph } from '../mutable/UndirectedG
  *
  * @param g
  */
-export const clone = <V, E> (g: IReadonlyGeneralNodeGraph<V, E>) => {
+export const clone = <V, E> (g: ReadonlyGraph<V, E>) => {
   /**
    * 1) Get the graph type using casting
    * 2) Instantiate the correct graph
    * 3) Load all nodes and connect all edges, with the correct values.
    */
-  let clonedGraph: IGeneralNodeGraph<V, E>
+  let clonedGraph: MutableGraph<V, E>
+  const builder = GraphBuilder<V, E>().withKeyFunction(g.toKeyFn)
   const { type } = castExplicitly(g)
   switch (type) {
     case GraphType.WeightedDirected:
     case GraphType.ReadonlyWeightedDirected:
-      clonedGraph = new WeightedDirectedGraph<V, E>(g.toKeyFn); break
+      clonedGraph = builder.directed.weighted(); break
     case GraphType.NonWeightedDirected:
     case GraphType.ReadonlyNonWeightedDirected:
-      clonedGraph = new DirectedGraph<V, E>(g.toKeyFn); break
+      clonedGraph = builder.directed.unweighted(); break
     case GraphType.WeightedUndirected:
     case GraphType.ReadonlyWeightedUndirected:
-      clonedGraph = new WeightedUndirectedGraph<V, E>(g.toKeyFn); break
+      clonedGraph = builder.undirected.weighted(); break
     case GraphType.NonWeightedUndirected:
     case GraphType.ReadonlyNonWeightedUndirected:
-      clonedGraph = new UndirectedGraph<V, E>(g.toKeyFn); break
+      clonedGraph = builder.undirected.unweighted(); break
   }
   const nodes = g.nodes()
   const edges = g.edges()

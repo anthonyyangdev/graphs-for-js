@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { GraphUtil } from '../../../index'
 import { expect } from 'chai'
 import { GraphType } from '../../../src/types/GraphType'
-import { WeightedUndirectedGraph } from '../../../src/mutable/UndirectedGraphs'
+import { MutableWeightedGraph } from '../../../src/system/MutableGraphs'
 
 const { parse } = GraphUtil.json
 
@@ -114,10 +114,9 @@ describe('Parse graphs from json', function () {
     expect(graph.nodes().length).equals(graph.count()).equals(2)
     expect(graph.contains(1, 2)).is.true
     expect(graph.hasEdge(1, 2)).is.true
-    const weightedUndirectedGraph: WeightedUndirectedGraph<number, string> =
-      graph as WeightedUndirectedGraph<number, string>
+    const weightedUndirectedGraph = graph as MutableWeightedGraph<number, string>
     expect(weightedUndirectedGraph.degreeOf(1)).equals(1)
-    expect(weightedUndirectedGraph.getEdgeValue(1, 2)).equals('hello')
+    expect(weightedUndirectedGraph.weightOf(1, 2)).equals('hello')
   })
   it('should parse undirected and unweighted graph json', function () {
     const json = `{

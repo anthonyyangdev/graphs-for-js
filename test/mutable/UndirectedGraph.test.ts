@@ -1,17 +1,25 @@
 import { it, describe } from 'mocha'
 import { expect } from 'chai'
 import { GraphType } from '../../src/types/GraphType'
-import { UndirectedGraph } from '../../src/mutable/UndirectedGraphs'
+import { GraphBuilder } from '../../index'
+
+const createGraph = <V> (fn?: (v: V) => string) => {
+  if (fn != null) {
+    return GraphBuilder<V>().withKeyFunction(fn).undirected.unweighted()
+  } else {
+    return GraphBuilder<V>().withoutKeyFunction().undirected.unweighted()
+  }
+}
 
 describe('Undirected graph test suite', function () {
   it('should instantiate', function () {
-    const graph = new UndirectedGraph()
+    const graph = createGraph()
     expect(graph.edges().length).equals(0)
     expect(graph.nodes().length).equals(0)
     expect(graph.getGraphType()).equals(GraphType.NonWeightedUndirected)
   })
   it('should treat edges as both forward and backward', function () {
-    const graph = new UndirectedGraph()
+    const graph = createGraph()
     graph.insert(0, 1, 2)
     graph.connect(0, 1)
     graph.connect(1, 2)
@@ -43,7 +51,7 @@ describe('Undirected graph test suite', function () {
   })
 
   it('should affect outgoing and incoming edge results', function () {
-    const graph = new UndirectedGraph<number>()
+    const graph = createGraph<number>()
     graph.insert(1, 2, 3)
     graph.connect(1, 1)
     graph.connect(1, 2)

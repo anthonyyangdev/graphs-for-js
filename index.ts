@@ -1,38 +1,36 @@
 import * as GraphUtility from './src/GraphUtil'
-import { ReadonlyDirectedGraph, ReadonlyWeightedDirectedGraph } from './src/readonly/ImmutableDirectedGraphs'
-import { ReadonlyUndirectedGraph, ReadonlyWeightedUndirectedGraph } from './src/readonly/ImmutableUndirectedGraphs'
-import { DirectedGraph, WeightedDirectedGraph } from './src/mutable/DirectedGraphs'
-import { UndirectedGraph, WeightedUndirectedGraph } from './src/mutable/UndirectedGraphs'
+import { ReadonlyWeightedGraph, ReadonlyUnweightedGraph } from './src/system/ReadonlyGraphs'
+import { MutableUnweightedGraph, MutableWeightedGraph } from './src/system/MutableGraphs'
 
 const builder = <V, E>(fn?: (v: V) => string) => {
   return {
     readonly: (nodes: V[]) => {
       return {
         directed: {
-          weighted: (edges: [V, V, E][]): ReadonlyWeightedDirectedGraph<V, E> => {
-            return new ReadonlyWeightedDirectedGraph<V, E>(nodes, edges, fn)
+          weighted: (edges: [V, V, E][]): ReadonlyWeightedGraph<V, E> => {
+            return new ReadonlyWeightedGraph<V, E>(nodes, edges, false, fn)
           },
-          unweighted: (edges: [V, V][]): ReadonlyDirectedGraph<V, E> => {
-            return new ReadonlyDirectedGraph<V, E>(nodes, edges, fn)
+          unweighted: (edges: [V, V][]): ReadonlyUnweightedGraph<V, E> => {
+            return new ReadonlyUnweightedGraph<V, E>(nodes, edges, false, true, fn)
           }
         },
         undirected: {
-          weighted: (edges: [V, V, E][]): ReadonlyWeightedUndirectedGraph<V, E> => {
-            return new ReadonlyWeightedUndirectedGraph<V, E>(nodes, edges, fn)
+          weighted: (edges: [V, V, E][]): ReadonlyWeightedGraph<V, E> => {
+            return new ReadonlyWeightedGraph<V, E>(nodes, edges, true, fn)
           },
-          unweighted: (edges: [V, V][]): ReadonlyUndirectedGraph<V, E> => {
-            return new ReadonlyUndirectedGraph<V, E>(nodes, edges, fn)
+          unweighted: (edges: [V, V][]): ReadonlyUnweightedGraph<V, E> => {
+            return new ReadonlyUnweightedGraph<V, E>(nodes, edges, true, true, fn)
           }
         }
       }
     },
     directed: {
-      weighted: (): WeightedDirectedGraph<V, E> => new WeightedDirectedGraph<V, E>(fn),
-      unweighted: (): DirectedGraph<V, E> => new DirectedGraph<V, E>(fn)
+      weighted: (): MutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(false, fn),
+      unweighted: (): MutableUnweightedGraph<V, E> => new MutableUnweightedGraph<V, E>(false, true, fn)
     },
     undirected: {
-      weighted: (): WeightedUndirectedGraph<V, E> => new WeightedUndirectedGraph<V, E>(fn),
-      unweighted: (): UndirectedGraph<V, E> => new UndirectedGraph<V, E>(fn)
+      weighted: (): MutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(true, fn),
+      unweighted: (): MutableUnweightedGraph<V, E> => new MutableUnweightedGraph<V, E>(true, true, fn)
     }
   }
 }

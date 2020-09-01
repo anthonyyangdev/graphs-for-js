@@ -1,11 +1,19 @@
 import { expect } from 'chai'
 import { it, describe } from 'mocha'
 import { GraphType } from '../../src/types/GraphType'
-import { DirectedGraph } from '../../src/mutable/DirectedGraphs'
+import { GraphBuilder } from '../../index'
+
+const createGraph = <V> (fn?: (v: V) => string) => {
+  if (fn != null) {
+    return GraphBuilder<V>().withKeyFunction(fn).directed.unweighted()
+  } else {
+    return GraphBuilder<V>().withoutKeyFunction().directed.unweighted()
+  }
+}
 
 describe('Test suite for a directed graph', function () {
   it('should instantiate', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     expect(graph.count()).equals(0)
     expect(graph.nodes().length).equals(0)
     expect(graph.edges().length).equals(0)
@@ -13,7 +21,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('increases its count() value only when a unique value is added', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     expect(graph.count()).equals(0)
 
     const added = graph.insert(1, 2, 3)
@@ -26,7 +34,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should handle object literals with string conversions', function () {
-    const graph = new DirectedGraph<Record<string, number>>()
+    const graph = createGraph<Record<string, number>>()
     const added = graph.insert({ hi: 2, world: 5 }, { what: 4, is: 2, up: 2 })
     expect(graph.count()).equals(added).equals(2)
     expect(graph.contains({ hi: 2, world: 5 }, { what: 4, is: 2, up: 2 })).to.be.true
@@ -41,7 +49,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should use the to key function to make everything have the same key', function () {
-    const graph = new DirectedGraph<string>(_ => '')
+    const graph = createGraph<string>(_ => '')
     const added = graph.insert('1', '2', 'graph', '3', '4', '5')
     expect(added).equals(1)
     expect(graph.nodes().length).equals(graph.count()).equals(1)
@@ -49,7 +57,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should delete all edges connected to a node if that node is deleted', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     graph.insert(1, 5, 0)
     expect(graph.connect(1, 5)).to.be.true
     expect(graph.connect(5, 0)).to.be.true
@@ -70,7 +78,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should allow self loops by default', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     graph.insert(...new Array(10).keys())
     for (const i of new Array(10).keys()) {
       graph.connect(i, i)
@@ -83,7 +91,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should not connect nonexistent nodes', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     graph.insert(...new Array(10).keys())
     expect(graph.connect(20, 100)).to.be.false
     expect(graph.connect(20, 1)).to.be.false
@@ -94,7 +102,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should cut edges', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     graph.insert(...new Array(10).keys())
     for (let i = 0; i < 9; i++) {
       expect(graph.connect(i, i + 1)).to.be.true
@@ -105,7 +113,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should return the degree of a node', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     graph.insert(1, 2, 3, 4, 5)
 
     graph.connect(1, 3)
@@ -128,7 +136,7 @@ describe('Test suite for a directed graph', function () {
   })
 
   it('should return incoming and outgoing edges', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = createGraph<number>()
     graph.insert(1, 2, 3, 4, 5)
 
     graph.connect(1, 3)
