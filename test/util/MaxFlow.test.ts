@@ -69,6 +69,20 @@ describe('Test suite for min max flow', function () {
         const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).to.be.undefined
       })
+      it('should solve basic flow', function () {
+        graph.insert('A', 'B', 'C', 'D', 'E')
+        graph.connect('A', 'B', 4)
+        graph.connect('A', 'C', 5)
+        graph.connect('A', 'D', 6)
+        graph.connect('B', 'E', 5)
+        graph.connect('C', 'E', 5)
+        graph.connect('D', 'E', 5)
+        const result = GraphUtil.findMaxFlow(graph, 'A', 'E')
+        expect(result).is.not.undefined
+        const { flowGraph, flow } = result!
+        expect(flow).equals(14)
+        repOkFlowGraph(flowGraph, 'A', 'E', flow)
+      })
       it('should satisfy unreachable', function () {
         graph.insert('A', 'G')
         const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
