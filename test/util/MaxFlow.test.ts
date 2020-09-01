@@ -99,6 +99,25 @@ describe('Test suite for min max flow', function () {
         graph = GraphBuilder<string, number>()
           .withoutKeyFunction().directed.weighted()
       })
+      it('should satisfy negative weights', function () {
+        graph.insert('A', 'B')
+        graph.connect('B', 'A', -7)
+        const result = GraphUtil.findMaxFlow(graph, 'A', 'B')
+        expect(result).to.not.be.undefined
+        const { flow, flowGraph } = result!
+        expect(flow).equals(7)
+        repOkFlowGraph(flowGraph, 'A', 'B', flow)
+      })
+      it('should return undefined when there is an edge with 0 capacity.', function () {
+        graph.insert('A', 'B', 'C')
+        graph.connect('A', 'B', 4)
+        graph.connect('B', 'C', 0)
+        const result = GraphUtil.findMaxFlow(graph, 'A', 'C')
+        expect(result).to.not.be.undefined
+        const { flow, flowGraph } = result!
+        expect(flow).equals(0)
+        repOkFlowGraph(flowGraph, 'A', 'C', flow)
+      })
       it('should satisfy empty', function () {
         const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).to.be.undefined

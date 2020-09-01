@@ -14,7 +14,7 @@ const bfs = <V> (
   g: IMutableWeightedGraph<V, MinMaxFlowType>,
   source: V,
   sink: V
-): {path: {source: V, target: V, capacity: number, flow: number}[], bottleNeck: number } | undefined => {
+): {path: {source: V, target: V, capacity: number, flow: number}[], bottleNeck: number } => {
   const target = g.toKeyFn(sink)
   if (g.toKeyFn(source) === target) {
     return { path: [], bottleNeck: 0 }
@@ -131,7 +131,6 @@ const edmondsKarp = <V>(
   const F = convertGraph(g)
   while (true) {
     const bfsResult = bfs(F, source, sink)
-    if (bfsResult == null) return undefined
 
     const { path, bottleNeck } = bfsResult
     if (path.length === 0) break
