@@ -1,8 +1,9 @@
-import { ReadonlyGraph, IReadonlyWeightedGraph, ValueEdge } from '../types/GraphSystem'
+import { IReadonlyWeightedGraph, ReadonlyGraph, ValueEdge } from '../types/GraphSystem'
 import { DefaultDictionary, Dictionary, Set } from 'typescript-collections'
 import { defaultToKeyFunction } from '../DefaultKeyFunction'
 import { BasicEdge } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
+import { NoEdgeWeight } from '../readonly/AbstractReadonlyDirectedGraph'
 
 export class ReadonlyUnweightedGraph<V, E=null> implements ReadonlyGraph<V, E> {
   readonly toKeyFn: (v: V) => string
@@ -56,26 +57,32 @@ export class ReadonlyUnweightedGraph<V, E=null> implements ReadonlyGraph<V, E> {
 
   degreeOf (node: V) {
     if (this.isUndirected) {
-      return this.outDegreeOf(node) + this.inDegreeOf(node)
-    } else {
       const edges = this.sourceToTarget.getValue(node)
       return edges.size() + (edges.containsKey(node) ? 1 : 0)
+    } else {
+      return this.outDegreeOf(node) + this.inDegreeOf(node)
     }
   }
 
   edges (): BasicEdge<V, E>[] {
-    const copy: BasicEdge<V, E>[] = []
+    const edges: BasicEdge<V, E>[] = []
+    const addedAliasEdge = new DefaultDictionary<V, Set<V>>(() => {
+      return new Set<V>(this.toKeyFn)
+    }, this.toKeyFn)
     this.sourceToTarget.forEach((source, targets) => {
-      targets.forEach((target, value) => {
-        copy.push({
-          source,
-          target,
-          value: value !== null ? (value as E) : undefined,
-          undirected: this.isUndirected
-        })
+      targets.forEach((target, v) => {
+        if (!this.isUndirected || !addedAliasEdge.getValue(source).contains(target)) {
+          edges.push({
+            source,
+            target,
+            value: v !== null ? v as E : undefined,
+            undirected: this.isUndirected
+          })
+          addedAliasEdge.getValue(target).add(source)
+        }
       })
     })
-    return copy
+    return edges
   }
 
   incomingEdgesOf (target: V): BasicEdge<V, E>[] {
@@ -122,7 +129,15 @@ export class ReadonlyUnweightedGraph<V, E=null> implements ReadonlyGraph<V, E> {
   }
 
   getGraphType (): GraphType {
-    return GraphType.ReadonlyWeightedDirected
+    if (this.isUnweighted && this.isUndirected) {
+      return GraphType.ReadonlyNonWeightedUndirected
+    } else if (this.isUndirected) {
+      return GraphType.ReadonlyWeightedUndirected
+    } else if (this.isUnweighted) {
+      return GraphType.ReadonlyNonWeightedDirected
+    } else {
+      return GraphType.ReadonlyWeightedDirected
+    }
   }
 }
 

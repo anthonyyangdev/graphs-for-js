@@ -68,8 +68,8 @@ describe('Undirected Graphs', function () {
       expect(graph.inDegreeOf(3)).equals(1)
 
       expect(graph.degreeOf(1)).equals(2)
-      expect(graph.outDegreeOf(1)).equals(2)
-      expect(graph.inDegreeOf(1)).equals(2)
+      expect(graph.outDegreeOf(1)).equals(1)
+      expect(graph.inDegreeOf(1)).equals(1)
     })
 
     it('should load only one node because of key function', function () {
@@ -87,7 +87,7 @@ describe('Undirected Graphs', function () {
       const graph = createWeightedGraph<number, number>([], [])
       expect(graph.getGraphType()).equals(GraphType.ReadonlyWeightedUndirected)
       expect(graph.hasEdge(0, 1)).is.false
-      expect(graph.getEdgeValue(0, 0)).is.undefined
+      expect(graph.weightOf(0, 0)).is.undefined
       expect(graph.incomingEdgesOf(0).length).equals(0)
       expect(graph.outgoingEdgesOf(0).length).equals(0)
       expect(graph.degreeOf(0)).equals(0)

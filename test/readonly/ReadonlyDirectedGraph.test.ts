@@ -82,7 +82,7 @@ describe('Directed Graphs', function () {
       const graph = createWeightedGraph<number, number>([], [])
       expect(graph.getGraphType()).equals(GraphType.ReadonlyWeightedDirected)
       expect(graph.hasEdge(0, 1)).is.false
-      expect(graph.getEdgeValue(0, 0)).is.undefined
+      expect(graph.weightOf(0, 0)).is.undefined
       expect(graph.incomingEdgesOf(0).length).equals(0)
       expect(graph.outgoingEdgesOf(0).length).equals(0)
       expect(graph.degreeOf(0)).equals(0)

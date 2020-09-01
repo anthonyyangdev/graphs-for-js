@@ -2,6 +2,9 @@ import { IReadonlyGeneralNodeGraph, IReadonlyWeightedGraph, ValueEdge } from '..
 import { GraphType } from '../types/GraphType'
 import { AbstractReadonlyDirectedGraph } from './AbstractReadonlyDirectedGraph'
 
+/**
+ * @deprecated Use the ReadonlyUnweightedGraph
+ */
 export class ReadonlyDirectedGraph<V, E=unknown>
   extends AbstractReadonlyDirectedGraph<V, E>
   implements IReadonlyGeneralNodeGraph<V, E> {
@@ -18,6 +21,9 @@ export class ReadonlyDirectedGraph<V, E=unknown>
   }
 }
 
+/**
+ * @deprecated Use the ReadonlyWeightedGraph
+ */
 export class ReadonlyWeightedDirectedGraph<V, E>
   extends AbstractReadonlyDirectedGraph<V, E>
   implements IReadonlyWeightedGraph<V, E> {
