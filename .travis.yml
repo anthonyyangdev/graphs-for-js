@@ -9,4 +9,4 @@ before_script:
   - npm run prepare
 
 script:
-  - npm run coverage
+  - npm test
