@@ -46,8 +46,11 @@ describe('Test suite for min max flow', function () {
         const graph = GraphBuilder<string, number>()
           .withoutKeyFunction().directed.weighted()
         graph.insert('A', 'G')
-        const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
-        expect(result).to.be.undefined
+        let result = GraphUtil.findMaxFlow(graph, 'A', 'G')
+        expect(result).to.not.be.undefined
+        result = result!
+        expect(result.flow).equals(0)
+        repOkFlowGraph(result.flowGraph, 'A', 'G', 0)
       })
       it('should satisfy self node', function () {
         const graph = GraphBuilder<string, number>()
@@ -70,6 +73,7 @@ describe('Test suite for min max flow', function () {
         graph.connect('A', 'B', 3)
         graph.connect('D', 'E', 2)
         graph.connect('E', 'B', 1)
+        graph.connect('E', 'G', 1)
         graph.connect('C', 'A', 3)
         graph.connect('B', 'C', 4)
         graph.connect('C', 'D', 1)

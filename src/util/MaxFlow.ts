@@ -41,9 +41,6 @@ const bfs = <V> (
   source: V,
   sink: V
 ): {path: {source: V, target: V, capacity: number, flow: number}[], bottleNeck: number } | undefined => {
-  if (!g.contains(source, sink)) {
-    return undefined
-  }
   const target = g.toKeyFn(sink)
   if (g.toKeyFn(source) === target) {
     return { path: [], bottleNeck: 0 }
@@ -72,7 +69,7 @@ const bfs = <V> (
     nextNode: V,
     reverse: boolean
   ) {
-    if (flow <= 0) {
+    if (flow > 0 && !visitedNodes.contains(nextNode)) {
       parentMap.setValue(nextNode, { parent: currentNode, flow, reverse })
       if (g.toKeyFn(nextNode) === target) return true
       else bfsQueue.enqueue(nextNode)
@@ -82,21 +79,20 @@ const bfs = <V> (
 
   while (!bfsQueue.isEmpty() && !foundEnd) {
     const node = bfsQueue.dequeue() as V
-    if (!visitedNodes.contains(node)) {
-      visitedNodes.add(node)
-      const outgoingEdges = g.outgoingEdgesOf(node)
-      const incomingEdges = g.incomingEdgesOf(node)
-      for (const { value: { capacity, flow }, target } of outgoingEdges) {
-        foundEnd = foundTarget(capacity - flow, node, target, false)
-        if (foundEnd) break
-      }
-      for (const { value: { flow }, source } of incomingEdges) {
-        foundEnd = foundTarget(flow, node, source, true)
-        if (foundEnd) break
-      }
+    visitedNodes.add(node)
+    const outgoingEdges = g.outgoingEdgesOf(node)
+    const incomingEdges = g.incomingEdgesOf(node)
+    for (const { value: { capacity, flow }, target } of outgoingEdges) {
+      foundEnd = foundTarget(capacity - flow, node, target, false)
+      if (foundEnd) break
+    }
+    if (foundEnd) break
+    for (const { value: { flow }, source } of incomingEdges) {
+      foundEnd = foundTarget(flow, node, source, true)
+      if (foundEnd) break
     }
   }
-  if (!foundEnd) return undefined
+  if (!foundEnd) return { path: [], bottleNeck: 0 }
 
   let node = sink
   let bottleneckCapacity = Number.MAX_SAFE_INTEGER
@@ -105,7 +101,7 @@ const bfs = <V> (
   while (g.toKeyFn(node) !== startKey) {
     const { parent, flow, reverse } = parentMap.getValue(node)!
     if (reverse) {
-      edges.push({ source: node, target: node, reverse })
+      edges.push({ source: node, target: parent, reverse })
     } else {
       edges.push({ source: parent, target: node, reverse })
     }
