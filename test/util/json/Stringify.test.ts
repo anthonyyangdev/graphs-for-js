@@ -1,36 +1,33 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphUtil } from '../../../index'
-import { IGeneralNodeGraph } from '../../../src/types/GraphInterface'
-import { UndirectedGraph, WeightedUndirectedGraph } from '../../../src/mutable/UndirectedGraphs'
-import { DirectedGraph, WeightedDirectedGraph } from '../../../src/mutable/DirectedGraphs'
+import { GraphBuilder, GraphUtil } from '../../../index'
 
 const { stringify } = GraphUtil.json
 
 describe('Test stringify', function () {
   it('should stringify empty graph', function () {
-    let graph: IGeneralNodeGraph<number> = new DirectedGraph<number>()
+    let graph: any = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
     let json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
     expect(json.includes('"undirected":false')).is.true
     expect(json.includes('"weighted":false')).is.true
 
-    graph = new UndirectedGraph<number>()
+    graph = GraphBuilder<number>().withoutKeyFunction().undirected.unweighted()
     json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
     expect(json.includes('"undirected":true')).is.true
     expect(json.includes('"weighted":false')).is.true
 
-    graph = new WeightedDirectedGraph<number, number>()
+    graph = GraphBuilder<number, number>().withoutKeyFunction().directed.weighted()
     json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
     expect(json.includes('"undirected":false')).is.true
     expect(json.includes('"weighted":true')).is.true
 
-    graph = new WeightedUndirectedGraph<number, number>()
+    graph = GraphBuilder<number, number>().withoutKeyFunction().undirected.weighted()
     json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
@@ -39,7 +36,7 @@ describe('Test stringify', function () {
   })
 
   it('should stringify into readable graph json', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = GraphBuilder<number, number>().withoutKeyFunction().directed.unweighted()
     graph.insert(0, 1, 2)
     graph.connect(1, 2)
     const json = stringify(graph).replace(/\s/g, '')
@@ -48,7 +45,7 @@ describe('Test stringify', function () {
   })
 
   it('should emit each edge once for undirected graph', function () {
-    const graph = new UndirectedGraph<number>()
+    const graph = GraphBuilder<number, number>().withoutKeyFunction().undirected.unweighted()
     graph.insert(0, 1)
     graph.connect(0, 1)
     const json = stringify(graph).replace(/\s/g, '')

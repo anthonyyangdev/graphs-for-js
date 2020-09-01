@@ -1,13 +1,13 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { AbstractMutableDirectedGraph } from '../src/mutable/AbstractMutableDirectedGraph'
-import { DirectedGraph } from '../src/mutable/DirectedGraphs'
+import { GraphBuilder } from '../index'
+import { MutableUnweightedGraph } from '../src/system/MutableGraphs'
 
 /**
  * Creates a directed graph.
  */
-function makeGraph<V> (): AbstractMutableDirectedGraph<V> {
-  return new DirectedGraph<V>()
+function makeGraph<V> (): MutableUnweightedGraph<V> {
+  return GraphBuilder<V, null>().withoutKeyFunction().directed.unweighted()
 }
 
 describe('Different primitive types values as nodes should be unique', function () {

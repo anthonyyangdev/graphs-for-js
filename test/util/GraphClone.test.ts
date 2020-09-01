@@ -1,14 +1,11 @@
-
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphUtil } from '../../index'
+import { GraphBuilder, GraphUtil } from '../../index'
 import { GraphType } from '../../src/types/GraphType'
-import { DirectedGraph, WeightedDirectedGraph } from '../../src/mutable/DirectedGraphs'
-import { UndirectedGraph, WeightedUndirectedGraph } from '../../src/mutable/UndirectedGraphs'
 
 describe('Clones a graph as a completely new object', function () {
   it('should clone a directed graph', function () {
-    const graph = new DirectedGraph<number>()
+    const graph = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
     const clonedGraph = GraphUtil.clone(graph)
     expect(clonedGraph).does.not.equal(graph) // Different object reference
     expect(clonedGraph.count()).equals(graph.count())
@@ -30,7 +27,7 @@ describe('Clones a graph as a completely new object', function () {
   })
 
   it('should clone a undirected graph and its weights', function () {
-    const graph = new WeightedUndirectedGraph<number, string>()
+    const graph = GraphBuilder<number, string>().withoutKeyFunction().undirected.weighted()
     graph.insert(1, 2, 3, 4)
     graph.connect(1, 2, 'first')
     graph.connect(2, 3, 'second')
@@ -46,7 +43,7 @@ describe('Clones a graph as a completely new object', function () {
   })
 
   it('should clone undirected graphs', function () {
-    const graph = new UndirectedGraph<number>()
+    const graph = GraphBuilder<number>().withoutKeyFunction().undirected.unweighted()
     graph.insert(0, 1, 2)
     graph.connect(0, 1)
     graph.connect(1, 2)
@@ -57,7 +54,7 @@ describe('Clones a graph as a completely new object', function () {
   })
 
   it('should clone directed graphs with weights', function () {
-    const graph = new WeightedDirectedGraph<number, number>()
+    const graph = GraphBuilder<number, number>().withoutKeyFunction().directed.weighted()
     graph.insert(0, 1, 2)
     graph.connect(0, 1, 0.3)
     graph.connect(1, 2, 0.6)

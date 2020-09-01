@@ -1,7 +1,6 @@
-import { IGeneralNodeGraph, IReadonlyGeneralNodeGraph } from '../../types/GraphInterface'
 import { GraphType } from '../../types/GraphType'
-import { DirectedGraph, WeightedDirectedGraph } from '../../mutable/DirectedGraphs'
-import { UndirectedGraph, WeightedUndirectedGraph } from '../../mutable/UndirectedGraphs'
+import { MutableGraph, ReadonlyGraph } from '../../types/GraphSystem'
+import { GraphBuilder } from '../../../index'
 
 /**
  * Creates a new graph that maps the node values of the given graph to new values
@@ -18,30 +17,33 @@ import { UndirectedGraph, WeightedUndirectedGraph } from '../../mutable/Undirect
  * @param newKeyFunction
  */
 export const mapNodes = <V, E, N> (
-  g: IReadonlyGeneralNodeGraph<V, E>,
+  g: ReadonlyGraph<V, E>,
   callback: (v: V) => N,
   newKeyFunction?: (n: N) => string
 ) => {
   const edges = g.edges()
   const nodes = g.nodes()
 
-  let clone: IGeneralNodeGraph<N, E>
+  let clone: MutableGraph<N, E>
+  const builder = newKeyFunction != null
+    ? GraphBuilder<N, E>().withKeyFunction(newKeyFunction)
+    : GraphBuilder<N, E>().withoutKeyFunction()
   switch (g.getGraphType()) {
     case GraphType.WeightedDirected:
     case GraphType.ReadonlyWeightedDirected:
-      clone = new WeightedDirectedGraph<N, E>(newKeyFunction)
+      clone = builder.directed.weighted()
       break
     case GraphType.NonWeightedDirected:
     case GraphType.ReadonlyNonWeightedDirected:
-      clone = new DirectedGraph<N, E>(newKeyFunction)
+      clone = builder.directed.unweighted()
       break
     case GraphType.WeightedUndirected:
     case GraphType.ReadonlyWeightedUndirected:
-      clone = new WeightedUndirectedGraph<N, E>(newKeyFunction)
+      clone = builder.undirected.weighted()
       break
     case GraphType.NonWeightedUndirected:
     case GraphType.ReadonlyNonWeightedUndirected:
-      clone = new UndirectedGraph<N, E>(newKeyFunction)
+      clone = builder.undirected.unweighted()
       break
   }
   clone.insert(...nodes.map(n => callback(n)))
