@@ -161,6 +161,8 @@ export const findMaxFlow = <V> (
   source: V,
   sink: V
 ): FlowResultType<V> | undefined => {
-  if (!g.contains(source, sink)) return undefined
+  if (
+    !g.contains(source, sink) ||
+    g.edges().some(n => !Number.isInteger(n))) return undefined // Because of fpa
   else return edmondsKarp(g, source, sink)
 }
