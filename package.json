@@ -7,9 +7,10 @@
   "repository": "https://github.com/ayang4114/graphs-for-js",
   "scripts": {
     "test": "mocha -r ts-node/register 'test/**/*.test.ts'",
-    "coverage": "nyc mocha -r ts-node/register -r source-map-support/register --recursive 'test/**/*.test.ts' && cat ./coverage/lcov.info | coveralls",
+    "coverage": "nyc mocha -r ts-node/register -r source-map-support/register --recursive 'test/**/*.test.ts'",
     "prepare": "tsc",
-    "clean": "rm -rf ./dist"
+    "clean": "rm -rf ./dist",
+    "send_coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
