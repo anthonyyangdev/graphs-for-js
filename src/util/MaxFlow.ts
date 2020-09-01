@@ -156,6 +156,13 @@ type FlowResultType<V> = {
   flowGraph: IReadonlyWeightedGraph<V, number>
 }
 
+/**
+ * Returns undefined if a flow cannot be computed. Otherwise, it returns an object
+ * with the flow and the residual graph.
+ * @param g
+ * @param source
+ * @param sink
+ */
 export const findMaxFlow = <V> (
   g: ReadonlyWeightedGraph<V, number>,
   source: V,
@@ -163,6 +170,7 @@ export const findMaxFlow = <V> (
 ): FlowResultType<V> | undefined => {
   if (
     !g.contains(source, sink) ||
-    g.edges().some(n => !Number.isInteger(n))) return undefined // Because of fpa
-  else return edmondsKarp(g, source, sink)
+    g.edges().some(e => !Number.isInteger(e.value))) { // Because of fpa
+    return undefined
+  } else return edmondsKarp(g, source, sink)
 }
