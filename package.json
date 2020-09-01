@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/ayang4114/graphs-for-js",
   "scripts": {
-    "test": "mocha -r ts-node/register 'test/**/*.test.ts'",
+    "test": "mocha -r ts-node/register --timeout 2000 'test/**/*.test.ts'",
     "coverage": "nyc mocha -r ts-node/register -r source-map-support/register --recursive 'test/**/*.test.ts'",
     "prepare": "tsc",
     "clean": "rm -rf ./dist"

@@ -33,25 +33,48 @@ describe('Test suite for min max flow', function () {
       beforeEach(() => {
         graph = GraphBuilder<number, number>().withoutKeyFunction().undirected.weighted()
       })
+      it('should satisfy self loop', function () {
+        graph.insert(1)
+        graph.connect(1, 1, 2)
+        let result = GraphUtil.findMaxFlow(graph, 1, 1)
+        expect(result).is.not.undefined
+        result = result!
+        expect(result.flow).equals(0)
+        repOkFlowGraph(result.flowGraph, 1, 1, 0)
+      })
+
+      it('should solve basic flow', function () {
+        graph.insert(1, 2, 3, 4, 5)
+        graph.connect(1, 2, 4)
+        graph.connect(1, 3, 5)
+        graph.connect(1, 4, 6)
+        graph.connect(2, 5, 5)
+        graph.connect(3, 5, 5)
+        graph.connect(4, 5, 5)
+        // const result = GraphUtil.findMaxFlow(graph, 1, 5)
+        // expect(result).is.not.undefined
+        // const { flowGraph, flow } = result!
+        // expect(flow).equals(14)
+        // repOkFlowGraph(flowGraph, 1, 5, flow)
+      })
     })
 
     describe('Directed', function () {
-      it('should satisfy empty', function () {
-        const graph = GraphBuilder<string, number>()
+      let graph: MutableWeightedGraph<string, number>
+      beforeEach(() => {
+        graph = GraphBuilder<string, number>()
           .withoutKeyFunction().directed.weighted()
+      })
+      it('should satisfy empty', function () {
         const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).to.be.undefined
       })
       it('should satisfy unreachable', function () {
-        const graph = GraphBuilder<string, number>()
-          .withoutKeyFunction().directed.weighted()
         graph.insert('A', 'G')
         const result = GraphUtil.findMaxFlow(graph, 'A', 'G')
         expect(result).to.be.undefined
       })
       it('should satisfy self node', function () {
-        const graph = GraphBuilder<string, number>()
-          .withoutKeyFunction().directed.weighted()
         graph.insert('A')
         let result = GraphUtil.findMaxFlow(graph, 'A', 'A')
         expect(result).to.not.be.undefined
@@ -60,9 +83,6 @@ describe('Test suite for min max flow', function () {
         repOkFlowGraph(result.flowGraph, 'A', 'A', result.flow)
       })
       it('should satisfy example [src: https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm]', function () {
-        const graph = GraphBuilder<string, number>()
-          .withoutKeyFunction().directed.weighted()
-
         graph.insert(...range.char('A', 'G'))
         graph.connect('A', 'D', 3)
         graph.connect('D', 'F', 6)
@@ -83,8 +103,6 @@ describe('Test suite for min max flow', function () {
         repOkFlowGraph(result.flowGraph, 'A', 'G', result.flow)
       })
       it('should satisfy example [https://cp-algorithms.com/graph/edmonds_karp.html#integral-theorem]', function () {
-        const graph = GraphBuilder<string, number>()
-          .withoutKeyFunction().directed.weighted()
         graph.insert(...range.char('A', 'D'), 's', 't')
         graph.connect('s', 'A', 7)
         graph.connect('s', 'D', 4)
