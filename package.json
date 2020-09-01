@@ -7,7 +7,7 @@
   "repository": "https://github.com/ayang4114/graphs-for-js",
   "scripts": {
     "test": "mocha -r ts-node/register 'test/**/*.test.ts'",
-    "coverage": "nyc mocha -r ts-node/register -r source-map-support/register --recursive 'test/**/*.test.ts'",
+    "coverage": "nyc mocha -r ts-node/register -r source-map-support/register --recursive 'test/**/*.test.ts' && cat ./coverage/lcov.info | coveralls",
     "prepare": "tsc",
     "clean": "rm -rf ./dist"
   },
