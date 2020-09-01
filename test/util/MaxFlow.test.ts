@@ -52,10 +52,10 @@ describe('Test suite for min max flow', function () {
         graph.connect(3, 5, 5)
         graph.connect(4, 5, 5)
         const result = GraphUtil.findMaxFlow(graph, 1, 5)
-        // expect(result).is.not.undefined
-        // const { flowGraph, flow } = result!
-        // expect(flow).equals(14)
-        // repOkFlowGraph(flowGraph, 1, 5, flow)
+        expect(result).is.not.undefined
+        const { flowGraph, flow } = result!
+        expect(flow).equals(14)
+        repOkFlowGraph(flowGraph, 1, 5, flow)
       })
     })
 
