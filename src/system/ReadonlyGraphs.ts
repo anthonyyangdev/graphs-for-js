@@ -3,7 +3,6 @@ import { DefaultDictionary, Dictionary, Set } from 'typescript-collections'
 import { defaultToKeyFunction } from '../DefaultKeyFunction'
 import { BasicEdge } from '../types/GraphInterface'
 import { GraphType } from '../types/GraphType'
-import { NoEdgeWeight } from '../readonly/AbstractReadonlyDirectedGraph'
 
 export class ReadonlyUnweightedGraph<V, E=null> implements ReadonlyGraph<V, E> {
   readonly toKeyFn: (v: V) => string

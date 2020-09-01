@@ -1,4 +1,4 @@
-import { ReadonlyWeightedGraph } from '../system/ReadonlyGraphS'
+import { ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
 
 const findMaxFlow = <V> (g: ReadonlyWeightedGraph<V, number>) => {
 

@@ -1,6 +1,6 @@
 import { GraphType } from '../types/GraphType'
 import { ReadonlyGraph } from '../types/GraphSystem'
-import { ReadonlyUnweightedGraph, ReadonlyWeightedGraph } from '../system/ReadonlyGraphS'
+import { ReadonlyUnweightedGraph, ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
 import { MutableUnweightedGraph, MutableWeightedGraph } from '../system/MutableGraphs'
 
 type CastedType<V, E> = {

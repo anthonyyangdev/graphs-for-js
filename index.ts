@@ -1,5 +1,5 @@
 import * as GraphUtility from './src/GraphUtil'
-import { ReadonlyWeightedGraph, ReadonlyUnweightedGraph } from './src/system/ReadonlyGraphS'
+import { ReadonlyWeightedGraph, ReadonlyUnweightedGraph } from './src/system/ReadonlyGraphs'
 import { MutableUnweightedGraph, MutableWeightedGraph } from './src/system/MutableGraphs'
 
 const builder = <V, E>(fn?: (v: V) => string) => {
