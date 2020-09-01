@@ -1,4 +1,4 @@
-# graphs-for-js [![NPM version](https://badge.fury.io/js/graphs-for-js.svg)](https://npmjs.org/package/graphs-for-js) [![Build Status](https://travis-ci.org/ayang4114/graphs-for-js.svg?branch=master)](https://travis-ci.org/ayang4114/graphs-for-js)
+# graphs-for-js [![NPM version](https://badge.fury.io/js/graphs-for-js.svg)](https://npmjs.org/package/graphs-for-js) [![Build Status](https://travis-ci.org/ayang4114/graphs-for-js.svg?branch=master)](https://travis-ci.org/ayang4114/graphs-for-js) [![Coverage Status](https://coveralls.io/repos/github/ayang4114/graphs-for-js/badge.svg?branch=master)](https://coveralls.io/github/ayang4114/graphs-for-js?branch=master)
 
 > Implementations of graph data structures for JavaScript and TypeScript
   
