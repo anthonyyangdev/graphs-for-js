@@ -1,4 +1,3 @@
-import { IReadonlyGeneralNodeGraph } from '../types/GraphInterface'
 import { Dictionary, Queue, Set } from 'typescript-collections'
 import { ReadonlyGraph } from '../types/GraphSystem'
 

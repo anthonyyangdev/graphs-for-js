@@ -1,9 +1,9 @@
-import { IReadonlyGeneralNodeGraph } from '../../types/GraphInterface'
 import { GraphType } from '../../types/GraphType'
 import { GraphJson } from './GraphJson'
+import { ReadonlyGraph } from '../../types/GraphSystem'
 
 export const stringify = <V, E> (
-  graph: IReadonlyGeneralNodeGraph<V, E>
+  graph: ReadonlyGraph<V, E>
 ): string => {
   const nodes = graph.nodes()
   const edges = graph.edges()
