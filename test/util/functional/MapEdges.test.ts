@@ -3,8 +3,10 @@ import { expect } from 'chai'
 import { Graph, GraphUtil } from '../../../index'
 
 describe('Map edges test suite', function () {
+  const gen = new Graph<number, string>().noKey()
+
   it('should create a new map from no edges', function () {
-    const graph = new Graph<number, string>().noKey().undirected.weighted()
+    const graph = gen.undirected.weighted()
     graph.insert(1, 2, 3, 4)
 
     const mapped = GraphUtil.functional.mapEdges(graph, e => Number.parseInt(e))
@@ -14,7 +16,7 @@ describe('Map edges test suite', function () {
   })
 
   it('should create a new graph with mapped edges', function () {
-    const graph = new Graph<number, string>().noKey().undirected.weighted()
+    const graph = gen.undirected.weighted()
     graph.insert(1, 2, 3, 4, 5)
     graph.connect(1, 4, '5')
     graph.connect(1, 5, '6')
