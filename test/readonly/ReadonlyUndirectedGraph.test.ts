@@ -1,21 +1,20 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphType } from '../../src/types/GraphType'
-import { GraphBuilder } from '../../index'
+import { Graph } from '../../index'
 
 const createUnweightedGraph = <V> (nodes: V[], edges: [V, V][], fn?: (v: V) => string) => {
   if (fn != null) {
-    return GraphBuilder<V>().withKeyFunction(fn).readonly(nodes).undirected.unweighted(edges)
+    return new Graph<V>().keyFn(fn).readonly.undirected.unweighted(edges, nodes)
   } else {
-    return GraphBuilder<V>().withoutKeyFunction().readonly(nodes).undirected.unweighted(edges)
+    return new Graph<V>().noKey().readonly.undirected.unweighted(edges, nodes)
   }
 }
 
 const createWeightedGraph = <V, E> (nodes: V[], edges: [V, V, E][], fn?: (v: V) => string) => {
   if (fn != null) {
-    return GraphBuilder<V>().withKeyFunction(fn).readonly(nodes).undirected.weighted(edges)
+    return new Graph<V, E>().keyFn(fn).readonly.undirected.weighted(edges, nodes)
   } else {
-    return GraphBuilder<V>().withoutKeyFunction().readonly(nodes).undirected.weighted(edges)
+    return new Graph<V, E>().noKey().readonly.undirected.weighted(edges, nodes)
   }
 }
 
@@ -23,7 +22,8 @@ describe('Undirected Graphs', function () {
   describe('Unweighted Graphs', function () {
     it('should initiate empty', function () {
       const graph = createUnweightedGraph<number>([], [])
-      expect(graph.getGraphType()).equals(GraphType.ReadonlyNonWeightedUndirected)
+      expect(graph.isUnweighted).is.true
+      expect(graph.isUndirected).is.true
 
       expect(graph.hasEdge(0, 1)).is.false
       expect(graph.incomingEdgesOf(0).length).equals(0)
@@ -85,7 +85,8 @@ describe('Undirected Graphs', function () {
   describe('Weighted graphs', function () {
     it('should instantiate empty', function () {
       const graph = createWeightedGraph<number, number>([], [])
-      expect(graph.getGraphType()).equals(GraphType.ReadonlyWeightedUndirected)
+      expect(graph.isUnweighted).is.false
+      expect(graph.isUndirected).is.true
       expect(graph.hasEdge(0, 1)).is.false
       expect(graph.weightOf(0, 0)).is.undefined
       expect(graph.incomingEdgesOf(0).length).equals(0)

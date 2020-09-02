@@ -1,4 +1,4 @@
-# graphs-for-js [![NPM version](https://badge.fury.io/js/graphs-for-js.svg)](https://npmjs.org/package/graphs-for-js) [![Build Status](https://travis-ci.org/ayang4114/graphs-for-js.svg?branch=master)](https://travis-ci.org/ayang4114/graphs-for-js)
+# graphs-for-js [![NPM version](https://badge.fury.io/js/graphs-for-js.svg)](https://npmjs.org/package/graphs-for-js) [![Build Status](https://travis-ci.org/ayang4114/graphs-for-js.svg?branch=master)](https://travis-ci.org/ayang4114/graphs-for-js) [![Coverage Status](https://coveralls.io/repos/github/ayang4114/graphs-for-js/badge.svg?branch=master)](https://coveralls.io/github/ayang4114/graphs-for-js?branch=master)
 
 > Implementations of graph data structures for JavaScript and TypeScript
   
@@ -7,23 +7,8 @@
 > - Connect and disconnect nodes.
 > - Algorithms for graph data structures.
 
-
 - [Installation](#installation)
-- [GraphBuilder Usage](#graphbuilder-usage)
-  * [Import the GraphBuilder](#import-the-graphbuilder)
-  * [Key Function](#key-function)
-  * [JavaScript initialization](#javascript-initialization)
-  * [TypeScript initialization](#typescript-initialization)
-  * [Using the Graph](#using-the-graph)
-    + [Insert nodes](#insert-nodes)
-    + [Removing nodes](#removing-nodes)
-    + [Number of nodes](#number-of-nodes)
-    + [Forming edges](#forming-edges)
-    + [Removing edges](#removing-edges)
-    + [Get all of the nodes and edges in the graph](#get-all-of-the-nodes-and-edges-in-the-graph)
-    + [Incoming and Outgoing edges](#incoming-and-outgoing-edges)
-    + [Degree of Edge](#degree-of-edge)
-    + [Existence Methods](#existence-methods)
+- [Graph Class Usage](#graph-class-usage)
 - [GraphUtil Usage](#graphutil-usage)
   * [Examples](#examples)
 - [Contributing](#contributing)
@@ -38,9 +23,9 @@
 $ npm install --save graphs-for-js
 ```
 
-## GraphBuilder Usage
+## Graph Class Usage
 
-Import the `GraphBuilder` to build and initialize a graph.
+Import the `Graph` class to initialize a graph.
 
 The library supports 4 types of graphs:
 
@@ -53,23 +38,25 @@ The library supports 4 types of graphs:
 - Unweighted, Undirected graphs
     - Edges are bidirectional and cannot be assigned a value.
 
+For each of the above graph types, there are also readonly, immutable versions.
+
 ### Import the GraphBuilder
 
 ```js
 // With require()
-const {GraphBuilder} = require('graphs-for-js')
+const {Graph} = require('graphs-for-js')
 
 
 // With import syntax
-import {GraphBuilder} from 'graphs-for-js'
+import {Graph} from 'graphs-for-js'
 
 ```
 
 ### Key Function
 
-Because JavaScript does not directly hash/map objects and their contents to unique values, the GraphBuilder accepts a function for mapping a node value to a string key.
+Because JavaScript does not natively hash/map objects and their contents to unique values as object keys, the GraphBuilder accepts a function for mapping a node value to a string key.
 
-If a Key Function is not given, then the default behaviors are the following:
+If a Key Function is not given, then the default behaviors on node values are the following:
 - Primitive Types
     - This includes number, string, boolean, symbol, null, and undefined.
     - All primitives are converted to their string equivalents.
@@ -82,25 +69,37 @@ If a Key Function is not given, then the default behaviors are the following:
 ### JavaScript initialization
 
 ```js
-const weightedGraph = GraphBuilder()
-                      .withKeyFunction(i => `${i}`)
-                      .directed.weighted()  
-const unweightedGraph = GraphBuilder()
-                        .withoutKeyFunction()
-                        .directed.unweighted()
+const weightedGraph = new Graph()
+  .keyFn(i => `${i}`).directed.weighted()
+
+const unweightedGraph = new Graph()
+  .noKey().directed.unweighted()
 ```
 
 ### TypeScript initialization
 
-Use type parameters to specify the type of the nodes and of the edge values (if weighted).
+Use the type parameters to specify the type of the nodes and of the edge values (if weighted).
 
 ```ts
-const weightedGraph = GraphBuilder<string, number>()
-                          .withoutKeyFunction()
-                          .directed.weighted()
-const unweightedGraph = GraphBuilder<string>()
-                          .withoutKeyFunction()
-                          .directed.unweighted()
+const weightedGraph = new Graph<string, number>()
+                          .noKey().directed.weighted()
+
+const unweightedGraph = new Graph<string>()
+                          .noKey().directed.unweighted()
+```
+
+You can also initiate a readonly graph which cannot be modified.
+
+```ts
+const weightedGraph = new Graph<number, number>()
+                          .noKey().readonly.directed
+                          .weighted([[1, 2, 5], [2, 3, 6]])
+                          // Specify edges and implicitly the nodes
+
+const unweightedGraph = new Graph<number>()
+                          .noKey().readonly.directed
+                          .unweighted([], [2, 3, 4, 5])  
+                          // No edges, followed by an array of extra nodes.
 ```
 
 ### Using the Graph

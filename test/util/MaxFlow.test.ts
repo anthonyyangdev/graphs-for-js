@@ -1,12 +1,11 @@
 import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../index'
+import { Graph, GraphUtil } from '../../index'
 import range from '../common/range'
-import { MutableWeightedGraph } from '../../src/system/MutableGraphs'
-import { IReadonlyWeightedGraph } from '../../src/types/GraphSystem'
+import { MutableWeightedGraph, ReadonlyWeightedGraph } from '../../src/types/GraphSystem'
 
 const repOkFlowGraph = <V> (
-  g: IReadonlyWeightedGraph<V, number>,
+  g: ReadonlyWeightedGraph<V, number>,
   source: V,
   sink: V,
   flow: number
@@ -31,7 +30,7 @@ describe('Test suite for min max flow', function () {
     describe('Undirected', function () {
       let graph: MutableWeightedGraph<number, number>
       beforeEach(() => {
-        graph = GraphBuilder<number, number>().withoutKeyFunction().undirected.weighted()
+        graph = new Graph<number, number>().noKey().undirected.weighted()
       })
       it('should satisfy self loop', function () {
         graph.insert(1)
@@ -96,8 +95,8 @@ describe('Test suite for min max flow', function () {
     describe('Directed', function () {
       let graph: MutableWeightedGraph<string, number>
       beforeEach(() => {
-        graph = GraphBuilder<string, number>()
-          .withoutKeyFunction().directed.weighted()
+        graph = new Graph<string, number>()
+          .noKey().directed.weighted()
       })
       it('should satisfy negative weights', function () {
         graph.insert('A', 'B')

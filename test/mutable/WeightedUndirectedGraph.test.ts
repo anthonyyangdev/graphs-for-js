@@ -1,13 +1,12 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphType } from '../../src/types/GraphType'
-import { GraphBuilder } from '../../index'
+import { Graph } from '../../index'
 
 const createGraph = <V, E> (fn?: (v: V) => string) => {
   if (fn != null) {
-    return GraphBuilder<V, E>().withKeyFunction(fn).undirected.weighted()
+    return new Graph<V, E>().keyFn(fn).undirected.weighted()
   } else {
-    return GraphBuilder<V, E>().withoutKeyFunction().undirected.weighted()
+    return new Graph<V, E>().noKey().undirected.weighted()
   }
 }
 
@@ -16,7 +15,8 @@ describe('Weighted undirected graph', function () {
     const graph = createGraph<number, number>()
     expect(graph.edges().length).equals(0)
     expect(graph.nodes().length).equals(0)
-    expect(graph.getGraphType()).equals(GraphType.WeightedUndirected)
+    expect(graph.isUndirected).is.true
+    expect(graph.isUnweighted).is.false
   })
 
   it('should return false for failed unconnected edges', function () {

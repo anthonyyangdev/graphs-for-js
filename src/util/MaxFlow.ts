@@ -1,9 +1,8 @@
 import { Dictionary, Queue, Set } from 'typescript-collections'
-import { ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
-import { IMutableWeightedGraph, IReadonlyWeightedGraph } from '../types/GraphSystem'
 import { mapEdges } from './functional'
 import { findShortestPath } from './FindShortestPath'
-import { GraphBuilder } from '../../index'
+import { MutableWeightedGraph, ReadonlyWeightedGraph } from '../types/GraphSystem'
+import { Graph } from '../../index'
 
 type MinMaxFlowType = {
   capacity: number,
@@ -11,7 +10,7 @@ type MinMaxFlowType = {
 }
 
 const bfs = <V> (
-  g: IMutableWeightedGraph<V, MinMaxFlowType>,
+  g: MutableWeightedGraph<V, MinMaxFlowType>,
   source: V,
   sink: V
 ): {path: {source: V, target: V, capacity: number, flow: number}[], bottleNeck: number } => {
@@ -98,12 +97,12 @@ const bfs = <V> (
 
 const convertGraph = <V> (
   g: ReadonlyWeightedGraph<V, number>
-): IMutableWeightedGraph<V, MinMaxFlowType> => {
+): MutableWeightedGraph<V, MinMaxFlowType> => {
   if (g.isUndirected) {
     const edges = g.edges()
     const nodes = g.nodes()
-    const directedGraph = GraphBuilder<V, MinMaxFlowType>()
-      .withKeyFunction(g.toKeyFn).directed.weighted()
+    const directedGraph = new Graph<V, MinMaxFlowType>()
+      .keyFn(g.toKeyFn).directed.weighted()
     directedGraph.insert(...nodes)
     edges.forEach(({ source, target, value }) => {
       directedGraph.connect(source, target, {
@@ -149,7 +148,7 @@ const edmondsKarp = <V>(
 
 type FlowResultType<V> = {
   flow: number,
-  flowGraph: IReadonlyWeightedGraph<V, number>
+  flowGraph: ReadonlyWeightedGraph<V, number>
 }
 
 /**

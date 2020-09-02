@@ -1,15 +1,17 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../index'
-import { GraphType } from '../../src/types/GraphType'
+import { Graph, GraphUtil } from '../../index'
 
 describe('Clones a graph as a completely new object', function () {
+  const gen = new Graph<number>().noKey()
+
   it('should clone a directed graph', function () {
-    const graph = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
+    const graph = gen.directed.unweighted()
     const clonedGraph = GraphUtil.clone(graph)
     expect(clonedGraph).does.not.equal(graph) // Different object reference
     expect(clonedGraph.count()).equals(graph.count())
-    expect(clonedGraph.getGraphType()).equals(graph.getGraphType())
+    expect(clonedGraph.isUnweighted).equals(graph.isUnweighted)
+    expect(clonedGraph.isUndirected).equals(graph.isUndirected)
     clonedGraph.insert(1, 2, 3, 4)
     expect(graph.count()).equals(0)
     expect(clonedGraph.count()).equals(4)
@@ -27,7 +29,7 @@ describe('Clones a graph as a completely new object', function () {
   })
 
   it('should clone a undirected graph and its weights', function () {
-    const graph = GraphBuilder<number, string>().withoutKeyFunction().undirected.weighted()
+    const graph = new Graph<number, string>().noKey().undirected.weighted()
     graph.insert(1, 2, 3, 4)
     graph.connect(1, 2, 'first')
     graph.connect(2, 3, 'second')
@@ -43,23 +45,25 @@ describe('Clones a graph as a completely new object', function () {
   })
 
   it('should clone undirected graphs', function () {
-    const graph = GraphBuilder<number>().withoutKeyFunction().undirected.unweighted()
+    const graph = gen.undirected.unweighted()
     graph.insert(0, 1, 2)
     graph.connect(0, 1)
     graph.connect(1, 2)
     const cloned = GraphUtil.clone(graph)
-    expect(cloned.getGraphType()).equals(GraphType.NonWeightedUndirected)
+    expect(cloned.isUnweighted).equals(graph.isUnweighted)
+    expect(cloned.isUndirected).equals(graph.isUndirected)
     expect(cloned.nodes()).deep.equals(graph.nodes())
     expect(cloned.edges()).deep.equals(graph.edges())
   })
 
   it('should clone directed graphs with weights', function () {
-    const graph = GraphBuilder<number, number>().withoutKeyFunction().directed.weighted()
+    const graph = new Graph<number, number>().noKey().directed.weighted()
     graph.insert(0, 1, 2)
     graph.connect(0, 1, 0.3)
     graph.connect(1, 2, 0.6)
     const cloned = GraphUtil.clone(graph)
-    expect(cloned.getGraphType()).equals(GraphType.WeightedDirected)
+    expect(cloned.isUnweighted).equals(graph.isUnweighted)
+    expect(cloned.isUndirected).equals(graph.isUndirected)
     expect(cloned.nodes()).deep.equals(graph.nodes())
     expect(cloned.edges()).deep.equals(graph.edges())
   })

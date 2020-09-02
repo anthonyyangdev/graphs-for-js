@@ -1,7 +1,6 @@
-import { GraphType } from '../../types/GraphType'
 import { Set } from 'typescript-collections'
-import { MutableGraph, ReadonlyGraph } from '../../types/GraphSystem'
-import { GraphBuilder } from '../../../index'
+import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../../types/GraphSystem'
+import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**
  * Creates a new graph that is a subset of the given graph.
@@ -15,34 +14,19 @@ import { GraphBuilder } from '../../../index'
  * @param nodes
  */
 export const subsetNode = <V, E> (
-  g: ReadonlyGraph<V, E>,
-  nodes: V[]
+  g: ReadonlyUnweightedGraph<V, E>,
+  nodes: V[] | ((v: V) => boolean)
 ) => {
   const setOfNodes = new Set<V>(g.toKeyFn)
-  nodes.forEach(n => setOfNodes.add(n))
+  if (nodes instanceof Array) { nodes.forEach(n => setOfNodes.add(n)) }
 
-  let clone: MutableGraph<V, E>
-  const builder = GraphBuilder<V, E>().withKeyFunction(g.toKeyFn)
-  switch (g.getGraphType()) {
-    case GraphType.WeightedDirected:
-    case GraphType.ReadonlyWeightedDirected:
-      clone = builder.directed.weighted()
-      break
-    case GraphType.NonWeightedDirected:
-    case GraphType.ReadonlyNonWeightedDirected:
-      clone = builder.directed.unweighted()
-      break
-    case GraphType.WeightedUndirected:
-    case GraphType.ReadonlyWeightedUndirected:
-      clone = builder.undirected.weighted()
-      break
-    case GraphType.NonWeightedUndirected:
-    case GraphType.ReadonlyNonWeightedUndirected:
-      clone = builder.undirected.unweighted()
-      break
-  }
+  const clone: MutableUnweightedGraph<V, E> = createEmptyGraphInstance(g, g.toKeyFn)
   g.nodes().forEach(n => {
-    if (setOfNodes.contains(n)) clone.insert(n)
+    if (nodes instanceof Array) {
+      if (setOfNodes.contains(n)) clone.insert(n)
+    } else if (nodes(n)) {
+      clone.insert(n)
+    }
   })
   g.edges().forEach(({ source, value, target }) => {
     if (clone.contains(source, target)) {

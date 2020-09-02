@@ -1,13 +1,12 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphType } from '../../src/types/GraphType'
-import { GraphBuilder } from '../../index'
+import { Graph } from '../../index'
 
 const createGraph = <V, E> (fn?: (v: V) => string) => {
   if (fn != null) {
-    return GraphBuilder<V, E>().withKeyFunction(fn).directed.weighted()
+    return new Graph<V, E>().keyFn(fn).directed.weighted()
   } else {
-    return GraphBuilder<V, E>().withoutKeyFunction().directed.weighted()
+    return new Graph<V, E>().noKey().directed.weighted()
   }
 }
 
@@ -17,7 +16,8 @@ describe('Weighted directed graph', function () {
     expect(graph.edges().length).equals(0)
     expect(graph.nodes().length).equals(0)
     expect(graph.count()).equals(0)
-    expect(graph.getGraphType()).equals(GraphType.WeightedDirected)
+    expect(graph.isUnweighted).is.false
+    expect(graph.isUndirected).is.false
   })
 
   it('should include values in edges', function () {

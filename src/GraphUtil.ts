@@ -1,10 +1,11 @@
 import * as HasCycle from './util/HasCycle'
 import * as FindShortestPath from './util/FindShortestPath'
-import * as j from './util/json'
-import * as caster from './util/GetExplicitGraph'
+import * as j from './util/serialize'
 import * as cloner from './util/GraphClone'
 import * as functionalFn from './util/functional'
 import * as flowAlgo from './util/MaxFlow'
+import * as tpSort from './util/TopologicalSort'
+import * as toMatrix from './util/ToAdjacenyMatrix'
 
 export const hasCycle = HasCycle.hasCycle
 
@@ -15,8 +16,6 @@ export const json = {
   parse: j.parse
 }
 
-export const castGraph = caster.castExplicitly
-
 export const clone = cloner.clone
 
 export const functional = {
@@ -24,3 +23,7 @@ export const functional = {
 }
 
 export const findMaxFlow = flowAlgo.findMaxFlow
+
+export const topologicalSort = tpSort.topologicalSort
+
+export const toAdjacencyMatrix = toMatrix.toAdjacencyMatrix
