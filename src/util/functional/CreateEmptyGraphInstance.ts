@@ -1,11 +1,11 @@
-import { MutableGraph, ReadonlyGraph } from '../../types/GraphSystem'
+import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../../types/GraphSystem'
 import { Graph } from '../../../index'
 
 export const createEmptyGraphInstance = <V, E, N, R> (
-  g: ReadonlyGraph<V, E>,
+  g: ReadonlyUnweightedGraph<V, E>,
   keyFn?: (v: N) => string,
   onlyWeighted: boolean = false
-): MutableGraph<N, R> => {
+): MutableUnweightedGraph<N, R> => {
   const builder = keyFn != null
     ? new Graph<N, R>().keyFn(keyFn)
     : new Graph<N, R>().noKey()

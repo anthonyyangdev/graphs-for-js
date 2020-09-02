@@ -1,20 +1,20 @@
 import { GraphType } from '../types/GraphType'
-import { ReadonlyGraph } from '../types/GraphSystem'
+import { ReadonlyUnweightedGraph } from '../types/GraphSystem'
 import { ReadonlyUnweightedGraph, ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
-import { MutableUnweightedGraph, MutableWeightedGraph } from '../system/MutableGraphs'
+import { UnweightedGraph, WeightedGraph } from '../system/MutableGraphs'
 
 type CastedType<V, E> = {
   type: GraphType.WeightedDirected,
-  graph: MutableWeightedGraph<V, E>
+  graph: WeightedGraph<V, E>
 } | {
   type: GraphType.NonWeightedDirected,
-  graph: MutableUnweightedGraph<V, E>
+  graph: UnweightedGraph<V, E>
 } | {
   type: GraphType.WeightedUndirected,
-  graph: MutableWeightedGraph<V, E>
+  graph: WeightedGraph<V, E>
 } | {
   type: GraphType.NonWeightedUndirected,
-  graph: MutableUnweightedGraph<V, E>
+  graph: UnweightedGraph<V, E>
 } | {
   type: GraphType.ReadonlyWeightedUndirected
   graph: ReadonlyWeightedGraph<V, E>
@@ -41,7 +41,7 @@ type CastedType<V, E> = {
  * @deprecated No longer needed by exposed isUndirected and isUnweighted field properties.
  * @param g The graph whose type and implementation is to be checked
  */
-export const castExplicitly = <V, E> (g: ReadonlyGraph<V, E>): CastedType<V, E> => {
+export const castExplicitly = <V, E> (g: ReadonlyUnweightedGraph<V, E>): CastedType<V, E> => {
   const type = g.getGraphType()
   switch (type) {
     case GraphType.ReadonlyWeightedDirected:
@@ -62,19 +62,19 @@ export const castExplicitly = <V, E> (g: ReadonlyGraph<V, E>): CastedType<V, E> 
       }
     case GraphType.WeightedDirected:
       return {
-        type, graph: g as MutableWeightedGraph<V, E>
+        type, graph: g as WeightedGraph<V, E>
       }
     case GraphType.NonWeightedDirected:
       return {
-        type, graph: g as MutableUnweightedGraph<V, E>
+        type, graph: g as UnweightedGraph<V, E>
       }
     case GraphType.WeightedUndirected:
       return {
-        type, graph: g as MutableWeightedGraph<V, E>
+        type, graph: g as WeightedGraph<V, E>
       }
     case GraphType.NonWeightedUndirected:
       return {
-        type, graph: g as MutableUnweightedGraph<V, E>
+        type, graph: g as UnweightedGraph<V, E>
       }
   }
 }

@@ -2,10 +2,10 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { GraphBuilder, GraphUtil } from '../../index'
 import { AdjacencyMatrixResult } from '../../src/util/ToAdjacenyMatrix'
-import { ReadonlyGraph } from '../../src/types/GraphSystem'
+import { ReadonlyUnweightedGraph } from '../../src/types/GraphSystem'
 
 const automateCheck = <V, E> (
-  g: ReadonlyGraph<V, E>,
+  g: ReadonlyUnweightedGraph<V, E>,
   result: AdjacencyMatrixResult<V, E>
 ) => {
   const { nodeToIndex, nodeIndexPairs, indexToNode, valueMatrix, matrix } = result

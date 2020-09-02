@@ -1,5 +1,5 @@
 import { Graph } from '../../index'
-import { MutableGraph, ReadonlyGraph } from '../types/GraphSystem'
+import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../types/GraphSystem'
 
 /**
  * Creates a clone of the given graph. The clone is a new graph object instance that
@@ -7,13 +7,13 @@ import { MutableGraph, ReadonlyGraph } from '../types/GraphSystem'
  *
  * @param g
  */
-export const clone = <V, E> (g: ReadonlyGraph<V, E>) => {
+export const clone = <V, E> (g: ReadonlyUnweightedGraph<V, E>) => {
   /**
    * 1) Get the graph type using casting
    * 2) Instantiate the correct graph
    * 3) Load all nodes and connect all edges, with the correct values.
    */
-  let clonedGraph: MutableGraph<V, E>
+  let clonedGraph: MutableUnweightedGraph<V, E>
   const builder = new Graph<V, E>().keyFn(g.toKeyFn)
   if (g.isUndirected && g.isUnweighted) {
     clonedGraph = builder.undirected.unweighted()

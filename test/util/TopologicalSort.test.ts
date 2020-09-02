@@ -1,9 +1,9 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { GraphBuilder, GraphUtil } from '../../index'
-import { ReadonlyGraph } from '../../src/types/GraphSystem'
+import { ReadonlyUnweightedGraph } from '../../src/types/GraphSystem'
 
-const validateTopologicalSort = <V, E> (ordering: V[] | undefined, g: ReadonlyGraph<V, E>) => {
+const validateTopologicalSort = <V, E> (ordering: V[] | undefined, g: ReadonlyUnweightedGraph<V, E>) => {
   expect(ordering).is.not.undefined
   ordering = ordering!
   expect(ordering.length).equals(g.count())

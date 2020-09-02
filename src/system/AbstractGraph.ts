@@ -1,9 +1,9 @@
-import { BasicEdge, ReadonlyGraph } from '../types/GraphSystem'
+import { BasicEdge, ReadonlyUnweightedGraph } from '../types/GraphSystem'
 import { DefaultDictionary, Dictionary, Set } from 'typescript-collections'
 import { defaultToKeyFunction } from '../DefaultKeyFunction'
 import { GraphType } from '../types/GraphType'
 
-export abstract class AbstractGraph<V, E> implements ReadonlyGraph<V, E> {
+export abstract class AbstractGraph<V, E> implements ReadonlyUnweightedGraph<V, E> {
   readonly toKeyFn: (v: V) => string
   protected readonly allNodes: Set<V>
   protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, E | null>>

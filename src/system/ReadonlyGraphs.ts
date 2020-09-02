@@ -1,4 +1,4 @@
-import { IReadonlyWeightedGraph, ReadonlyGraph, ValueEdge } from '../types/GraphSystem'
+import { ReadonlyWeightedGraph, ReadonlyUnweightedGraph, ValueEdge } from '../types/GraphSystem'
 import { GraphType } from '../types/GraphType'
 import { AbstractGraph } from './AbstractGraph'
 
@@ -7,7 +7,7 @@ import { AbstractGraph } from './AbstractGraph'
  */
 export class ReadonlyUnweightedGraph<V, E=null>
   extends AbstractGraph<V, E>
-  implements ReadonlyGraph<V, E> {
+  implements ReadonlyUnweightedGraph<V, E> {
   constructor (
     nodes: V[],
     edges: ([V, V] | [V, V, E])[],
@@ -36,7 +36,7 @@ export class ReadonlyUnweightedGraph<V, E=null>
  */
 export class ReadonlyWeightedGraph<V, E>
   extends ReadonlyUnweightedGraph<V, E>
-  implements IReadonlyWeightedGraph<V, E> {
+  implements ReadonlyWeightedGraph<V, E> {
   constructor (
     nodes: V[],
     edges: [V, V, E][],

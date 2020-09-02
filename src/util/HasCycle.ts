@@ -1,9 +1,9 @@
 import { Set } from 'typescript-collections'
-import { ReadonlyGraph } from '../types/GraphSystem'
+import { ReadonlyUnweightedGraph } from '../types/GraphSystem'
 
 const startSymbol = Symbol('start')
 
-const hasCycleInUndirectedGraph = <V, E> (graph: ReadonlyGraph<V, E>): boolean => {
+const hasCycleInUndirectedGraph = <V, E> (graph: ReadonlyUnweightedGraph<V, E>): boolean => {
   const toKeyFn = graph.toKeyFn
   // If in the set, then the node has been visited
   const visited = new Set<V>(toKeyFn)
@@ -33,7 +33,7 @@ const hasCycleInUndirectedGraph = <V, E> (graph: ReadonlyGraph<V, E>): boolean =
   return false
 }
 
-const hasCycleInDirectedGraph = <V, E> (graph: ReadonlyGraph<V, E>): boolean => {
+const hasCycleInDirectedGraph = <V, E> (graph: ReadonlyUnweightedGraph<V, E>): boolean => {
   const visited = new Set<V>(graph.toKeyFn)
   const nodesOnStack = new Set<V>(graph.toKeyFn)
   const recursionStack: V[] = []
@@ -78,7 +78,7 @@ const hasCycleInDirectedGraph = <V, E> (graph: ReadonlyGraph<V, E>): boolean => 
  * and all edges in this path is unique.
  *
  */
-export const hasCycle = <V, E> (graph: ReadonlyGraph<V, E>): boolean => {
+export const hasCycle = <V, E> (graph: ReadonlyUnweightedGraph<V, E>): boolean => {
   if (graph.isUndirected) {
     return hasCycleInUndirectedGraph(graph)
   } else {

@@ -1,16 +1,16 @@
 import {
-  IMutableWeightedGraph,
-  IReadonlyWeightedGraph,
-  MutableGraph,
-  ReadonlyGraph,
+  MutableWeightedGraph,
+  ReadonlyWeightedGraph,
+  MutableUnweightedGraph,
+  ReadonlyUnweightedGraph,
   ValueEdge
 } from '../types/GraphSystem'
 import { GraphType } from '../types/GraphType'
 import { AbstractGraph } from './AbstractGraph'
 
-export class MutableUnweightedGraph<V, E=null>
+export class UnweightedGraph<V, E=null>
   extends AbstractGraph<V, E>
-  implements MutableGraph<V, E> {
+  implements MutableUnweightedGraph<V, E> {
   protected madeReadonly: boolean
 
   constructor (
@@ -93,15 +93,15 @@ export class MutableUnweightedGraph<V, E=null>
     return count
   }
 
-  makeReadonly (): ReadonlyGraph<V, E> {
+  makeReadonly (): ReadonlyUnweightedGraph<V, E> {
     this.madeReadonly = true
     return this
   }
 }
 
-export class MutableWeightedGraph<V, E>
-  extends MutableUnweightedGraph<V, E>
-  implements IMutableWeightedGraph<V, E> {
+export class WeightedGraph<V, E>
+  extends UnweightedGraph<V, E>
+  implements MutableWeightedGraph<V, E> {
   constructor (
     isUndirected: boolean,
     keyFn?: (v: V) => string
@@ -149,7 +149,7 @@ export class MutableWeightedGraph<V, E>
     return this.weightOf(source, target)
   }
 
-  makeReadonly (): IReadonlyWeightedGraph<V, E> {
+  makeReadonly (): ReadonlyWeightedGraph<V, E> {
     this.madeReadonly = true
     return this
   }

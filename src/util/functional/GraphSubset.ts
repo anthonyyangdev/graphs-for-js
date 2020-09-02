@@ -1,5 +1,5 @@
 import { Set } from 'typescript-collections'
-import { MutableGraph, ReadonlyGraph } from '../../types/GraphSystem'
+import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../../types/GraphSystem'
 import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**
@@ -14,13 +14,13 @@ import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
  * @param nodes
  */
 export const subsetNode = <V, E> (
-  g: ReadonlyGraph<V, E>,
+  g: ReadonlyUnweightedGraph<V, E>,
   nodes: V[] | ((v: V) => boolean)
 ) => {
   const setOfNodes = new Set<V>(g.toKeyFn)
   if (nodes instanceof Array) { nodes.forEach(n => setOfNodes.add(n)) }
 
-  const clone: MutableGraph<V, E> = createEmptyGraphInstance(g, g.toKeyFn)
+  const clone: MutableUnweightedGraph<V, E> = createEmptyGraphInstance(g, g.toKeyFn)
   g.nodes().forEach(n => {
     if (nodes instanceof Array) {
       if (setOfNodes.contains(n)) clone.insert(n)
