@@ -12,13 +12,13 @@ export const parse = <V, E=unknown>(
   } catch {
     return
   }
-  const { nodes, edges, undirected, weighted } = json
+  const { nodes, edges, undirected, unweighted } = json
 
   if (!(
     nodes instanceof Array &&
     edges instanceof Array &&
     typeof undirected === 'boolean' &&
-    typeof weighted === 'boolean')) {
+    typeof unweighted === 'boolean')) {
     return undefined
   }
 
@@ -26,10 +26,10 @@ export const parse = <V, E=unknown>(
   const builderFunction = keyFunction != null ? keyFn(keyFunction) : noKey()
 
   let graph: MutableUnweightedGraph<V, E>
-  if (undirected && weighted) graph = builderFunction.undirected.weighted()
-  else if (undirected) graph = builderFunction.undirected.unweighted()
-  else if (!undirected && weighted) graph = builderFunction.directed.weighted()
-  else graph = builderFunction.directed.unweighted()
+  if (undirected && unweighted) graph = builderFunction.undirected.unweighted()
+  else if (undirected) graph = builderFunction.undirected.weighted()
+  else if (unweighted) graph = builderFunction.directed.unweighted()
+  else graph = builderFunction.directed.weighted()
 
   graph.insert(...nodes as V[])
   edges?.forEach(({ source, target, value }) => {

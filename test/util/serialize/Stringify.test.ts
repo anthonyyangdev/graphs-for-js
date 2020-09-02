@@ -1,42 +1,44 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../../index'
+import { Graph, GraphUtil } from '../../../index'
 
 const { stringify } = GraphUtil.json
 
 describe('Test stringify', function () {
+  const gen = new Graph<number, number>().noKey()
+
   it('should stringify empty graph', function () {
-    let graph: any = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
+    let graph: any = gen.directed.unweighted()
     let json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
     expect(json.includes('"undirected":false')).is.true
-    expect(json.includes('"weighted":false')).is.true
+    expect(json.includes('"unweighted":true')).is.true
 
-    graph = GraphBuilder<number>().withoutKeyFunction().undirected.unweighted()
+    graph = gen.undirected.unweighted()
     json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
     expect(json.includes('"undirected":true')).is.true
-    expect(json.includes('"weighted":false')).is.true
+    expect(json.includes('"unweighted":true')).is.true
 
-    graph = GraphBuilder<number, number>().withoutKeyFunction().directed.weighted()
+    graph = gen.directed.weighted()
     json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
     expect(json.includes('"undirected":false')).is.true
-    expect(json.includes('"weighted":true')).is.true
+    expect(json.includes('"unweighted":false')).is.true
 
-    graph = GraphBuilder<number, number>().withoutKeyFunction().undirected.weighted()
+    graph = gen.undirected.weighted()
     json = stringify(graph).replace(/ /g, '')
     expect(json.includes('"nodes":[]')).is.true
     expect(json.includes('"edges":[]')).is.true
     expect(json.includes('"undirected":true')).is.true
-    expect(json.includes('"weighted":true')).is.true
+    expect(json.includes('"unweighted":false')).is.true
   })
 
-  it('should stringify into readable graph json', function () {
-    const graph = GraphBuilder<number, number>().withoutKeyFunction().directed.unweighted()
+  it('should stringify into readable graph serialize', function () {
+    const graph = gen.directed.unweighted()
     graph.insert(0, 1, 2)
     graph.connect(1, 2)
     const json = stringify(graph).replace(/\s/g, '')
@@ -45,7 +47,7 @@ describe('Test stringify', function () {
   })
 
   it('should emit each edge once for undirected graph', function () {
-    const graph = GraphBuilder<number, number>().withoutKeyFunction().undirected.unweighted()
+    const graph = gen.undirected.unweighted()
     graph.insert(0, 1)
     graph.connect(0, 1)
     const json = stringify(graph).replace(/\s/g, '')

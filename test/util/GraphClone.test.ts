@@ -1,7 +1,6 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { GraphBuilder, GraphUtil } from '../../index'
-import { GraphType } from '../../src/types/GraphType'
 
 describe('Clones a graph as a completely new object', function () {
   it('should clone a directed graph', function () {
@@ -9,7 +8,8 @@ describe('Clones a graph as a completely new object', function () {
     const clonedGraph = GraphUtil.clone(graph)
     expect(clonedGraph).does.not.equal(graph) // Different object reference
     expect(clonedGraph.count()).equals(graph.count())
-    expect(clonedGraph.getGraphType()).equals(graph.getGraphType())
+    expect(clonedGraph.isUnweighted).equals(graph.isUnweighted)
+    expect(clonedGraph.isUndirected).equals(graph.isUndirected)
     clonedGraph.insert(1, 2, 3, 4)
     expect(graph.count()).equals(0)
     expect(clonedGraph.count()).equals(4)
@@ -48,7 +48,8 @@ describe('Clones a graph as a completely new object', function () {
     graph.connect(0, 1)
     graph.connect(1, 2)
     const cloned = GraphUtil.clone(graph)
-    expect(cloned.getGraphType()).equals(GraphType.NonWeightedUndirected)
+    expect(cloned.isUnweighted).equals(graph.isUnweighted)
+    expect(cloned.isUndirected).equals(graph.isUndirected)
     expect(cloned.nodes()).deep.equals(graph.nodes())
     expect(cloned.edges()).deep.equals(graph.edges())
   })
@@ -59,7 +60,8 @@ describe('Clones a graph as a completely new object', function () {
     graph.connect(0, 1, 0.3)
     graph.connect(1, 2, 0.6)
     const cloned = GraphUtil.clone(graph)
-    expect(cloned.getGraphType()).equals(GraphType.WeightedDirected)
+    expect(cloned.isUnweighted).equals(graph.isUnweighted)
+    expect(cloned.isUndirected).equals(graph.isUndirected)
     expect(cloned.nodes()).deep.equals(graph.nodes())
     expect(cloned.edges()).deep.equals(graph.edges())
   })

@@ -1,7 +1,7 @@
 
 export interface GraphJson {
   undirected: boolean;
-  weighted: boolean;
+  unweighted: boolean;
   nodes: unknown[];
   edges: {
     source: unknown;
