@@ -1,4 +1,3 @@
-import { GraphType } from '../../types/GraphType'
 import { GraphJson } from './GraphJson'
 import { ReadonlyGraph } from '../../types/GraphSystem'
 
@@ -8,15 +7,8 @@ export const stringify = <V, E> (
   const nodes = graph.nodes()
   const edges = graph.edges()
 
-  const {
-    NonWeightedUndirected,
-    WeightedDirected,
-    WeightedUndirected
-  } = GraphType
-
-  const gType = graph.getGraphType()
-  const isUndirected = gType === NonWeightedUndirected || gType === WeightedUndirected
-  const isWeighted = gType === WeightedDirected || gType === WeightedUndirected
+  const isUndirected = graph.isUndirected
+  const isWeighted = !graph.isUnweighted
   const json: GraphJson = {
     undirected: isUndirected,
     weighted: isWeighted,
