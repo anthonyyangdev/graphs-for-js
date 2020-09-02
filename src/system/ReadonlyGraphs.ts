@@ -5,7 +5,7 @@ import { AbstractGraph } from './AbstractGraph'
 /**
  * @deprecated Use the makeReadonly function.
  */
-export class ReadonlyUnweightedGraph<V, E=null>
+export class ReadonlyUnweightedGraphImpl<V, E=null>
   extends AbstractGraph<V, E>
   implements ReadonlyUnweightedGraph<V, E> {
   constructor (
@@ -34,8 +34,8 @@ export class ReadonlyUnweightedGraph<V, E=null>
 /**
  * @deprecated Use the makeReadonly function.
  */
-export class ReadonlyWeightedGraph<V, E>
-  extends ReadonlyUnweightedGraph<V, E>
+export class ReadonlyWeightedGraphImpl<V, E>
+  extends ReadonlyUnweightedGraphImpl<V, E>
   implements ReadonlyWeightedGraph<V, E> {
   constructor (
     nodes: V[],

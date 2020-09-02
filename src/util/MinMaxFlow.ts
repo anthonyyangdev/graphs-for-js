@@ -1,5 +1,5 @@
-import { ReadonlyWeightedGraph } from '../system/ReadonlyGraphs'
+import { ReadonlyWeightedGraphImpl } from '../system/ReadonlyGraphs'
 
-const findMaxFlow = <V> (g: ReadonlyWeightedGraph<V, number>) => {
+const findMaxFlow = <V> (g: ReadonlyWeightedGraphImpl<V, number>) => {
 
 }
