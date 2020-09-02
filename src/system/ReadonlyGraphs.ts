@@ -2,6 +2,9 @@ import { IReadonlyWeightedGraph, ReadonlyGraph, ValueEdge } from '../types/Graph
 import { GraphType } from '../types/GraphType'
 import { AbstractGraph } from './AbstractGraph'
 
+/**
+ * @deprecated Use the makeReadonly function.
+ */
 export class ReadonlyUnweightedGraph<V, E=null>
   extends AbstractGraph<V, E>
   implements ReadonlyGraph<V, E> {
@@ -28,6 +31,9 @@ export class ReadonlyUnweightedGraph<V, E=null>
   }
 }
 
+/**
+ * @deprecated Use the makeReadonly function.
+ */
 export class ReadonlyWeightedGraph<V, E>
   extends ReadonlyUnweightedGraph<V, E>
   implements IReadonlyWeightedGraph<V, E> {

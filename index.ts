@@ -1,7 +1,6 @@
 import * as GraphUtility from './src/GraphUtil'
 import { ReadonlyUnweightedGraph, ReadonlyWeightedGraph } from './src/system/ReadonlyGraphs'
 import { MutableUnweightedGraph, MutableWeightedGraph } from './src/system/MutableGraphs'
-import { IMutableWeightedGraph } from './src/types/GraphSystem'
 
 /**
  * @deprecated Please use the generator function

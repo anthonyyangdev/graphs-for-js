@@ -73,6 +73,10 @@ export interface ReadonlyGraph<V, E> {
   /**
    * Returns an identifier corresponding to the type of the graph, i.e. if it
    * is an undirected graph or if its edges have weights.
+   *
+   * @deprecated Use the isUndirected and isWeighted fields to get
+   * characteristics about the graph.
+   *
    */
   readonly getGraphType: () => GraphType
 
@@ -115,6 +119,8 @@ export interface MutableGraph<V, E> extends ReadonlyGraph<V, E> {
    * @param target
    */
   readonly disconnect: (source: V, target: V, value?: E) => boolean
+
+  readonly makeReadonly: () => ReadonlyGraph<V, E>
 }
 
 export interface IReadonlyWeightedGraph<V, E> extends ReadonlyGraph<V, E> {
@@ -156,4 +162,5 @@ export interface IMutableWeightedGraph<V, E>
 
   readonly outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
 
+  readonly makeReadonly: () => IReadonlyWeightedGraph<V, E>
 }

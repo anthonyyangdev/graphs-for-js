@@ -1,4 +1,6 @@
-
+/**
+ * @deprecated This is not needed
+ */
 export enum GraphType {
   WeightedDirected = 'WeightedDirected',
   NonWeightedDirected = 'NonWeightedDirected',

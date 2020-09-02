@@ -1,6 +1,4 @@
-import { castExplicitly } from './GetExplicitGraph'
-import { GraphType } from '../types/GraphType'
-import { GraphBuilder } from '../../index'
+import { Graph } from '../../index'
 import { MutableGraph, ReadonlyGraph } from '../types/GraphSystem'
 
 /**
@@ -16,21 +14,15 @@ export const clone = <V, E> (g: ReadonlyGraph<V, E>) => {
    * 3) Load all nodes and connect all edges, with the correct values.
    */
   let clonedGraph: MutableGraph<V, E>
-  const builder = GraphBuilder<V, E>().withKeyFunction(g.toKeyFn)
-  const { type } = castExplicitly(g)
-  switch (type) {
-    case GraphType.WeightedDirected:
-    case GraphType.ReadonlyWeightedDirected:
-      clonedGraph = builder.directed.weighted(); break
-    case GraphType.NonWeightedDirected:
-    case GraphType.ReadonlyNonWeightedDirected:
-      clonedGraph = builder.directed.unweighted(); break
-    case GraphType.WeightedUndirected:
-    case GraphType.ReadonlyWeightedUndirected:
-      clonedGraph = builder.undirected.weighted(); break
-    case GraphType.NonWeightedUndirected:
-    case GraphType.ReadonlyNonWeightedUndirected:
-      clonedGraph = builder.undirected.unweighted(); break
+  const builder = new Graph<V, E>().keyFn(g.toKeyFn)
+  if (g.isUndirected && g.isUnweighted) {
+    clonedGraph = builder.undirected.unweighted()
+  } else if (g.isUndirected) {
+    clonedGraph = builder.undirected.weighted()
+  } else if (g.isUnweighted) {
+    clonedGraph = builder.directed.unweighted()
+  } else {
+    clonedGraph = builder.directed.weighted()
   }
   const nodes = g.nodes()
   const edges = g.edges()

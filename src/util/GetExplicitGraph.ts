@@ -39,6 +39,7 @@ type CastedType<V, E> = {
  * unsure what implementation is used.
  *
  * @param g The graph whose type and implementation is to be checked
+ * @deprecated No longer needed by exposed isUndirected and isUnweighted field properties.
  */
 export const castExplicitly = <V, E> (g: ReadonlyGraph<V, E>): CastedType<V, E> => {
   const type = g.getGraphType()

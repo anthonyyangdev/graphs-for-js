@@ -1,32 +1,36 @@
 import {
-  ReadonlyGraph,
-  ValueEdge,
+  IMutableWeightedGraph,
+  IReadonlyWeightedGraph,
   MutableGraph,
-  IMutableWeightedGraph
+  ReadonlyGraph,
+  ValueEdge
 } from '../types/GraphSystem'
 import { GraphType } from '../types/GraphType'
 import { AbstractGraph } from './AbstractGraph'
 
 export class MutableUnweightedGraph<V, E=null>
   extends AbstractGraph<V, E>
-  implements MutableGraph<V, E>, ReadonlyGraph<V, E> {
+  implements MutableGraph<V, E> {
+  protected madeReadonly: boolean
+
   constructor (
     isUndirected: boolean,
     isUnweighted: boolean,
     keyFn?: (v: V) => string
   ) {
     super([], [], isUndirected, isUnweighted, keyFn)
+    this.madeReadonly = false
   }
 
   getGraphType (): GraphType {
     if (this.isUnweighted && this.isUndirected) {
-      return GraphType.NonWeightedUndirected
+      return this.madeReadonly ? GraphType.ReadonlyNonWeightedUndirected : GraphType.NonWeightedUndirected
     } else if (this.isUndirected) {
-      return GraphType.WeightedUndirected
+      return this.madeReadonly ? GraphType.WeightedUndirected : GraphType.WeightedUndirected
     } else if (this.isUnweighted) {
-      return GraphType.NonWeightedDirected
+      return this.madeReadonly ? GraphType.ReadonlyNonWeightedDirected : GraphType.NonWeightedDirected
     } else {
-      return GraphType.WeightedDirected
+      return this.madeReadonly ? GraphType.ReadonlyWeightedDirected : GraphType.WeightedDirected
     }
   }
 
@@ -88,6 +92,11 @@ export class MutableUnweightedGraph<V, E=null>
     }
     return count
   }
+
+  makeReadonly (): ReadonlyGraph<V, E> {
+    this.madeReadonly = true
+    return this
+  }
 }
 
 export class MutableWeightedGraph<V, E>
@@ -98,6 +107,7 @@ export class MutableWeightedGraph<V, E>
     keyFn?: (v: V) => string
   ) {
     super(isUndirected, false, keyFn)
+    this.madeReadonly = false
   }
 
   weightOf (source: V, target: V): E | undefined {
@@ -137,5 +147,10 @@ export class MutableWeightedGraph<V, E>
 
   getEdgeValue (source: V, target: V): E | undefined {
     return this.weightOf(source, target)
+  }
+
+  makeReadonly (): IReadonlyWeightedGraph<V, E> {
+    this.madeReadonly = true
+    return this
   }
 }
