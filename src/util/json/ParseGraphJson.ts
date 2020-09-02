@@ -1,4 +1,4 @@
-import { GraphBuilder } from '../../../index'
+import { Graph } from '../../../index'
 import { GraphJson } from './GraphJson'
 import { MutableGraph } from '../../types/GraphSystem'
 
@@ -22,9 +22,8 @@ export const parse = <V, E=unknown>(
     return undefined
   }
 
-  const { withoutKeyFunction, withKeyFunction } = GraphBuilder<V, E>()
-  const builderFunction = keyFunction != null
-    ? withKeyFunction(keyFunction) : withoutKeyFunction()
+  const { noKey, keyFn } = new Graph<V, E>()
+  const builderFunction = keyFunction != null ? keyFn(keyFunction) : noKey()
 
   let graph: MutableGraph<V, E>
   if (undirected && weighted) graph = builderFunction.undirected.weighted()
