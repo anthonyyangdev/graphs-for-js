@@ -1,5 +1,4 @@
 import * as GraphUtility from './src/GraphUtil'
-import { ReadonlyUnweightedGraph, ReadonlyWeightedGraph } from './src/system/ReadonlyGraphs'
 import { MutableUnweightedGraph, MutableWeightedGraph } from './src/system/MutableGraphs'
 import { IMutableWeightedGraph, IReadonlyWeightedGraph, MutableGraph, ReadonlyGraph } from './src/types/GraphSystem'
 
@@ -77,18 +76,30 @@ const generator = <V, E>(fn?: (v: V) => string) => {
     readonly: {
       directed: {
         weighted: (init: WeightedGraphInit<V, E>[], nodes?: V[]): IReadonlyWeightedGraph<V, E> => {
-          return new ReadonlyWeightedGraph<V, E>(nodes ?? [], init, false, fn)
+          const g = new MutableWeightedGraph<V, E>(false, fn)
+          nodes?.forEach(n => g.insert(n))
+          init?.forEach(e => g.connect(e[0], e[1], e[2]))
+          return g.makeReadonly()
         },
         unweighted: (init: UnweightedGraphInit<V, E>[], nodes?: V[]): ReadonlyGraph<V, E> => {
-          return new ReadonlyUnweightedGraph<V, E>(nodes ?? [], init, false, true, fn)
+          const g = new MutableUnweightedGraph<V, E>(false, true, fn)
+          nodes?.forEach(n => g.insert(n))
+          init?.forEach(e => g.connect(e[0], e[1]))
+          return g.makeReadonly()
         }
       },
       undirected: {
         weighted: (init: WeightedGraphInit<V, E>[], nodes?: V[]): IReadonlyWeightedGraph<V, E> => {
-          return new ReadonlyWeightedGraph<V, E>(nodes ?? [], init, true, fn)
+          const g = new MutableWeightedGraph<V, E>(true, fn)
+          nodes?.forEach(n => g.insert(n))
+          init?.forEach(e => g.connect(e[0], e[1], e[2]))
+          return g.makeReadonly()
         },
         unweighted: (init: UnweightedGraphInit<V, E>[], nodes?: V[]): ReadonlyGraph<V, E> => {
-          return new ReadonlyUnweightedGraph<V, E>(nodes ?? [], init, true, true, fn)
+          const g = new MutableUnweightedGraph<V, E>(true, true, fn)
+          nodes?.forEach(n => g.insert(n))
+          init?.forEach(e => g.connect(e[0], e[1]))
+          return g.makeReadonly()
         }
       }
     }

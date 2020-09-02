@@ -16,6 +16,9 @@ export const json = {
   parse: j.parse
 }
 
+/**
+ * @deprecated
+ */
 export const castGraph = caster.castExplicitly
 
 export const clone = cloner.clone

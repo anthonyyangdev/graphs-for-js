@@ -38,8 +38,8 @@ type CastedType<V, E> = {
  * This function can be used to safely cast a GraphInterface graph and when you are
  * unsure what implementation is used.
  *
- * @param g The graph whose type and implementation is to be checked
  * @deprecated No longer needed by exposed isUndirected and isUnweighted field properties.
+ * @param g The graph whose type and implementation is to be checked
  */
 export const castExplicitly = <V, E> (g: ReadonlyGraph<V, E>): CastedType<V, E> => {
   const type = g.getGraphType()
