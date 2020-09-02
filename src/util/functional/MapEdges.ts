@@ -1,4 +1,4 @@
-import { ReadonlyWeightedGraph, MutableUnweightedGraph } from '../../types/GraphSystem'
+import { ReadonlyWeightedGraph, MutableWeightedGraph } from '../../types/GraphSystem'
 import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**
@@ -12,7 +12,7 @@ export const mapEdges = <V, E, R> (g: ReadonlyWeightedGraph<V, E>, callback: (e:
   const edges = g.edges()
   const nodes = g.nodes()
 
-  const clone: MutableUnweightedGraph<V, R> = createEmptyGraphInstance(g, g.toKeyFn, true)
+  const clone: MutableWeightedGraph<V, R> = createEmptyGraphInstance(g, g.toKeyFn, true) as MutableWeightedGraph<V, R>
   clone.insert(...nodes)
   edges.forEach(({ source, value, target }) => {
     const mappedValue = callback(value)

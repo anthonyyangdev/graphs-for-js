@@ -22,7 +22,7 @@ export const mapNodes = <V, E, N> (
 ) => {
   const edges = g.edges()
   const nodes = g.nodes()
-  const clone: MutableUnweightedGraph<N, E> = createEmptyGraphInstance(g, newKeyFunction)
+  const clone: MutableUnweightedGraph<N, E> = createEmptyGraphInstance(g, newKeyFunction) as MutableUnweightedGraph<N, E>
   clone.insert(...nodes.map(n => callback(n)))
   edges.forEach(({ source, value, target }) => {
     clone.connect(callback(source), callback(target), value)
