@@ -17,7 +17,7 @@ export class UnweightedGraph<V, E=null>
     isUnweighted: boolean,
     keyFn?: (v: V) => string
   ) {
-    super([], [], isUndirected, isUnweighted, keyFn)
+    super(isUndirected, isUnweighted, keyFn)
     this.madeReadonly = false
   }
 
