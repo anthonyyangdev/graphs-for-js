@@ -1,6 +1,7 @@
 import * as GraphUtility from './src/GraphUtil'
 import { ReadonlyUnweightedGraph, ReadonlyWeightedGraph } from './src/system/ReadonlyGraphs'
 import { MutableUnweightedGraph, MutableWeightedGraph } from './src/system/MutableGraphs'
+import { IMutableWeightedGraph, IReadonlyWeightedGraph, MutableGraph, ReadonlyGraph } from './src/types/GraphSystem'
 
 /**
  * @deprecated Please use the generator function
@@ -14,30 +15,30 @@ const builder = <V, E>(fn?: (v: V) => string) => {
     readonly: (nodes?: V[]) => {
       return {
         directed: {
-          weighted: (edges: [V, V, E][]): ReadonlyWeightedGraph<V, E> => {
+          weighted: (edges: [V, V, E][]): IReadonlyWeightedGraph<V, E> => {
             return gen.readonly.directed.weighted(edges, nodes)
           },
-          unweighted: (edges: [V, V][]): ReadonlyUnweightedGraph<V, E> => {
+          unweighted: (edges: [V, V][]): ReadonlyGraph<V, E> => {
             return gen.readonly.directed.unweighted(edges, nodes)
           }
         },
         undirected: {
-          weighted: (edges: [V, V, E][]): ReadonlyWeightedGraph<V, E> => {
+          weighted: (edges: [V, V, E][]): IReadonlyWeightedGraph<V, E> => {
             return gen.readonly.undirected.weighted(edges, nodes)
           },
-          unweighted: (edges: [V, V][]): ReadonlyUnweightedGraph<V, E> => {
+          unweighted: (edges: [V, V][]): ReadonlyGraph<V, E> => {
             return gen.readonly.undirected.unweighted(edges, nodes)
           }
         }
       }
     },
     directed: {
-      weighted: (): MutableWeightedGraph<V, E> => gen.directed.weighted(),
-      unweighted: (): MutableUnweightedGraph<V, E> => gen.directed.unweighted()
+      weighted: (): IMutableWeightedGraph<V, E> => gen.directed.weighted(),
+      unweighted: (): MutableGraph<V, E> => gen.directed.unweighted()
     },
     undirected: {
-      weighted: (): MutableWeightedGraph<V, E> => gen.undirected.weighted(),
-      unweighted: (): MutableUnweightedGraph<V, E> => gen.undirected.unweighted()
+      weighted: (): IMutableWeightedGraph<V, E> => gen.undirected.weighted(),
+      unweighted: (): MutableGraph<V, E> => gen.undirected.unweighted()
     }
   }
 }
@@ -66,27 +67,27 @@ type WeightedGraphInit<V, E> = [V, V, E]
 const generator = <V, E>(fn?: (v: V) => string) => {
   return {
     directed: {
-      weighted: (): MutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(false, fn),
-      unweighted: (): MutableUnweightedGraph<V, E> => new MutableUnweightedGraph<V, E>(false, true, fn)
+      weighted: (): IMutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(false, fn),
+      unweighted: (): MutableGraph<V, E> => new MutableUnweightedGraph<V, E>(false, true, fn)
     },
     undirected: {
-      weighted: (): MutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(true, fn),
-      unweighted: (): MutableUnweightedGraph<V, E> => new MutableUnweightedGraph<V, E>(true, true, fn)
+      weighted: (): IMutableWeightedGraph<V, E> => new MutableWeightedGraph<V, E>(true, fn),
+      unweighted: (): MutableGraph<V, E> => new MutableUnweightedGraph<V, E>(true, true, fn)
     },
     readonly: {
       directed: {
-        weighted: (init: WeightedGraphInit<V, E>[], nodes?: V[]): ReadonlyWeightedGraph<V, E> => {
+        weighted: (init: WeightedGraphInit<V, E>[], nodes?: V[]): IReadonlyWeightedGraph<V, E> => {
           return new ReadonlyWeightedGraph<V, E>(nodes ?? [], init, false, fn)
         },
-        unweighted: (init: UnweightedGraphInit<V, E>[], nodes?: V[]): ReadonlyUnweightedGraph<V, E> => {
+        unweighted: (init: UnweightedGraphInit<V, E>[], nodes?: V[]): ReadonlyGraph<V, E> => {
           return new ReadonlyUnweightedGraph<V, E>(nodes ?? [], init, false, true, fn)
         }
       },
       undirected: {
-        weighted: (init: WeightedGraphInit<V, E>[], nodes?: V[]): ReadonlyWeightedGraph<V, E> => {
+        weighted: (init: WeightedGraphInit<V, E>[], nodes?: V[]): IReadonlyWeightedGraph<V, E> => {
           return new ReadonlyWeightedGraph<V, E>(nodes ?? [], init, true, fn)
         },
-        unweighted: (init: UnweightedGraphInit<V, E>[], nodes?: V[]): ReadonlyUnweightedGraph<V, E> => {
+        unweighted: (init: UnweightedGraphInit<V, E>[], nodes?: V[]): ReadonlyGraph<V, E> => {
           return new ReadonlyUnweightedGraph<V, E>(nodes ?? [], init, true, true, fn)
         }
       }
