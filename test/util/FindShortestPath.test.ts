@@ -1,11 +1,13 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../index'
+import { Graph, GraphUtil } from '../../index'
 
 describe('Test find path algorithm', function () {
+  const gen = new Graph<number>().noKey()
+
   describe('Directed graph', function () {
     it('should return no path result if nodes do not exist', function () {
-      const graph = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
+      const graph = gen.directed.unweighted()
       graph.insert(0, 1, 2)
       graph.connect(0, 1); graph.connect(1, 2)
       const result = GraphUtil.findShortestPath(graph, -1, 3)
@@ -14,7 +16,7 @@ describe('Test find path algorithm', function () {
     })
 
     it('should find path for straight line', function () {
-      const graph = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
+      const graph = gen.directed.unweighted()
       const nodes = [0, 1, 2, 3]
       graph.insert(...nodes)
       for (let i = 0; i < 4; i++) {
@@ -26,7 +28,7 @@ describe('Test find path algorithm', function () {
     })
 
     it('should find shortest path in branches', function () {
-      const graph = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
+      const graph = gen.directed.unweighted()
       /*
        |-- 0 -- 1 -- 4
        |   |         |
@@ -50,7 +52,7 @@ describe('Test find path algorithm', function () {
     })
 
     it('should not find a path when no edges, and should find path of self-loop', function () {
-      const graph = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
+      const graph = gen.directed.unweighted()
       /*
        |---|
        0 --> 1 --> 2 --> 3 <-|
@@ -73,7 +75,7 @@ describe('Test find path algorithm', function () {
     })
 
     it('should find shortest path', function () {
-      const graph = GraphBuilder<number>().withoutKeyFunction().directed.unweighted()
+      const graph = gen.directed.unweighted()
       graph.insert(1, 2, 3, 4)
       graph.connect(1, 2)
       graph.connect(1, 4)
@@ -88,7 +90,7 @@ describe('Test find path algorithm', function () {
 
   describe('Test undirected graph', function () {
     it('should find shortest path to self', function () {
-      const graph = GraphBuilder<number>().withoutKeyFunction().undirected.unweighted()
+      const graph = gen.undirected.unweighted()
       graph.insert(1, 2)
       graph.connect(1, 2)
 

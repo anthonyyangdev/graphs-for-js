@@ -5,7 +5,6 @@ import {
   ReadonlyUnweightedGraph,
   ValueEdge
 } from '../types/GraphSystem'
-import { GraphType } from '../types/GraphType'
 import { AbstractGraph } from './AbstractGraph'
 
 export class UnweightedGraph<V, E=null>
@@ -20,18 +19,6 @@ export class UnweightedGraph<V, E=null>
   ) {
     super([], [], isUndirected, isUnweighted, keyFn)
     this.madeReadonly = false
-  }
-
-  getGraphType (): GraphType {
-    if (this.isUnweighted && this.isUndirected) {
-      return this.madeReadonly ? GraphType.ReadonlyNonWeightedUndirected : GraphType.NonWeightedUndirected
-    } else if (this.isUndirected) {
-      return this.madeReadonly ? GraphType.WeightedUndirected : GraphType.WeightedUndirected
-    } else if (this.isUnweighted) {
-      return this.madeReadonly ? GraphType.ReadonlyNonWeightedDirected : GraphType.NonWeightedDirected
-    } else {
-      return this.madeReadonly ? GraphType.ReadonlyWeightedDirected : GraphType.WeightedDirected
-    }
   }
 
   connect (source: V, target: V, value?: any): boolean {

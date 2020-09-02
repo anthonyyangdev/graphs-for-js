@@ -1,10 +1,10 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../../index'
+import { Graph, GraphUtil } from '../../../index'
 
 describe('Map nodes test suite', function () {
   it('should map empty map', function () {
-    const graph = GraphBuilder<number>().withoutKeyFunction().undirected.unweighted()
+    const graph = new Graph<number>().noKey().undirected.unweighted()
     const mapped = GraphUtil.functional.mapNodes(graph, n => n)
     expect(mapped).does.not.equal(graph)
     expect(mapped.nodes().length).equals(mapped.count()).equals(0)
@@ -12,7 +12,7 @@ describe('Map nodes test suite', function () {
   })
 
   it('should map the node values while preserving edges', function () {
-    const graph = GraphBuilder<string, number>().withoutKeyFunction().directed.weighted()
+    const graph = new Graph<string, number>().noKey().directed.weighted()
     graph.insert('hello', 'world', 'how', 'are', 'you')
     graph.connect('hello', 'world', 0)
     graph.connect('world', 'how', 1)
@@ -28,7 +28,7 @@ describe('Map nodes test suite', function () {
   })
 
   it('should set all edges to newly mapped node b/c of key function', function () {
-    const graph = GraphBuilder<string, number>().withoutKeyFunction().directed.weighted()
+    const graph = new Graph<string, number>().noKey().directed.weighted()
     graph.insert('hello', 'world', 'how', 'are', 'you')
     graph.connect('hello', 'world', 0)
     graph.connect('world', 'how', 1)

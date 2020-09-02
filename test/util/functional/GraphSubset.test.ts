@@ -1,10 +1,10 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../../index'
+import { Graph, GraphUtil } from '../../../index'
 
 describe('Graph Subset Test Suite', function () {
   it('should create a subset using a conditional statement', function () {
-    const g = GraphBuilder<number, number>().withoutKeyFunction().undirected.weighted()
+    const g = new Graph<number, number>().noKey().undirected.weighted()
     g.insert(1, 2, 3, 4, 5, 6)
     // Even is connected to an odd
     g.connect(1, 2, 0.6)
@@ -19,7 +19,7 @@ describe('Graph Subset Test Suite', function () {
     expect(subset.contains(2, 4, 6)).is.true
   })
   it('should create a subset of a given graph', function () {
-    const g = GraphBuilder<number, number>().withoutKeyFunction().directed.weighted()
+    const g = new Graph<number, number>().noKey().directed.weighted()
     g.insert(1, 2, 3, 4)
     g.connect(1, 2, 5)
     g.connect(2, 3, 0.75)

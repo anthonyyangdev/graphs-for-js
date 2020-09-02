@@ -1,4 +1,3 @@
-import { GraphType } from './GraphType'
 
 export interface BasicEdge<V, E=unknown> {
   source: V
@@ -69,16 +68,6 @@ export interface ReadonlyUnweightedGraph<V, E> {
    * @param node
    */
   readonly outgoingEdgesOf: (node: V) => BasicEdge<V, E>[]
-
-  /**
-   * Returns an identifier corresponding to the type of the graph, i.e. if it
-   * is an undirected graph or if its edges have weights.
-   *
-   * @deprecated Use the isUndirected and isWeighted fields to get
-   * characteristics about the graph.
-   *
-   */
-  readonly getGraphType: () => GraphType
 
   /**
    * Return true if an edge from source to the target exists in the graph,

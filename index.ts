@@ -1,64 +1,11 @@
 import * as GraphUtility from './src/GraphUtil'
 import { UnweightedGraph, WeightedGraph } from './src/system/MutableGraphs'
-import { MutableWeightedGraph, ReadonlyWeightedGraph, MutableUnweightedGraph, ReadonlyUnweightedGraph } from './src/types/GraphSystem'
-
-/**
- * @deprecated Please use the generator function
- * @param fn
- */
-const builder = <V, E>(fn?: (v: V) => string) => {
-  const gen = fn != null
-    ? new Graph<V, E>().keyFn(fn)
-    : new Graph<V, E>().noKey()
-  return {
-    readonly: (nodes?: V[]) => {
-      return {
-        directed: {
-          weighted: (edges: [V, V, E][]): ReadonlyWeightedGraph<V, E> => {
-            return gen.readonly.directed.weighted(edges, nodes)
-          },
-          unweighted: (edges: [V, V][]): ReadonlyUnweightedGraph<V, E> => {
-            return gen.readonly.directed.unweighted(edges, nodes)
-          }
-        },
-        undirected: {
-          weighted: (edges: [V, V, E][]): ReadonlyWeightedGraph<V, E> => {
-            return gen.readonly.undirected.weighted(edges, nodes)
-          },
-          unweighted: (edges: [V, V][]): ReadonlyUnweightedGraph<V, E> => {
-            return gen.readonly.undirected.unweighted(edges, nodes)
-          }
-        }
-      }
-    },
-    directed: {
-      weighted: (): MutableWeightedGraph<V, E> => gen.directed.weighted(),
-      unweighted: (): MutableUnweightedGraph<V, E> => gen.directed.unweighted()
-    },
-    undirected: {
-      weighted: (): MutableWeightedGraph<V, E> => gen.undirected.weighted(),
-      unweighted: (): MutableUnweightedGraph<V, E> => gen.undirected.unweighted()
-    }
-  }
-}
-
-/**
- * A builder tool for constructing graph data structures. Returns to callback functions,
- * either to build to graph with a key function or without a key function.
- *
- * @deprecated Please use the Graphs class
- *
- */
-export const GraphBuilder = <V, E=unknown>() => {
-  return {
-    withKeyFunction: (fn: (v: V) => string) => {
-      return builder<V, E>(fn)
-    },
-    withoutKeyFunction: () => {
-      return builder<V, E>()
-    }
-  }
-}
+import {
+  MutableWeightedGraph,
+  ReadonlyWeightedGraph,
+  MutableUnweightedGraph,
+  ReadonlyUnweightedGraph
+} from './src/types/GraphSystem'
 
 type UnweightedGraphInit<V, E> = [V, V]
 type WeightedGraphInit<V, E> = [V, V, E]
@@ -121,5 +68,3 @@ export class Graph<V, E=never> {
  * such as cloning and parsing a graph from JSON.
  */
 export const GraphUtil = GraphUtility
-
-export { GraphType } from './src/types/GraphType'

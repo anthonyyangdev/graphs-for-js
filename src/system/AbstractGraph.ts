@@ -1,7 +1,6 @@
 import { BasicEdge, ReadonlyUnweightedGraph } from '../types/GraphSystem'
 import { DefaultDictionary, Dictionary, Set } from 'typescript-collections'
 import { defaultToKeyFunction } from '../DefaultKeyFunction'
-import { GraphType } from '../types/GraphType'
 
 export abstract class AbstractGraph<V, E> implements ReadonlyUnweightedGraph<V, E> {
   readonly toKeyFn: (v: V) => string
@@ -125,6 +124,4 @@ export abstract class AbstractGraph<V, E> implements ReadonlyUnweightedGraph<V, 
     })
     return edges
   }
-
-  abstract getGraphType (): GraphType
 }
