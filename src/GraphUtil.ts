@@ -3,7 +3,6 @@ import * as FindShortestPath from './util/FindShortestPath'
 import * as j from './util/serialize'
 import * as cloner from './util/GraphClone'
 import * as functionalFn from './util/functional'
-import * as flowAlgo from './util/MaxFlow'
 import * as tpSort from './util/TopologicalSort'
 import * as toMatrix from './util/ToAdjacenyMatrix'
 
