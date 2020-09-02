@@ -52,6 +52,8 @@ The library supports 4 types of graphs:
 - Unweighted, Undirected graphs
     - Edges are bidirectional and cannot be assigned a value.
 
+For each of the above graph types, there are also readonly, immutable versions.
+
 ### Import the GraphBuilder
 
 ```js
@@ -66,7 +68,7 @@ import {GraphBuilder} from 'graphs-for-js'
 
 ### Key Function
 
-Because JavaScript does not directly hash/map objects and their contents to unique values, the GraphBuilder accepts a function for mapping a node value to a string key.
+Because JavaScript does not natively hash/map objects and their contents to unique values as object keys, the GraphBuilder accepts a function for mapping a node value to a string key.
 
 If a Key Function is not given, then the default behaviors are the following:
 - Primitive Types
