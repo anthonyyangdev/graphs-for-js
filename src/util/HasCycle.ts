@@ -1,5 +1,4 @@
 import { Set } from 'typescript-collections'
-import { GraphType } from '../types/GraphType'
 import { ReadonlyGraph } from '../types/GraphSystem'
 
 const startSymbol = Symbol('start')
@@ -80,17 +79,9 @@ const hasCycleInDirectedGraph = <V, E> (graph: ReadonlyGraph<V, E>): boolean => 
  *
  */
 export const hasCycle = <V, E> (graph: ReadonlyGraph<V, E>): boolean => {
-  const graphType = graph.getGraphType()
-  switch (graphType) {
-    case GraphType.NonWeightedDirected:
-    case GraphType.WeightedDirected:
-    case GraphType.ReadonlyWeightedDirected:
-    case GraphType.ReadonlyNonWeightedDirected:
-      return hasCycleInDirectedGraph(graph)
-    case GraphType.NonWeightedUndirected:
-    case GraphType.WeightedUndirected:
-    case GraphType.ReadonlyNonWeightedUndirected:
-    case GraphType.ReadonlyWeightedUndirected:
-      return hasCycleInUndirectedGraph(graph)
+  if (graph.isUndirected) {
+    return hasCycleInUndirectedGraph(graph)
+  } else {
+    return hasCycleInDirectedGraph(graph)
   }
 }
