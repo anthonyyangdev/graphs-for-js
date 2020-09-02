@@ -1,13 +1,12 @@
 import { expect } from 'chai'
 import { it, describe } from 'mocha'
-import { GraphType } from '../../src/types/GraphType'
-import { GraphBuilder } from '../../index'
+import { Graph } from '../../index'
 
 const createGraph = <V> (fn?: (v: V) => string) => {
   if (fn != null) {
-    return GraphBuilder<V>().withKeyFunction(fn).directed.unweighted()
+    return new Graph<V>().keyFn(fn).directed.unweighted()
   } else {
-    return GraphBuilder<V>().withoutKeyFunction().directed.unweighted()
+    return new Graph<V>().noKey().directed.unweighted()
   }
 }
 
@@ -17,7 +16,8 @@ describe('Test suite for a directed graph', function () {
     expect(graph.count()).equals(0)
     expect(graph.nodes().length).equals(0)
     expect(graph.edges().length).equals(0)
-    expect(graph.getGraphType()).equals(GraphType.NonWeightedDirected)
+    expect(graph.isUndirected).is.false
+    expect(graph.isUnweighted).is.true
   })
 
   it('increases its count() value only when a unique value is added', function () {

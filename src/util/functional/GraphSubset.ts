@@ -1,7 +1,5 @@
-import { GraphType } from '../../types/GraphType'
 import { Set } from 'typescript-collections'
 import { MutableGraph, ReadonlyGraph } from '../../types/GraphSystem'
-import { GraphBuilder } from '../../../index'
 import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**
