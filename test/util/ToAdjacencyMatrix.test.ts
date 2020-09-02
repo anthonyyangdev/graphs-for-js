@@ -12,8 +12,12 @@ const automateCheck = <V, E> (
   const nodes = g.nodes()
   const edges = g.edges()
 
-  expect(nodeToIndex).to.have.all.keys(nodes.map(n => g.toKeyFn(n)))
   expect(Object.keys(nodeToIndex).length).equals(g.count())
+  if (g.count() > 0) {
+    expect(nodeToIndex).to.have.all.keys(nodes.map(n => g.toKeyFn(n)))
+  } else {
+    expect(Object.keys(nodeToIndex).length).equals(0)
+  }
   expect(nodeIndexPairs.length).equals(g.count())
   expect(g.contains(...nodeIndexPairs.map(p => p.node))).is.true
   for (let i = 0; i < indexToNode.length; i++) {
@@ -94,13 +98,13 @@ describe('Convert to adjacency matrix', function () {
         expect(valueMatrix[nodeToIndex[1]][nodeToIndex[2]]).equals(3)
         expect(valueMatrix[nodeToIndex[2]][nodeToIndex[3]]).equals(5)
         expect(valueMatrix[nodeToIndex[3]][nodeToIndex[4]]).equals(7)
-        expect(matrix[nodeToIndex[0]][nodeToIndex[1]]).is.true
         expect(matrix[nodeToIndex[1]][nodeToIndex[2]]).is.true
         expect(matrix[nodeToIndex[2]][nodeToIndex[3]]).is.true
+        expect(matrix[nodeToIndex[3]][nodeToIndex[4]]).is.true
 
-        expect(matrix[nodeToIndex[1]][nodeToIndex[0]]).is.false
         expect(matrix[nodeToIndex[2]][nodeToIndex[1]]).is.false
         expect(matrix[nodeToIndex[3]][nodeToIndex[2]]).is.false
+        expect(matrix[nodeToIndex[4]][nodeToIndex[3]]).is.false
         automateCheck(graph, { matrix, valueMatrix, nodeIndexPairs, nodeToIndex, indexToNode })
       })
     })
@@ -115,9 +119,9 @@ describe('Convert to adjacency matrix', function () {
         expect(matrix[nodeToIndex.B][nodeToIndex.D]).is.true
         expect(matrix[nodeToIndex.C][nodeToIndex.D]).is.true
 
-        expect(valueMatrix[nodeToIndex.A][nodeToIndex.C]).is.null
-        expect(valueMatrix[nodeToIndex.B][nodeToIndex.D]).is.null
-        expect(valueMatrix[nodeToIndex.C][nodeToIndex.D]).is.null
+        expect(valueMatrix[nodeToIndex.A][nodeToIndex.C]).is.undefined
+        expect(valueMatrix[nodeToIndex.B][nodeToIndex.D]).is.undefined
+        expect(valueMatrix[nodeToIndex.C][nodeToIndex.D]).is.undefined
         for (const p of nodeIndexPairs) {
           expect(p.index).equals(nodeToIndex[p.node])
         }
