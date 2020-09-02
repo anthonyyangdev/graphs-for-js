@@ -1,11 +1,11 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../index'
+import { Graph, GraphUtil } from '../../index'
 import { AdjacencyMatrixResult } from '../../src/util/ToAdjacenyMatrix'
-import { ReadonlyGraph } from '../../src/types/GraphSystem'
+import { ReadonlyUnweightedGraph } from '../../src/types/GraphSystem'
 
 const automateCheck = <V, E> (
-  g: ReadonlyGraph<V, E>,
+  g: ReadonlyUnweightedGraph<V, E>,
   result: AdjacencyMatrixResult<V, E>
 ) => {
   const { nodeToIndex, nodeIndexPairs, indexToNode, valueMatrix, matrix } = result
@@ -54,21 +54,21 @@ const automateCheck = <V, E> (
 }
 
 describe('Convert to adjacency matrix', function () {
+  const gen = new Graph<number | string, number>().noKey()
+
   describe('Undirected graphs', function () {
     describe('without weights', function () {
       it('should work without weights', function () {
-        const graph = GraphBuilder<number, number>()
-          .withoutKeyFunction().readonly([1, 2, 3, 4])
-          .undirected.unweighted([[1, 2], [2, 3], [3, 4]])
+        const graph = gen.readonly
+          .undirected.unweighted([[1, 2], [2, 3], [3, 4]], [1, 2, 3, 4])
         const results = GraphUtil.toAdjacencyMatrix(graph)
         automateCheck(graph, results)
       })
     })
     describe('with weights', function () {
       it('should work with empty graph', function () {
-        const graph = GraphBuilder<number, number>()
-          .withoutKeyFunction().readonly([])
-          .undirected.weighted([])
+        const graph = gen.readonly
+          .undirected.weighted([], [])
         const results = GraphUtil.toAdjacencyMatrix(graph)
         expect(results.valueMatrix.length).equals(0)
         expect(results.matrix.length).equals(0)
@@ -79,9 +79,8 @@ describe('Convert to adjacency matrix', function () {
       })
 
       it('should work with weights', function () {
-        const graph = GraphBuilder<number, number>()
-          .withoutKeyFunction().readonly([1, 2, 3, 4])
-          .undirected.weighted([[1, 2, 3], [2, 3, 5], [3, 4, 7]])
+        const graph = gen.readonly
+          .undirected.weighted([[1, 2, 3], [2, 3, 5], [3, 4, 7]], [1, 2, 3, 4])
         const results = GraphUtil.toAdjacencyMatrix(graph)
         automateCheck(graph, results)
       })
@@ -91,9 +90,8 @@ describe('Convert to adjacency matrix', function () {
   describe('Directed graphs', function () {
     describe('With weights', function () {
       it('should work with weights', function () {
-        const graph = GraphBuilder<number, number>()
-          .withoutKeyFunction().readonly([1, 2, 3, 4])
-          .directed.weighted([[1, 2, 3], [2, 3, 5], [3, 4, 7]])
+        const graph = gen.readonly
+          .directed.weighted([[1, 2, 3], [2, 3, 5], [3, 4, 7]], [1, 2, 3, 4])
         const { matrix, valueMatrix, nodeIndexPairs, nodeToIndex, indexToNode } = GraphUtil.toAdjacencyMatrix(graph)
         expect(valueMatrix[nodeToIndex[1]][nodeToIndex[2]]).equals(3)
         expect(valueMatrix[nodeToIndex[2]][nodeToIndex[3]]).equals(5)
@@ -111,9 +109,8 @@ describe('Convert to adjacency matrix', function () {
 
     describe('Without weights', function () {
       it('should work without weights', function () {
-        const graph = GraphBuilder<string>()
-          .withoutKeyFunction().readonly(['A', 'B', 'C', 'D'])
-          .directed.unweighted([['A', 'C'], ['B', 'D'], ['C', 'D']])
+        const graph = gen.readonly
+          .directed.unweighted([['A', 'C'], ['B', 'D'], ['C', 'D']], ['A', 'B', 'C', 'D'])
         const { matrix, valueMatrix, nodeIndexPairs, nodeToIndex, indexToNode } = GraphUtil.toAdjacencyMatrix(graph)
         expect(matrix[nodeToIndex.A][nodeToIndex.C]).is.true
         expect(matrix[nodeToIndex.B][nodeToIndex.D]).is.true

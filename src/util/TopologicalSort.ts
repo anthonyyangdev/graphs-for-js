@@ -1,4 +1,4 @@
-import { ReadonlyGraph } from '../types/GraphSystem'
+import { ReadonlyUnweightedGraph } from '../types/GraphSystem'
 import { hasCycle } from './HasCycle'
 import { DefaultDictionary, Queue } from 'typescript-collections'
 
@@ -9,7 +9,7 @@ import { DefaultDictionary, Queue } from 'typescript-collections'
  * @param g
  */
 export const topologicalSort = <V, E> (
-  g: ReadonlyGraph<V, E>
+  g: ReadonlyUnweightedGraph<V, E>
 ): V[] | undefined => {
   // Must be a DAG to be topologically sorted
   if ((g.isUndirected && g.edges().length > 0) || hasCycle(g)) { return undefined }

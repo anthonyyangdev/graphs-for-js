@@ -1,7 +1,6 @@
 import * as HasCycle from './util/HasCycle'
 import * as FindShortestPath from './util/FindShortestPath'
-import * as j from './util/json'
-import * as caster from './util/GetExplicitGraph'
+import * as j from './util/serialize'
 import * as cloner from './util/GraphClone'
 import * as functionalFn from './util/functional'
 import * as tpSort from './util/TopologicalSort'
@@ -15,8 +14,6 @@ export const json = {
   stringify: j.stringify,
   parse: j.parse
 }
-
-export const castGraph = caster.castExplicitly
 
 export const clone = cloner.clone
 

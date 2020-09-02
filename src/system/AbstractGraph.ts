@@ -1,9 +1,8 @@
-import { BasicEdge, ReadonlyGraph } from '../types/GraphSystem'
+import { BasicEdge, ReadonlyUnweightedGraph } from '../types/GraphSystem'
 import { DefaultDictionary, Dictionary, Set } from 'typescript-collections'
 import { defaultToKeyFunction } from '../DefaultKeyFunction'
-import { GraphType } from '../types/GraphType'
 
-export abstract class AbstractGraph<V, E> implements ReadonlyGraph<V, E> {
+export abstract class AbstractGraph<V, E> implements ReadonlyUnweightedGraph<V, E> {
   readonly toKeyFn: (v: V) => string
   protected readonly allNodes: Set<V>
   protected readonly sourceToTarget: DefaultDictionary<V, Dictionary<V, E | null>>
@@ -12,8 +11,6 @@ export abstract class AbstractGraph<V, E> implements ReadonlyGraph<V, E> {
   public readonly isUnweighted: boolean
 
   protected constructor (
-    nodes: V[],
-    edges: ([V, V] | [V, V, E])[],
     isUndirected: boolean,
     isUnweighted: boolean,
     keyFn?: (v: V) => string
@@ -22,7 +19,6 @@ export abstract class AbstractGraph<V, E> implements ReadonlyGraph<V, E> {
     this.allNodes = new Set<V>(this.toKeyFn)
     this.isUndirected = isUndirected
     this.isUnweighted = isUnweighted
-    nodes.forEach(n => this.allNodes.add(n), this)
 
     this.sourceToTarget = new DefaultDictionary(() => {
       return new Dictionary<V, null | E>(this.toKeyFn)
@@ -30,15 +26,6 @@ export abstract class AbstractGraph<V, E> implements ReadonlyGraph<V, E> {
     this.targetToSource = new DefaultDictionary(() => {
       return new Dictionary<V, null | E>(this.toKeyFn)
     }, this.toKeyFn)
-    edges.forEach(e => {
-      const value = e[2] !== undefined ? e[2] : null
-      this.sourceToTarget.getValue(e[0]).setValue(e[1], value)
-      this.targetToSource.getValue(e[1]).setValue(e[0], value)
-      if (this.isUndirected) {
-        this.sourceToTarget.getValue(e[1]).setValue(e[0], value)
-        this.targetToSource.getValue(e[0]).setValue(e[1], value)
-      }
-    }, this)
   }
 
   contains (...nodes: V[]): boolean {
@@ -125,6 +112,4 @@ export abstract class AbstractGraph<V, E> implements ReadonlyGraph<V, E> {
     })
     return edges
   }
-
-  abstract getGraphType (): GraphType
 }

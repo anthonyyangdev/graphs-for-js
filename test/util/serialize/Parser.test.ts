@@ -1,17 +1,16 @@
 import { describe, it } from 'mocha'
 import { GraphUtil } from '../../../index'
 import { expect } from 'chai'
-import { GraphType } from '../../../src/types/GraphType'
-import { IMutableWeightedGraph } from '../../../src/types/GraphSystem'
+import { MutableWeightedGraph } from '../../../src/types/GraphSystem'
 
 const { parse } = GraphUtil.json
 
-describe('Parse graphs from json', function () {
+describe('Parse graphs from serialize', function () {
   it('should accept key function', function () {
     const json = `
     {
       "undirected": false,
-      "weighted": false,
+      "unweighted": true,
       "nodes": [1,2,3],
       "edges": []
     }`
@@ -23,11 +22,11 @@ describe('Parse graphs from json', function () {
     expect(graph.edges().length).equals(0)
   })
 
-  it('should fail to parse improper json', function () {
+  it('should fail to parse improper serialize', function () {
     let json = `
     {
       "undirected": "hello",
-      "weighted": false,
+      "unweighted": true,
       "nodes": [1, 4, 5],
       "edges": [{ "source": 1, "not_target": 4 }]
     }`
@@ -36,7 +35,7 @@ describe('Parse graphs from json', function () {
     json = `
     {
       "undirected": false,
-      "weighted": "not boolean",
+      "unweighted": "not boolean",
       "nodes": [1, 4, 5],
       "edges": [{ "source": 1, "not_target": 4 }]
     }`
@@ -45,7 +44,7 @@ describe('Parse graphs from json', function () {
     json = `
     {
       "undirected": false,
-      "weighted": false,
+      "unweighted": true,
       "nodes": "not an array",
       "edges": [{ "source": 1, "not_target": 4 }]
     }`
@@ -54,16 +53,16 @@ describe('Parse graphs from json', function () {
     json = `
     {
       "undirected": false,
-      "weighted": false,
+      "unweighted": true,
       "nodes": [1],
       "edges": "not an array" 
     }`
     expect(parse(json)).is.undefined
   })
-  it('should parse directed, unweighted graph json', function () {
+  it('should parse directed, unweighted graph serialize', function () {
     const json = `{
       "undirected": false,
-      "weighted": false,
+      "unweighted": true,
       "nodes": [1, 2],
       "edges": [{ "source": 1, "target": 2 }]
     }`
@@ -76,10 +75,10 @@ describe('Parse graphs from json', function () {
     expect(graph.hasEdge(2, 1)).is.false
     expect(graph.edges().length).equals(1)
   })
-  it('should parse directed, weighted graph json', function () {
+  it('should parse directed, weighted graph serialize', function () {
     const json = `{
       "undirected": false,
-      "weighted": true,
+      "unweighted": false,
       "nodes": ["number", "word"],
       "edges": [
         { "source": "number", "target": "word", "value": 10 },
@@ -96,10 +95,10 @@ describe('Parse graphs from json', function () {
     expect(graph.hasEdge('word', 'number', 5)).is.true
   })
 
-  it('should parse undirected and weighted graph json', function () {
+  it('should parse undirected and weighted graph serialize', function () {
     const json = `{
       "undirected": true,
-      "weighted": true,
+      "unweighted": false,
       "nodes": [1,2],
       "edges": [{
         "source": 1,
@@ -110,18 +109,19 @@ describe('Parse graphs from json', function () {
     let graph = parse<number, string>(json)
     expect(graph).is.not.undefined
     graph = graph!
-    expect(graph.getGraphType()).equals(GraphType.WeightedUndirected)
+    expect(graph.isUndirected).is.true
+    expect(graph.isUnweighted).is.false
     expect(graph.nodes().length).equals(graph.count()).equals(2)
     expect(graph.contains(1, 2)).is.true
     expect(graph.hasEdge(1, 2)).is.true
-    const weightedUndirectedGraph = graph as IMutableWeightedGraph<number, string>
+    const weightedUndirectedGraph = graph as MutableWeightedGraph<number, string>
     expect(weightedUndirectedGraph.degreeOf(1)).equals(1)
     expect(weightedUndirectedGraph.weightOf(1, 2)).equals('hello')
   })
-  it('should parse undirected and unweighted graph json', function () {
+  it('should parse undirected and unweighted graph serialize', function () {
     const json = `{
       "undirected": true,
-      "weighted": false,
+      "unweighted": true,
       "nodes": [1, 2, 3, 4],
       "edges": [{
         "source": 1,
@@ -137,7 +137,8 @@ describe('Parse graphs from json', function () {
     let graph = parse<number>(json)
     expect(graph).is.not.undefined
     graph = graph!
-    expect(graph.getGraphType()).equals(GraphType.NonWeightedUndirected)
+    expect(graph.isUnweighted).is.true
+    expect(graph.isUndirected).is.true
     expect(graph.count()).equals(graph.nodes().length).equals(4)
     expect(graph.edges().length).equals(3)
     expect(graph.contains(1, 2, 3, 4)).is.true

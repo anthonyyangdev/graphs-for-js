@@ -1,6 +1,4 @@
-import { GraphType } from '../../types/GraphType'
-import { MutableGraph, ReadonlyGraph } from '../../types/GraphSystem'
-import { GraphBuilder } from '../../../index'
+import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../../types/GraphSystem'
 import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**
@@ -18,13 +16,13 @@ import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
  * @param newKeyFunction
  */
 export const mapNodes = <V, E, N> (
-  g: ReadonlyGraph<V, E>,
+  g: ReadonlyUnweightedGraph<V, E>,
   callback: (v: V) => N,
   newKeyFunction?: (n: N) => string
 ) => {
   const edges = g.edges()
   const nodes = g.nodes()
-  const clone: MutableGraph<N, E> = createEmptyGraphInstance(g, newKeyFunction)
+  const clone: MutableUnweightedGraph<N, E> = createEmptyGraphInstance(g, newKeyFunction)
   clone.insert(...nodes.map(n => callback(n)))
   edges.forEach(({ source, value, target }) => {
     clone.connect(callback(source), callback(target), value)

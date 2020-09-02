@@ -1,4 +1,3 @@
-import { GraphType } from './GraphType'
 
 export interface BasicEdge<V, E=unknown> {
   source: V
@@ -11,7 +10,7 @@ export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
 }
 
-export interface ReadonlyGraph<V, E> {
+export interface ReadonlyUnweightedGraph<V, E> {
 
   readonly isUnweighted: boolean
 
@@ -71,12 +70,6 @@ export interface ReadonlyGraph<V, E> {
   readonly outgoingEdgesOf: (node: V) => BasicEdge<V, E>[]
 
   /**
-   * Returns an identifier corresponding to the type of the graph, i.e. if it
-   * is an undirected graph or if its edges have weights.
-   */
-  readonly getGraphType: () => GraphType
-
-  /**
    * Return true if an edge from source to the target exists in the graph,
    * otherwise false.
    * @param source
@@ -85,7 +78,7 @@ export interface ReadonlyGraph<V, E> {
   readonly hasEdge: (source: V, target: V, value?: any) => boolean
 }
 
-export interface MutableGraph<V, E> extends ReadonlyGraph<V, E> {
+export interface MutableUnweightedGraph<V, E> extends ReadonlyUnweightedGraph<V, E> {
   /**
    * Add nodes to the graph.
    * Return the number of nodes added.
@@ -115,9 +108,11 @@ export interface MutableGraph<V, E> extends ReadonlyGraph<V, E> {
    * @param target
    */
   readonly disconnect: (source: V, target: V, value?: E) => boolean
+
+  readonly makeReadonly: () => ReadonlyUnweightedGraph<V, E>
 }
 
-export interface IReadonlyWeightedGraph<V, E> extends ReadonlyGraph<V, E> {
+export interface ReadonlyWeightedGraph<V, E> extends ReadonlyUnweightedGraph<V, E> {
   readonly weightOf: (source: V, target: V) => E | undefined
 
   readonly getEdgeValue: (source: V, target: V) => E | undefined
@@ -142,8 +137,8 @@ export interface IReadonlyWeightedGraph<V, E> extends ReadonlyGraph<V, E> {
   readonly outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
 }
 
-export interface IMutableWeightedGraph<V, E>
-  extends MutableGraph<V, E>, IReadonlyWeightedGraph<V, E> {
+export interface MutableWeightedGraph<V, E>
+  extends MutableUnweightedGraph<V, E>, ReadonlyWeightedGraph<V, E> {
   readonly connect: (source: V, target: V, value: E) => boolean
 
   readonly disconnect: (source: V, target: V, value?: E) => boolean
@@ -156,4 +151,5 @@ export interface IMutableWeightedGraph<V, E>
 
   readonly outgoingEdgesOf: (node: V) => ValueEdge<V, E>[]
 
+  readonly makeReadonly: () => ReadonlyWeightedGraph<V, E>
 }

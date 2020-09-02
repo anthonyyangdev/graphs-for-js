@@ -1,10 +1,12 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { GraphBuilder, GraphUtil } from '../../../index'
+import { Graph, GraphUtil } from '../../../index'
 
 describe('Map edges test suite', function () {
+  const gen = new Graph<number, string>().noKey()
+
   it('should create a new map from no edges', function () {
-    const graph = GraphBuilder<number, string>().withoutKeyFunction().undirected.weighted()
+    const graph = gen.undirected.weighted()
     graph.insert(1, 2, 3, 4)
 
     const mapped = GraphUtil.functional.mapEdges(graph, e => Number.parseInt(e))
@@ -14,7 +16,7 @@ describe('Map edges test suite', function () {
   })
 
   it('should create a new graph with mapped edges', function () {
-    const graph = GraphBuilder<number, string>().withoutKeyFunction().undirected.weighted()
+    const graph = gen.undirected.weighted()
     graph.insert(1, 2, 3, 4, 5)
     graph.connect(1, 4, '5')
     graph.connect(1, 5, '6')
