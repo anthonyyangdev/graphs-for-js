@@ -1,8 +1,13 @@
 import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
-import { Graph, GraphUtil } from '../../index'
+import { Graph } from '../../index'
+import { findMaxFlow } from '../../src/util/MaxFlow'
 import range from '../common/range'
 import { MutableWeightedGraph, ReadonlyWeightedGraph } from '../../src/types/GraphSystem'
+
+const GraphUtil = {
+  findMaxFlow
+}
 
 const repOkFlowGraph = <V> (
   g: ReadonlyWeightedGraph<V, number>,
@@ -97,15 +102,6 @@ describe('Test suite for min max flow', function () {
       beforeEach(() => {
         graph = new Graph<string, number>()
           .noKey().directed.weighted()
-      })
-      it('should satisfy negative weights', function () {
-        graph.insert('A', 'B')
-        graph.connect('B', 'A', -7)
-        const result = GraphUtil.findMaxFlow(graph, 'A', 'B')
-        expect(result).to.not.be.undefined
-        const { flow, flowGraph } = result!
-        expect(flow).equals(7)
-        repOkFlowGraph(flowGraph, 'A', 'B', flow)
       })
       it('should return undefined when there is an edge with 0 capacity.', function () {
         graph.insert('A', 'B', 'C')

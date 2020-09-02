@@ -22,8 +22,6 @@ export const functional = {
   ...functionalFn
 }
 
-export const findMaxFlow = flowAlgo.findMaxFlow
-
 export const topologicalSort = tpSort.topologicalSort
 
 export const toAdjacencyMatrix = toMatrix.toAdjacencyMatrix
