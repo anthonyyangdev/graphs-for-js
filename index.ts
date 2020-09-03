@@ -68,3 +68,14 @@ export class Graph<V, E=never> {
  * such as cloning and parsing a graph from JSON.
  */
 export const GraphUtil = GraphUtility
+
+export {
+  MutableWeightedGraph,
+  ReadonlyGraph,
+  MutableUnweightedGraph,
+  MutableGraph,
+  ValueEdge,
+  BasicEdge,
+  ReadonlyWeightedGraph,
+  ReadonlyUnweightedGraph
+} from './src/types/GraphSystem'

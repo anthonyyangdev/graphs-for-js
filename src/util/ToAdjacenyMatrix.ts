@@ -1,4 +1,4 @@
-import { ReadonlyUnweightedGraph } from '../types/GraphSystem'
+import { ReadonlyGraph } from '../types/GraphSystem'
 
 export type AdjacencyMatrixResult<V, E> = {
   matrix: boolean[][],
@@ -13,7 +13,7 @@ export type AdjacencyMatrixResult<V, E> = {
  * @param g
  */
 export const toAdjacencyMatrix = <V, E> (
-  g: ReadonlyUnweightedGraph<V, E>
+  g: ReadonlyGraph<V, E>
 ): AdjacencyMatrixResult<V, E> => {
   const nodeCount = g.count()
   const nodeToIndex: Record<string, number> = {}

@@ -1,11 +1,11 @@
 import { Graph } from '../../../index'
 import { GraphJson } from './GraphJson'
-import { MutableUnweightedGraph } from '../../types/GraphSystem'
+import { MutableGraph, MutableUnweightedGraph } from '../../types/GraphSystem'
 
 export const parse = <V, E=unknown>(
   jsonString: string,
   keyFunction?: (v: V) => string
-): MutableUnweightedGraph<V, E> | undefined => {
+): MutableGraph<V, E> | undefined => {
   let json: Partial<GraphJson>
   try {
     json = JSON.parse(jsonString)

@@ -1,4 +1,3 @@
-import { truncate } from 'fs'
 
 export interface BasicEdge<V, E=unknown> {
   source: V
@@ -11,17 +10,7 @@ export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
 }
 
-export type UnweightedGraphWrapper <V, E> = {
-  isUnweighted: true,
-  graph: MutableUnweightedGraph<V, E>
-}
-
-export type WeightedGraphWrapper <V, E> = {
-  isUnweighted: false,
-  graph: MutableWeightedGraph<V, E>
-}
-
-export interface ReadonlyUnweightedGraph<V, E> {
+export interface ReadonlyGraph<V, E> {
 
   readonly isUnweighted: boolean
 
@@ -89,7 +78,9 @@ export interface ReadonlyUnweightedGraph<V, E> {
   readonly hasEdge: (source: V, target: V, value?: any) => boolean
 }
 
-export interface MutableUnweightedGraph<V, E> extends ReadonlyUnweightedGraph<V, E> {
+export interface ReadonlyUnweightedGraph<V, E> extends ReadonlyGraph<V, E> {}
+
+export interface MutableGraph<V, E> extends ReadonlyUnweightedGraph<V, E> {
   /**
    * Add nodes to the graph.
    * Return the number of nodes added.
@@ -122,6 +113,8 @@ export interface MutableUnweightedGraph<V, E> extends ReadonlyUnweightedGraph<V,
 
   readonly makeReadonly: () => ReadonlyUnweightedGraph<V, E>
 }
+
+export interface MutableUnweightedGraph<V, E> extends MutableGraph<V, E> {}
 
 export interface ReadonlyWeightedGraph<V, E> extends ReadonlyUnweightedGraph<V, E> {
   readonly weightOf: (source: V, target: V) => E | undefined

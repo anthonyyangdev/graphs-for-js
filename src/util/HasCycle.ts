@@ -1,9 +1,9 @@
 import { Set } from 'typescript-collections'
-import { ReadonlyUnweightedGraph } from '../types/GraphSystem'
+import { ReadonlyGraph, ReadonlyUnweightedGraph } from '../types/GraphSystem'
 
 const startSymbol = Symbol('start')
 
-const hasCycleInUndirectedGraph = <V, E> (graph: ReadonlyUnweightedGraph<V, E>): boolean => {
+const hasCycleInUndirectedGraph = <V, E> (graph: ReadonlyGraph<V, E>): boolean => {
   const toKeyFn = graph.toKeyFn
   // If in the set, then the node has been visited
   const visited = new Set<V>(toKeyFn)

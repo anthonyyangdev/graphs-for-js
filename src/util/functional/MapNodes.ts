@@ -1,4 +1,4 @@
-import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../../types/GraphSystem'
+import { MutableUnweightedGraph, ReadonlyGraph, ReadonlyUnweightedGraph } from '../../types/GraphSystem'
 import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**
@@ -16,7 +16,7 @@ import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
  * @param newKeyFunction
  */
 export const mapNodes = <V, E, N> (
-  g: ReadonlyUnweightedGraph<V, E>,
+  g: ReadonlyGraph<V, E>,
   callback: (v: V) => N,
   newKeyFunction?: (n: N) => string
 ) => {

@@ -1,5 +1,5 @@
 import { Graph } from '../../index'
-import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../types/GraphSystem'
+import { MutableUnweightedGraph, ReadonlyGraph } from '../types/GraphSystem'
 
 /**
  * Creates a clone of the given graph. The clone is a new graph object instance that
@@ -7,7 +7,7 @@ import { MutableUnweightedGraph, ReadonlyUnweightedGraph } from '../types/GraphS
  *
  * @param g
  */
-export const clone = <V, E> (g: ReadonlyUnweightedGraph<V, E>) => {
+export const clone = <V, E> (g: ReadonlyGraph<V, E>) => {
   /**
    * 1) Get the graph type using casting
    * 2) Instantiate the correct graph

@@ -1,8 +1,8 @@
 import { GraphJson } from './GraphJson'
-import { ReadonlyUnweightedGraph } from '../../types/GraphSystem'
+import { ReadonlyGraph } from '../../types/GraphSystem'
 
 export const stringify = <V, E> (
-  graph: ReadonlyUnweightedGraph<V, E>
+  graph: ReadonlyGraph<V, E>
 ): string => {
   const nodes = graph.nodes()
   const edges = graph.edges()
