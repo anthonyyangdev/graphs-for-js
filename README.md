@@ -219,28 +219,27 @@ The `GraphUtil` module contains some helper functions/algorithms that can be use
     - Finds the shortest path from the node `start` to the node `end`. Returns an object with the fields `path` and `pathLength`. If there exists a path, then `path` is an array of nodes in that path in order from `start` to `end`, and `pathLength` is the length of that path, i.e. the number of edges. If a path is not found, then `path` is an empty array, and `pathLength` is `-1`.
     
 - `clone(graph)`
-    - Creates a new instance of a graph that contains all nodes and edges in the given `graph`. Returns an object, with the fields `isUnweighted` and `graph`. The type of graph returned is the same type of graph given, e.g. if an undirected, unweighted graph is given, then the cloned graph will also be undirected and unweighted.
-    - For TypeScript: If `isUnweighted` is `true`, then `graph` is a `MutableUnweightedGraph`. If it is `false`, then `graph` is a `MutableWeightedGraph`.
+    - Creates a new instance of a graph that contains all nodes and edges in the given `graph`. The type of graph returned is the same type of graph given, e.g. if an undirected, unweighted graph is given, then the cloned graph will also be undirected and unweighted.
     
 - `topologicalSort(graph)`
     - Topologically sorts the graph. Returns `undefined` if the given graph is not a DAG. Otherwise, it returns an array of nodes in topologically sorted order.
 
 - `toAdjacencyMatrix(graph)`
     - Converts the given `graph` into an adjacency matrix. Returns an object with 5 values:
-    - ```js
-      {
+    - ```ts
+      type Result<V, E> = {
         // matrix[i][j] is true if there is an edge from node i to node j. Otherwise, it is false
-        matrix: boolean[][],
+        matrix: boolean[][]
       
         // valueMatrix[i][j] returns the value/weight on the edge from node i to j.
         // If there is no value or the edge does not exist, it is undefined.
-        valueMatrix: (E | undefined)[][],
+        valueMatrix: (E | undefined)[][]
         
         // For each node n, nodeToIndex maps toKeyFn(n) to its index on the adjacency matrix
         nodeToIndex: Record<string, number>
         
         // Maps the index number on the adjacency matrix to the actual node value.
-        indexToNode: V[],
+        indexToNode: V[]
       
         // An array of pairs, the node value and its index on the adjacency matrix.
         nodeIndexPairs: {node: V, index: number}[]
