@@ -4,7 +4,7 @@
   
 > Features:
 > - Insert and remove nodes.
-> - Connect and disconnect nodes.
+> - Create edges by connecting and disconnecting nodes.
 > - Algorithms for graph data structures.
 
 - [Installation](#installation)
