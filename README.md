@@ -268,10 +268,12 @@ The `GraphUtil` module contains some helper functions/algorithms that can be use
 ### Examples
 
 ```js
-const {GraphBuilder, GraphUtil} = require('graphs-for-js')
+const {Graph, GraphUtil} = require('graphs-for-js')
 
-const graph = GraphBuilder().withoutKeyFunction().directed.unweighted()
-GraphUtil.hasCycle(graph) // Returns true if there exists a cycle in `graph`. Otherwise false
+const graph = new Graph().noKey().directed.unweighted()
+
+// Returns true if there exists a cycle in `graph`. Otherwise false
+GraphUtil.hasCycle(graph)
 
 /*
   Finds the shortest path from the start node to the end node.
