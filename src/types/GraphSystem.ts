@@ -1,3 +1,4 @@
+import { truncate } from 'fs'
 
 export interface BasicEdge<V, E=unknown> {
   source: V
@@ -8,6 +9,16 @@ export interface BasicEdge<V, E=unknown> {
 
 export interface ValueEdge<V, E> extends BasicEdge<V, E> {
   value: E
+}
+
+export type UnweightedGraphWrapper <V, E> = {
+  isUnweighted: true,
+  graph: MutableUnweightedGraph<V, E>
+}
+
+export type WeightedGraphWrapper <V, E> = {
+  isUnweighted: false,
+  graph: MutableWeightedGraph<V, E>
 }
 
 export interface ReadonlyUnweightedGraph<V, E> {
