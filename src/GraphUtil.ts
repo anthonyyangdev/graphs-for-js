@@ -10,7 +10,7 @@ export const hasCycle = HasCycle.hasCycle
 
 export const findShortestPath = FindShortestPath.findShortestPath
 
-export const json = {
+export const serialize = {
   stringify: j.stringify,
   parse: j.parse
 }

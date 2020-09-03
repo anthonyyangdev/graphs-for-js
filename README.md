@@ -200,9 +200,70 @@ weightedGraph.hasEdge(1, 2, 0.5) // Returns true if there is an edge from node 1
 undirectedGraph.hasEdge(x, y) === undirectedGraph.hasEdge(y, x)  // true
 ```
 
+#### Edge Value
+
+```js
+weightedGraph.weightOf(1, 4) 
+// Returns the value of the edge from nodes 1 to 4, if it exists.
+// If it does not exist, it returns undefined.
+```
+
 ## GraphUtil Usage
 
-Some helper functions are included in the `GraphUtil` import.
+The `GraphUtil` module contains some helper functions/algorithms that can be used on the graphs.
+
+- `hasCycle(graph)`
+    - Returns true if there is a cycle in the graph, false otherwise
+
+- `findShortestPath(graph, start, end)`
+    - Finds the shortest path from the node `start` to the node `end`. Returns an object with the fields `path` and `pathLength`. If there exists a path, then `path` is an array of nodes in that path in order from `start` to `end`, and `pathLength` is the length of that path, i.e. the number of edges. If a path is not found, then `path` is an empty array, and `pathLength` is `-1`.
+    
+- `clone(graph)`
+    - Creates a new instance of a graph that contains all nodes and edges in the given `graph`. Returns an object, with the fields `isUnweighted` and `graph`. The type of graph returned is the same type of graph given, e.g. if an undirected, unweighted graph is given, then the cloned graph will also be undirected and unweighted.
+    - For TypeScript: If `isUnweighted` is `true`, then `graph` is a `MutableUnweightedGraph`. If it is `false`, then `graph` is a `MutableWeightedGraph`.
+    
+- `topologicalSort(graph)`
+    - Topologically sorts the graph. Returns `undefined` if the given graph is not a DAG. Otherwise, it returns an array of nodes in topologically sorted order.
+
+- `toAdjacencyMatrix(graph)`
+    - Converts the given `graph` into an adjacency matrix. Returns an object with 5 values:
+    - ```js
+      {
+        // matrix[i][j] is true if there is an edge from node i to node j. Otherwise, it is false
+        matrix: boolean[][],
+      
+        // valueMatrix[i][j] returns the value/weight on the edge from node i to j.
+        // If there is no value or the edge does not exist, it is undefined.
+        valueMatrix: (E | undefined)[][],
+        
+        // For each node n, nodeToIndex maps toKeyFn(n) to its index on the adjacency matrix
+        nodeToIndex: Record<string, number>
+        
+        // Maps the index number on the adjacency matrix to the actual node value.
+        indexToNode: V[],
+      
+        // An array of pairs, the node value and its index on the adjacency matrix.
+        nodeIndexPairs: {node: V, index: number}[]
+      }
+      ```
+
+- `functional` utility functions:
+    - `subset(graph, nodes)`
+        - Returns a new subgraph instance that contains a subset of its original nodes, where each node in that subset is in `nodes`.
+        - The return type of `subset` is the same as the return type for `clone`.
+    - `mapNodes(graph, callback, newKeyFn?)`
+        - Creates a new graph instance whose nodes are the results of calling the given `callback` function on each node in the given `graph`.
+        - The key function of the new graph is the given `newKeyFn` or the default key function if not given.
+        - If 2 or more nodes result in the same key value (because of the callback function or the new key function), then those nodes are merged into one node, and each edge in those nodes are connected the newly merged node. If there was edge between two of those nodes, then the merged node will have a self loop.
+    - `mapEdges(graph, callback)`
+        - Creates a new graph instance whose edge values are the results of calling the given `callback` function on each edge value in the given `graph`.
+
+- `serialize` utility functions:
+    - `stringify(graph)`
+        - Creates a string using the nodes and edges of the graph.
+    - `parse(json)`
+        - Creates a graph using a serialized representation of the graph.
+    
 
 ### Examples
 

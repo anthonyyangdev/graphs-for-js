@@ -2,7 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { Graph, GraphUtil } from '../../../index'
 
-const { stringify } = GraphUtil.json
+const { stringify } = GraphUtil.serialize
 
 describe('Test stringify', function () {
   const gen = new Graph<number, number>().noKey()

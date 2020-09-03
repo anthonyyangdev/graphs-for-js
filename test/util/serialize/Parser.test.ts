@@ -3,7 +3,7 @@ import { GraphUtil } from '../../../index'
 import { expect } from 'chai'
 import { MutableWeightedGraph } from '../../../src/types/GraphSystem'
 
-const { parse } = GraphUtil.json
+const { parse } = GraphUtil.serialize
 
 describe('Parse graphs from serialize', function () {
   it('should accept key function', function () {
