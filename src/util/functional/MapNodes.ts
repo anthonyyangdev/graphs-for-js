@@ -1,4 +1,4 @@
-import { MutableUnweightedGraph, ReadonlyGraph, ReadonlyUnweightedGraph } from '../../types/GraphSystem'
+import { MutableUnweightedGraph, ReadonlyGraph } from '../../types/GraphSystem'
 import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 
 /**

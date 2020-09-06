@@ -1,8 +1,7 @@
 import {
   MutableUnweightedGraph,
   MutableWeightedGraph,
-  ReadonlyGraph,
-  ReadonlyUnweightedGraph
+  ReadonlyGraph
 } from '../../types/GraphSystem'
 import { Graph } from '../../../index'
 
