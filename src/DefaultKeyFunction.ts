@@ -1,4 +1,4 @@
-import * as Collections from 'typescript-collections'
+import * as Collections from 'typescript-collections/dist/lib'
 
 /**
  * The default Key Function.

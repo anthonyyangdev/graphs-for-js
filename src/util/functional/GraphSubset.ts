@@ -1,4 +1,4 @@
-import { Set } from 'typescript-collections'
+import { Set } from 'typescript-collections/dist/lib'
 import { MutableUnweightedGraph, ReadonlyGraph } from '../../types/GraphSystem'
 import { createEmptyGraphInstance } from './CreateEmptyGraphInstance'
 

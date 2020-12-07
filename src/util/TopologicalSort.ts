@@ -1,6 +1,6 @@
 import { ReadonlyGraph } from '../types/GraphSystem'
 import { hasCycle } from './HasCycle'
-import { DefaultDictionary, Queue } from 'typescript-collections'
+import { DefaultDictionary, Queue } from 'typescript-collections/dist/lib'
 
 /**
  * Topologically sorts the nodes the in the graph.

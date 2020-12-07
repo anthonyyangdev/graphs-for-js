@@ -1,4 +1,4 @@
-import { Dictionary, Queue, Set } from 'typescript-collections'
+import { Dictionary, Queue, Set } from 'typescript-collections/dist/lib'
 import { mapEdges } from './functional'
 import { findShortestPath } from './FindShortestPath'
 import { MutableWeightedGraph, ReadonlyWeightedGraph } from '../types/GraphSystem'

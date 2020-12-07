@@ -1,5 +1,5 @@
 import { BasicEdge, ReadonlyUnweightedGraph } from '../types/GraphSystem'
-import { DefaultDictionary, Dictionary, Set } from 'typescript-collections'
+import { DefaultDictionary, Dictionary, Set } from 'typescript-collections/dist/lib'
 import { defaultToKeyFunction } from '../DefaultKeyFunction'
 
 export abstract class AbstractGraph<V, E> implements ReadonlyUnweightedGraph<V, E> {

@@ -1,4 +1,4 @@
-import { Dictionary, Queue, Set } from 'typescript-collections'
+import { Dictionary, Queue, Set } from 'typescript-collections/dist/lib'
 import { ReadonlyGraph } from '../types/GraphSystem'
 
 /**
