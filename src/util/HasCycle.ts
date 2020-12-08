@@ -1,4 +1,4 @@
-import { Set } from 'typescript-collections'
+import { Set } from 'typescript-collections/dist/lib'
 import { ReadonlyGraph, ReadonlyUnweightedGraph } from '../types/GraphSystem'
 
 const startSymbol = Symbol('start')
